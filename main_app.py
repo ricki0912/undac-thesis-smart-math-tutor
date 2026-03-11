@@ -16,6 +16,91 @@ from src.models.difficulty_model import DifficultyModel
 from src.utils.config import ProjectConfig
 
 
+def inject_player_styles() -> None:
+    st.markdown(
+        """
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous"
+        />
+        <style>
+        .main .block-container {
+            max-width: 980px;
+            padding-top: 1rem;
+        }
+        .stButton > button, .stForm button {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+            border: 1px solid #0b5ed7 !important;
+            border-radius: .5rem !important;
+            font-weight: 600 !important;
+        }
+        .stButton > button:hover, .stForm button:hover {
+            background-color: #0b5ed7 !important;
+        }
+        div[data-testid="stMetric"] {
+            background: #0b1220;
+            border: 1px solid #1f2937;
+            border-radius: .5rem;
+            padding: .6rem .8rem;
+        }
+        div[data-testid="stMetricLabel"] {
+            color: #cbd5e1 !important;
+        }
+        div[data-testid="stMetricValue"] {
+            color: #f8fafc !important;
+        }
+        .ia-banner {
+            background: #0d6efd;
+            color: #fff;
+            border-radius: .5rem;
+            padding: .75rem 1rem;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: .75rem;
+        }
+        .game-title {
+            border: 1px solid #ced4da;
+            background: #f8f9fa;
+            border-radius: .5rem;
+            text-align: center;
+            font-size: 1.9rem;
+            font-weight: 700;
+            padding: .45rem .75rem;
+            margin-bottom: .75rem;
+        }
+        .game-shell {
+            background: #eef5fb;
+            border: 1px solid #60a5fa;
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 12px;
+        }
+        .section-chip {
+            background: #0d6efd;
+            color: white;
+            border-radius: .5rem;
+            text-align: center;
+            font-weight: 700;
+            padding: .5rem .75rem;
+            margin: .75rem 0;
+        }
+        .hint-box {
+            background: #198754;
+            color: white;
+            border-radius: .4rem;
+            padding: .55rem .75rem;
+            margin-top: .4rem;
+            margin-bottom: .4rem;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def append_row(path: Path, row: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     row_df = pd.DataFrame([row])
@@ -54,6 +139,9 @@ def init_state() -> None:
         "question_attempts": 0,
         "question_hints_used": 0,
         "show_hint": False,
+        "latest_prediction": None,
+        "latest_points": 0,
+        "latest_recommendation": None,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -78,6 +166,9 @@ def reset_player_state() -> None:
     st.session_state.question_attempts = 0
     st.session_state.question_hints_used = 0
     st.session_state.show_hint = False
+    st.session_state.latest_prediction = None
+    st.session_state.latest_points = 0
+    st.session_state.latest_recommendation = None
 
 
 def serialize_progress() -> dict[str, Any]:
@@ -93,6 +184,9 @@ def serialize_progress() -> dict[str, Any]:
         "question_attempts": st.session_state.question_attempts,
         "question_hints_used": st.session_state.question_hints_used,
         "show_hint": st.session_state.show_hint,
+        "latest_prediction": st.session_state.latest_prediction,
+        "latest_points": st.session_state.latest_points,
+        "latest_recommendation": st.session_state.latest_recommendation,
     }
 
 
@@ -176,20 +270,43 @@ def render_auth(auth_store: AuthStore) -> None:
 
 def ensure_current_question(simulator: StudentSimulator) -> Question:
     if st.session_state.current_question is None:
-        q = simulator.get_question_for_level(st.session_state.current_level)
-        st.session_state.current_question = {
-            "text": q.text,
-            "answer": q.answer,
-            "hint": q.hint,
-            "level": q.level,
-        }
-        st.session_state.question_started_at = datetime.utcnow().isoformat()
-        st.session_state.question_attempts = 0
-        st.session_state.question_hints_used = 0
-        st.session_state.show_hint = False
-
+        raise ValueError("No hay pregunta activa.")
     cq = st.session_state.current_question
     return Question(text=cq["text"], answer=int(cq["answer"]), hint=cq["hint"], level=int(cq["level"]))
+
+
+def load_next_question(simulator: StudentSimulator) -> None:
+    q = simulator.get_question_for_level(st.session_state.current_level)
+    st.session_state.current_question = {
+        "text": q.text,
+        "answer": q.answer,
+        "hint": q.hint,
+        "level": q.level,
+    }
+    st.session_state.question_started_at = datetime.utcnow().isoformat()
+    st.session_state.question_attempts = 0
+    st.session_state.question_hints_used = 0
+    st.session_state.show_hint = False
+
+
+@st.dialog("Detalle del intento")
+def show_attempt_detail_modal(detail: dict[str, Any]) -> None:
+    st.markdown("#### Resumen")
+    st.json(
+        {
+            "pregunta": detail.get("pregunta"),
+            "respuesta_usuario": detail.get("respuesta_usuario"),
+            "respuesta_correcta": detail.get("respuesta_correcta"),
+            "prediccion_modelo": detail.get("prediccion_modelo"),
+            "confianza_modelo": detail.get("confianza_modelo"),
+            "accion_adaptativa": detail.get("accion_adaptativa"),
+            "puntaje_ronda": detail.get("puntaje_ronda"),
+        }
+    )
+    st.markdown("#### Parametros de entrada al modelo")
+    st.json(detail.get("model_inputs", {}))
+    st.markdown("#### Salida del modelo")
+    st.json(detail.get("model_output", {}))
 
 
 def render_player_interface(
@@ -199,6 +316,7 @@ def render_player_interface(
     simulator: StudentSimulator,
     model: DifficultyModel,
 ) -> None:
+    inject_player_styles()
     try:
         df = loader.load_dataset()
     except Exception as exc:
@@ -206,65 +324,81 @@ def render_player_interface(
         return
 
     st.subheader("Modo Jugador")
-    left, right = st.columns([1, 2])
-    with left:
-        student_id = st.text_input("ID estudiante", value=st.session_state.current_user)
-        if st.button("Guardar progreso"):
-            auth_store.save_progress(st.session_state.current_user, serialize_progress())
-            st.success("Progreso guardado.")
-        if st.button("Cargar progreso"):
-            saved = auth_store.load_progress(st.session_state.current_user)
-            if saved:
-                load_progress_to_state(saved)
-                st.success("Progreso cargado.")
-                st.rerun()
-            else:
-                st.warning("No hay progreso guardado.")
-        if st.button("Reiniciar partida"):
-            reset_player_state()
-            auth_store.save_progress(st.session_state.current_user, serialize_progress())
-            st.rerun()
+    student_id = st.text_input("ID estudiante", value=st.session_state.current_user)
+    stats = load_student_stats(df, student_id)
 
-    with right:
-        stats = load_student_stats(df, student_id)
-        c1, c2, c3, c4, c5 = st.columns(5)
-        c1.metric("Ronda", st.session_state.round)
-        c2.metric("Nivel", st.session_state.current_level)
-        c3.metric("Puntaje", st.session_state.score)
-        c4.metric("Racha", st.session_state.streak)
-        c5.metric("Intentos pregunta", st.session_state.question_attempts)
-        st.caption(
-            f"Promedio historico -> errores {stats['avg_errors']:.2f}, "
-            f"tiempo {stats['avg_time']:.2f}s, hints {stats['avg_hints']:.2f}"
+    st.caption(
+        f"Promedio historico -> errores {stats['avg_errors']:.2f}, "
+        f"tiempo {stats['avg_time']:.2f}s, hints {stats['avg_hints']:.2f}"
+    )
+    st.caption(f"Banco actual de preguntas: {simulator.total_questions()} ejercicios.")
+
+    st.markdown("<div class='game-shell'>", unsafe_allow_html=True)
+    if st.session_state.get("latest_prediction"):
+        st.markdown(
+            f"<div class='ia-banner'>{build_prediction_message(st.session_state['latest_prediction'])}</div>",
+            unsafe_allow_html=True,
         )
-        st.caption(f"Banco actual de preguntas: {simulator.total_questions()} ejercicios.")
+    st.markdown("<div class='game-title'>Pitágoras Aprende</div>", unsafe_allow_html=True)
 
-    question = ensure_current_question(simulator)
-    st.markdown(f"### Ejercicio actual (nivel {st.session_state.current_level})")
-    st.code(question.text, language="text")
+    option_col, hint_col, next_col = st.columns([1, 1, 1])
+    with option_col:
+        with st.popover("OPCIONES"):
+            if st.button("Guardar progreso", key="opt_save"):
+                auth_store.save_progress(st.session_state.current_user, serialize_progress())
+                st.success("Progreso guardado.")
+            if st.button("Cargar progreso", key="opt_load"):
+                saved = auth_store.load_progress(st.session_state.current_user)
+                if saved:
+                    load_progress_to_state(saved)
+                    st.success("Progreso cargado.")
+                    st.rerun()
+                else:
+                    st.warning("No hay progreso guardado.")
+            if st.button("Reiniciar", key="opt_reset"):
+                reset_player_state()
+                auth_store.save_progress(st.session_state.current_user, serialize_progress())
+                st.rerun()
+            if st.button("Cerrar sesion", key="opt_logout"):
+                logout()
+                st.rerun()
 
-    hint_col, change_col, _ = st.columns([1, 1, 2])
     with hint_col:
-        if st.button("Pedir pista"):
+        if st.button("PISTA", disabled=st.session_state.current_question is None):
             st.session_state.question_hints_used += 1
             st.session_state.show_hint = True
-    with change_col:
-        if st.button("Otra pregunta"):
-            st.session_state.current_question = None
-            st.session_state.question_started_at = None
-            st.session_state.question_attempts = 0
-            st.session_state.question_hints_used = 0
-            st.session_state.show_hint = False
-            st.info("Se cambio la pregunta actual por una nueva del mismo nivel.")
+
+    with next_col:
+        if st.button(">", help="Otra pregunta o siguiente"):
+            load_next_question(simulator)
+            st.info("Nueva pregunta cargada.")
             st.rerun()
-    if st.session_state.show_hint:
-        st.info(f"Pista: {question.hint}")
 
-    with st.form("answer_form", clear_on_submit=True):
-        answer_input = st.text_input("Ingresa el valor de la variable (x, y o a segun ejercicio)")
-        submit_answer = st.form_submit_button("Enviar respuesta")
+    if st.session_state.current_question is None:
+        st.info("Presiona > para cargar la siguiente pregunta.")
+        question = None
+    else:
+        question = ensure_current_question(simulator)
+        st.markdown(f"### Ejercicio actual (nivel {st.session_state.current_level})")
+        st.code(question.text, language="text")
 
-    if not submit_answer:
+    if st.session_state.show_hint and question is not None:
+        st.markdown(
+            f"<div class='hint-box'>Pista: {question.hint}</div>",
+            unsafe_allow_html=True,
+        )
+
+    if question is None:
+        submit_answer = False
+        answer_input = ""
+    else:
+        with st.form("answer_form", clear_on_submit=True):
+            answer_input = st.text_input("Respuesta")
+            submit_answer = st.form_submit_button("Responder", use_container_width=True)
+
+    if not submit_answer or question is None:
+        st.markdown("</div>", unsafe_allow_html=True)
+        render_player_dashboard()
         return
 
     started_at = datetime.fromisoformat(st.session_state.question_started_at)
@@ -344,52 +478,48 @@ def render_player_interface(
             "confianza_modelo": prediction["probability"],
             "accion_adaptativa": recommendation["action"],
             "puntaje_ronda": points,
+            "model_inputs": prediction["model_inputs"],
+            "model_output": {
+                "difficulty_level": prediction["difficulty_level"],
+                "difficulty_label": prediction["difficulty_label"],
+                "probability": prediction["probability"],
+            },
         }
     )
+    st.session_state.latest_prediction = prediction
+    st.session_state.latest_points = points
+    st.session_state.latest_recommendation = recommendation
 
-    append_row(
-        config.gameplay_log_path,
-        {
-            "timestamp": datetime.utcnow().isoformat(),
-            "username": st.session_state.current_user,
-            "student_id": record["student_id"],
-            "question_text": question.text,
-            "user_answer": answer_input,
-            "expected_answer": question.answer,
-            "is_correct": int(is_correct),
-            "step_name": record["step_name"],
-            "incorrects": record["incorrects"],
-            "hints": record["hints"],
-            "correct_first_attempt": record["correct_first_attempt"],
-            "step_duration_sec": record["step_duration_sec"],
-            "source_split": "user_gameplay",
-            "model_input_incorrects": prediction["model_inputs"]["incorrects"],
-            "model_input_hints": prediction["model_inputs"]["hints"],
-            "model_input_step_duration_sec": prediction["model_inputs"]["step_duration_sec"],
-            "model_input_correct_first_attempt": prediction["model_inputs"]["correct_first_attempt"],
-            "model_input_error_rate": prediction["model_inputs"]["error_rate"],
-            "model_input_time_efficiency": prediction["model_inputs"]["time_efficiency"],
-            "model_input_difficulty_score": prediction["model_inputs"]["difficulty_score"],
-            "predicted_difficulty": prediction["difficulty_label"],
-            "predicted_probability": prediction["probability"],
-            "recommended_action": recommendation["action"],
-            "recommended_reason": recommendation["reason"],
-            "game_level_before": record["level"],
-            "game_level_after": st.session_state.current_level,
-            "attempt_number": attempt_number,
-            "question_status": "resolved" if is_correct else "retry",
-        },
-    )
+    event_row = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "username": st.session_state.current_user,
+        "student_id": record["student_id"],
+        "question_text": question.text,
+        "user_answer": answer_input,
+        "expected_answer": question.answer,
+        "is_correct": int(is_correct),
+        "step_name": record["step_name"],
+        "incorrects": record["incorrects"],
+        "hints": record["hints"],
+        "correct_first_attempt": record["correct_first_attempt"],
+        "step_duration_sec": record["step_duration_sec"],
+        "source_split": "user_gameplay",
+        "predicted_difficulty": prediction["difficulty_label"],
+        "predicted_probability": prediction["probability"],
+        "recommended_action": recommendation["action"],
+        "recommended_reason": recommendation["reason"],
+        "game_level_before": record["level"],
+        "game_level_after": st.session_state.current_level,
+        "attempt_number": attempt_number,
+        "question_status": "resolved" if is_correct else "retry",
+    }
+    for key, value in prediction["model_inputs"].items():
+        event_row[f"model_input_{key}"] = value
+    append_row(config.gameplay_log_path, event_row)
     auth_store.save_progress(st.session_state.current_user, serialize_progress())
     st.info("Intento guardado. La prediccion del modelo y todos los parametros quedaron registrados.")
 
-    r1, r2, r3 = st.columns(3)
-    r1.metric("Dificultad predicha", prediction["difficulty_label"])
-    r2.metric("Confianza", f"{prediction['probability']:.2f}")
-    r3.metric("Puntos", points)
-    st.progress(st.session_state.current_level / 5, text=f"Nivel actual: {st.session_state.current_level}/5")
-
-    # Solo cambia de pregunta cuando la respuesta es correcta.
+    # Solo libera para siguiente cuando la respuesta es correcta.
     if is_correct:
         st.session_state.current_question = None
         st.session_state.question_started_at = None
@@ -397,8 +527,71 @@ def render_player_interface(
         st.session_state.question_hints_used = 0
         st.session_state.show_hint = False
 
-    st.markdown("### Historial de partida")
-    st.dataframe(pd.DataFrame(st.session_state.history), use_container_width=True, height=280)
+    st.markdown("</div>", unsafe_allow_html=True)
+    render_player_dashboard()
+
+
+def render_player_dashboard() -> None:
+    st.markdown("---")
+    st.markdown("<div class='section-chip'>Prediccion Actual</div>", unsafe_allow_html=True)
+    pred = st.session_state.get("latest_prediction")
+    rec = st.session_state.get("latest_recommendation")
+    points = st.session_state.get("latest_points", 0)
+
+    p1, p2, p3 = st.columns(3)
+    if pred:
+        p1.metric("Dificultad predicha", str(pred.get("difficulty_label", "-")))
+        p2.metric("Confianza", f"{float(pred.get('probability', 0.0)):.2f}")
+    else:
+        p1.metric("Dificultad predicha", "-")
+        p2.metric("Confianza", "-")
+    p3.metric("Puntos", points)
+    st.progress(st.session_state.current_level / 5, text=f"Nivel actual: {st.session_state.current_level}/5")
+
+    st.markdown("<div class='section-chip'>Avance</div>", unsafe_allow_html=True)
+    a1, a2, a3, a4, a5 = st.columns(5)
+    a1.metric("Ronda", st.session_state.round)
+    a2.metric("Nivel", st.session_state.current_level)
+    a3.metric("Puntaje", st.session_state.score)
+    a4.metric("Racha", st.session_state.streak)
+    a5.metric("Intentos pregunta", st.session_state.question_attempts)
+    if rec:
+        st.caption(f"Ajuste actual: {rec.get('action', '-')}. Motivo: {rec.get('reason', '-')}")
+
+    history = st.session_state.get("history", [])
+    if history:
+        hist_df = pd.DataFrame(history)
+        plot_df = hist_df.copy()
+        plot_df["puntaje_acumulado"] = plot_df["puntaje_ronda"].cumsum()
+        chart_df = plot_df[["ronda", "puntaje_acumulado", "nivel_despues"]].set_index("ronda")
+        st.line_chart(chart_df, height=240)
+
+    st.markdown("<div class='section-chip'>Historial</div>", unsafe_allow_html=True)
+    if not history:
+        st.info("Aun no hay intentos registrados.")
+        return
+
+    table_cols = [
+        "ronda",
+        "pregunta",
+        "respuesta_usuario",
+        "respuesta_correcta",
+        "es_correcta",
+        "nivel_antes",
+        "nivel_despues",
+        "prediccion_modelo",
+        "confianza_modelo",
+        "accion_adaptativa",
+    ]
+    st.dataframe(pd.DataFrame(history)[table_cols], use_container_width=True, height=260)
+
+    st.markdown("### Ver detalles")
+    recent = list(enumerate(history[-10:], start=max(0, len(history) - 10)))
+    for idx, item in recent:
+        c1, c2 = st.columns([4, 1])
+        c1.write(f"Intento #{idx + 1}: {item.get('pregunta', '')}")
+        if c2.button("Ver mas", key=f"view_more_{idx}"):
+            show_attempt_detail_modal(item)
 
 
 def render_admin_manual_tester(model: DifficultyModel) -> None:
@@ -426,7 +619,8 @@ def render_admin_manual_tester(model: DifficultyModel) -> None:
         except Exception as exc:
             st.error(f"No se pudo ejecutar prueba manual. Detalle: {exc}")
             return
-        st.success("Prediccion generada.")
+        st.success("Prediccion generada por IA.")
+        st.info(build_prediction_message(prediction))
         st.json(
             {
                 "predicted_difficulty": prediction["difficulty_label"],
@@ -452,6 +646,13 @@ def render_admin_interface(config: ProjectConfig, model: DifficultyModel) -> Non
             st.dataframe(leaderboard, use_container_width=True, height=220)
         else:
             st.warning("No existe leaderboard aun.")
+        summary_path = config.metrics_dir / "training_summary.json"
+        if summary_path.exists():
+            summary = pd.read_json(summary_path, typ="series")
+            st.caption(
+                f"Validacion usada: {summary.get('validation_type', 'no disponible')} | "
+                f"Features: {summary.get('feature_count', 'n/a')}"
+            )
 
     render_admin_manual_tester(model)
 
@@ -459,20 +660,13 @@ def render_admin_interface(config: ProjectConfig, model: DifficultyModel) -> Non
     if config.gameplay_log_path.exists():
         logs = read_csv_safe(config.gameplay_log_path)
         st.write(f"Total de intentos registrados: **{len(logs)}**")
-        cols = [
+        base_cols = [
             "timestamp",
             "username",
             "question_text",
             "user_answer",
             "expected_answer",
             "is_correct",
-            "model_input_incorrects",
-            "model_input_hints",
-            "model_input_step_duration_sec",
-            "model_input_correct_first_attempt",
-            "model_input_error_rate",
-            "model_input_time_efficiency",
-            "model_input_difficulty_score",
             "predicted_difficulty",
             "predicted_probability",
             "recommended_action",
@@ -480,6 +674,8 @@ def render_admin_interface(config: ProjectConfig, model: DifficultyModel) -> Non
             "game_level_before",
             "game_level_after",
         ]
+        input_cols = sorted([col for col in logs.columns if col.startswith("model_input_")])
+        cols = base_cols[:6] + input_cols + base_cols[6:]
         available_cols = [col for col in cols if col in logs.columns]
         st.dataframe(logs[available_cols].tail(200), use_container_width=True, height=320)
     else:
@@ -499,22 +695,19 @@ def main() -> None:
         render_auth(auth_store)
         return
 
-    t1, t2 = st.columns([3, 1])
-    with t1:
-        st.write(
-            f"Usuario activo: **{st.session_state.current_user}** | "
-            f"Rol: **{st.session_state.current_role}**"
-        )
-    with t2:
-        if st.button("Cerrar sesion"):
-            logout()
-            st.rerun()
+    st.write(
+        f"Usuario activo: **{st.session_state.current_user}** | "
+        f"Rol: **{st.session_state.current_role}**"
+    )
 
     loader = DataLoader(config)
     simulator = StudentSimulator(seed=42)
     model = DifficultyModel(config)
 
     if st.session_state.current_role == "admin":
+        if st.button("Cerrar sesion"):
+            logout()
+            st.rerun()
         render_admin_interface(config, model)
     else:
         render_player_interface(config, auth_store, loader, simulator, model)

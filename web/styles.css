@@ -1,0 +1,96 @@
+﻿:root {
+  --brand-blue: #4d8fc7;
+  --brand-dark: #0c1322;
+  --brand-bg: #e9ecef;
+}
+
+body {
+  background: var(--brand-bg);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-title {
+  background: linear-gradient(90deg, #1f6fb2, #4d8fc7);
+  color: #fff;
+  border-radius: 0.8rem;
+}
+
+.auth-card,
+.panel-card {
+  border: 1px solid #7aa8cc;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.game-shell {
+  border: 1px solid #5f95bf;
+  border-radius: 1.2rem;
+  background: #f8f9fa;
+}
+
+.ia-banner {
+  background: #4d8fc7;
+  color: #fff;
+  border-radius: 0.5rem;
+  text-align: center;
+  padding: 0.7rem;
+  font-weight: 600;
+}
+
+.game-title-box {
+  border: 1px solid #333;
+  text-align: center;
+  font-size: 2rem;
+  line-height: 1;
+  padding: 0.3rem;
+}
+
+.question-text {
+  font-size: 2.1rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 1.2rem 0;
+}
+
+.message-box {
+  background: #72a84f;
+  color: #fff;
+  border-radius: 0.35rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.35rem;
+}
+
+.pred-card,
+.stats-card,
+.history-card {
+  background: var(--brand-dark);
+  color: #fff;
+  border-radius: 0.65rem;
+}
+
+.pred-title,
+.section-title {
+  background: #4d8fc7;
+  color: #fff;
+  border-radius: 0.35rem;
+  padding: 0.4rem;
+  text-align: center;
+}
+
+.table-dark th,
+.table-dark td {
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.admin-figure {
+  cursor: zoom-in;
+}
+
+.hidden {
+  display: none !important;
+}

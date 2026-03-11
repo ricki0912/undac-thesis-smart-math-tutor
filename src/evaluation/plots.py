@@ -3,8 +3,11 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
+from sklearn.metrics import auc, confusion_matrix, roc_curve
+from sklearn.preprocessing import label_binarize
 
 
 class PlotGenerator:
@@ -60,11 +63,100 @@ class PlotGenerator:
         fig, ax = plt.subplots(figsize=(8, 4))
         plot_df = leaderboard.reset_index(drop=True).copy()
         plot_df["iteration"] = plot_df.index + 1
-        sns.lineplot(data=plot_df, x="iteration", y="f1_score", marker="o", ax=ax, color="#9b59b6")
+        sns.lineplot(data=plot_df, x="iteration", y="f1_weighted", marker="o", ax=ax, color="#9b59b6")
         ax.set_title("Evolucion del entrenamiento por modelo")
         ax.set_xlabel("Iteracion de modelo")
-        ax.set_ylabel("F1-score")
+        ax.set_ylabel("F1-weighted")
         return self._save(fig, "training_evolution.png")
+
+    def plot_model_metric_comparison(self, leaderboard: pd.DataFrame) -> Path:
+        metrics = ["accuracy", "f1_weighted", "auc_ovr_weighted"]
+        plot_df = leaderboard[["model_name", *metrics]].melt(
+            id_vars=["model_name"],
+            value_vars=metrics,
+            var_name="metric",
+            value_name="value",
+        )
+        fig, ax = plt.subplots(figsize=(10, 5))
+        sns.barplot(data=plot_df, x="model_name", y="value", hue="metric", ax=ax)
+        ax.set_title("Comparacion de metricas por modelo")
+        ax.set_xlabel("Modelo")
+        ax.set_ylabel("Valor")
+        ax.set_ylim(0.0, 1.05)
+        ax.tick_params(axis="x", rotation=20)
+        return self._save(fig, "model_metric_comparison.png")
+
+    def plot_per_model_diagnostics(self, evaluation_payloads: list[dict[str, object]]) -> list[Path]:
+        generated: list[Path] = []
+        for payload in evaluation_payloads:
+            model_name = str(payload["model_name"])
+            y_true = pd.Series(payload["y_true"]).astype(int)
+            y_pred = pd.Series(payload["y_pred"]).astype(int)
+            labels = sorted({int(v) for v in payload.get("labels", [0, 1, 2])})
+            y_score = payload.get("y_score")
+
+            generated.append(self._plot_confusion_matrix(model_name, y_true, y_pred, labels))
+            if y_score is not None:
+                try:
+                    generated.append(
+                        self._plot_roc_ovr(model_name, y_true, np.asarray(y_score), labels)
+                    )
+                except Exception:
+                    # Si no se puede graficar ROC para algun modelo, continuamos.
+                    continue
+        return generated
+
+    def _plot_confusion_matrix(
+        self,
+        model_name: str,
+        y_true: pd.Series,
+        y_pred: pd.Series,
+        labels: list[int],
+    ) -> Path:
+        cm = confusion_matrix(y_true, y_pred, labels=labels)
+        fig, ax = plt.subplots(figsize=(6, 5))
+        sns.heatmap(
+            cm,
+            annot=True,
+            fmt="d",
+            cmap="Blues",
+            xticklabels=labels,
+            yticklabels=labels,
+            ax=ax,
+        )
+        ax.set_title(f"Matriz de confusion - {model_name}")
+        ax.set_xlabel("Prediccion")
+        ax.set_ylabel("Real")
+        safe_name = model_name.replace(" ", "_").lower()
+        return self._save(fig, f"model_{safe_name}_confusion_matrix.png")
+
+    def _plot_roc_ovr(
+        self,
+        model_name: str,
+        y_true: pd.Series,
+        y_score: np.ndarray,
+        labels: list[int],
+    ) -> Path:
+        y_bin = label_binarize(y_true, classes=labels)
+        if y_bin.ndim == 1:
+            y_bin = np.vstack([1 - y_bin, y_bin]).T
+        if y_score.ndim == 1:
+            y_score = np.vstack([1.0 - y_score, y_score]).T
+
+        fig, ax = plt.subplots(figsize=(6, 5))
+        for idx, cls in enumerate(labels):
+            if idx >= y_score.shape[1]:
+                break
+            fpr, tpr, _ = roc_curve(y_bin[:, idx], y_score[:, idx])
+            cls_auc = auc(fpr, tpr)
+            ax.plot(fpr, tpr, label=f"Clase {cls} (AUC={cls_auc:.2f})")
+        ax.plot([0, 1], [0, 1], "k--", linewidth=1.0, label="Azar")
+        ax.set_title(f"ROC OVR - {model_name}")
+        ax.set_xlabel("FPR")
+        ax.set_ylabel("TPR")
+        ax.legend(loc="lower right")
+        safe_name = model_name.replace(" ", "_").lower()
+        return self._save(fig, f"model_{safe_name}_roc_ovr.png")
 
     def _save(self, fig: plt.Figure, filename: str) -> Path:
         output_path = self.output_dir / filename

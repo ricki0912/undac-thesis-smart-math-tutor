@@ -43,15 +43,7 @@ class DifficultyModel:
             "difficulty_level": pred_level,
             "difficulty_label": self.label_map.get(pred_level, "desconocida"),
             "probability": proba,
-            "model_inputs": {
-                "incorrects": float(model_inputs["incorrects"]),
-                "hints": float(model_inputs["hints"]),
-                "step_duration_sec": float(model_inputs["step_duration_sec"]),
-                "correct_first_attempt": float(model_inputs["correct_first_attempt"]),
-                "error_rate": float(model_inputs["error_rate"]),
-                "time_efficiency": float(model_inputs["time_efficiency"]),
-                "difficulty_score": float(model_inputs["difficulty_score"]),
-            },
+            "model_inputs": {k: float(v) for k, v in model_inputs.items()},
         }
 
     def _safe_probability(self, x: pd.DataFrame) -> float:

@@ -63,6 +63,8 @@ class DataLoader:
         df["incorrects"] = df["incorrects"].clip(lower=0)
         df["hints"] = df["hints"].clip(lower=0)
         df["step_duration_sec"] = df["step_duration_sec"].clip(lower=0)
+        if "timestamp" in df.columns:
+            df["timestamp"] = df["timestamp"].astype(str)
         return df
 
     def _build_from_kdd_if_available(self) -> pd.DataFrame | None:
@@ -98,6 +100,7 @@ class DataLoader:
                     "correct_first_attempt": raw.get("Correct First Attempt", 0),
                     "step_duration_sec": raw.get("Step Duration (sec)", 0),
                     "source_split": split_name,
+                    "timestamp": raw.get("First Transaction Time", raw.get("Transaction Time", "")),
                 }
             )
             frames.append(transformed)
@@ -125,10 +128,16 @@ class DataLoader:
             "correct_first_attempt",
             "step_duration_sec",
             "source_split",
+            "timestamp",
         ]
         for col in needed:
             if col not in log_df.columns:
-                log_df[col] = "user_gameplay" if col == "source_split" else 0
+                if col == "source_split":
+                    log_df[col] = "user_gameplay"
+                elif col == "timestamp":
+                    log_df[col] = ""
+                else:
+                    log_df[col] = 0
         log_df = log_df[needed].copy()
         combined = pd.concat([base_df, log_df], ignore_index=True)
         return self.clean_data(combined)
