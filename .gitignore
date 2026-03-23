@@ -27,7 +27,8 @@ data/raw/*
 data/processed/*
 data/external/*
 data/dataset.csv
-data/raw/.gitkeep
+!data/raw/.gitkeep
+!data/raw/step_name_blacklist.txt
 !data/processed/.gitkeep
 !data/external/.gitkeep
 

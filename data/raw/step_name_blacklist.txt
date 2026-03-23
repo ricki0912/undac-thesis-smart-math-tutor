@@ -1,0 +1,154 @@
+R1C1
+R3C2
+R1C2
+R3C1
+FinalAnswer
+R4C1
+R5C1
+R6C1
+R2C2
+R2C1
+R7C1
+ValidEquations
+R6C2
+XLabel
+YLabel
+yMax
+R5C2
+R4C2
+R7C2
+yScale
+xMax
+yMin
+xMin
+xScale
+YUnit
+Formula 1 Coeff 1
+Formula 1 Coeff 0
+constant terms1R1
+XUnit
+constant termsR2
+Intercept Field 1
+Slope Field 1
+R1C3
+R3C3
+yR2
+y1R1
+x1R1
+xR2
+R2C3
+di-expr
+Intersection 1 X
+Intersection 1 Y
+constant terms2R1
+row2constant factors
+row3-N-constant factors
+GraphChoice1
+row3-D-constant factors
+row1-N-constant factors
+R8C1
+GraphButton1
+y2R1
+row1-D-constant factors
+ShadeButton1
+R8C2
+CurrFunctionText
+x2R1
+ParentDescChoice
+ParentCurveChoice
+ParentFnChoice
+Point 1.1
+R6C3
+YIntercept1
+R5C3
+a-factor-node
+a-factor-1
+b-factor-node
+num1-factor-node
+c-factor-node
+num2-factor-node
+c-factor-1
+a-factor-2
+constant factorsR2
+row2x
+c-factor-2
+den1-factor-node
+constant factors1R1
+row2y
+row3-N-x
+Point 1.2
+row3-D-x
+ALGEBRAIC-TRANSFORMATIONS-k
+row3-N-y
+GRAPHICAL-TRANSFORMATIONS-k
+pm-r-num-node
+row3-D-y
+row1-N-y
+ALGEBRAIC-TRANSFORMATIONS-a
+R4C3
+GRAPHICAL-TRANSFORMATIONS-a
+pm-r-den-node
+FQCheckButton
+row1-D-y
+XIntercept1
+R7C3
+TransformButton-k
+constant factors2R1
+TransformButton-a
+row1-N-x
+Formula 1 XIntercept
+Formula 1 YIntercept
+Point 1.3
+YCoordinate1_1
+GRAPHICAL-TRANSFORMATIONS-refl-v
+Point 1.4
+XCoordinate1_1
+row1-D-x
+XCoordinate1_2
+YCoordinate1_2
+Formula 1 Point 1
+ALGEBRAIC-TRANSFORMATIONS-refl-v
+Formula 1 Point 2
+GRAPHICAL-TRANSFORMATIONS-h
+FQTryAgainButton
+R9C2
+ALGEBRAIC-TRANSFORMATIONS-h
+TransformButton-refl-v
+Slope1
+R9C1
+TransformButton-h
+Add Point
+R8C3
+R10C2
+R10C1
+ALGEBRAIC-TRANSFORMATIONS
+INNERr1
+INNERr2
+INNERn1
+INNERn2
+INNERx1
+INNERx2
+Point 1.5
+INNERq2
+INNERq1
+INNERg1
+INNERg2
+R9C3
+INNERw2
+INNERw1
+INNERu1
+INNERu2
+INNERv2
+INNERv1
+INNERj1
+INNERj2
+INNERm1
+INNERm2
+Formula 1 Label
+R11C2
+INNERk2
+INNERk1
+R11C1
+Y1R1
+INNERz2
+INNERz1
