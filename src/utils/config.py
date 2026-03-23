@@ -21,5 +21,24 @@ class ProjectConfig:
     assessment_log_path: Path = logs_dir / "assessment_logs.csv"
     users_path: Path = logs_dir / "users.csv"
     user_progress_path: Path = logs_dir / "user_progress.json"
+
+    # Reglas opcionales de limpieza/depuracion (no activas por defecto).
+    # - step_name_blacklist_path: archivo con step_name a excluir del dataset.
+    #   Formatos soportados:
+    #     - .txt: un step_name por linea
+    #     - .csv: columna step_name (o la primera columna)
+    step_name_blacklist_path: Path = logs_dir / "step_name_blacklist.txt"
+
+    # Outliers (si son None no se aplica nada).
+    # - cap: recorta valores por encima del cuantil indicado (winsoriza).
+    # - drop: elimina filas por encima del cuantil indicado.
+    incorrects_cap_quantile: float | None = None
+    hints_cap_quantile: float | None = None
+    step_duration_cap_quantile: float | None = None
+
+    incorrects_drop_quantile: float | None = None
+    hints_drop_quantile: float | None = None
+    step_duration_drop_quantile: float | None = None
+
     random_state: int = 42
     test_size: float = 0.2

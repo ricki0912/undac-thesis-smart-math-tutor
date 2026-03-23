@@ -9,12 +9,13 @@ import pandas as pd
 from sklearn.base import clone
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GroupShuffleSplit, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from src.evaluation.metrics import MetricsEvaluator
 from src.utils.config import ProjectConfig
+from src.utils.logger import Logger
 
 
 class ModelTrainer:
@@ -32,9 +33,13 @@ class ModelTrainer:
         y: pd.Series,
         split_series: pd.Series | None = None,
         time_series: pd.Series | None = None,
+        groups: pd.Series | None = None,
     ) -> dict[str, Any]:
         x_train, x_test, y_train, y_test, validation_type = self._split_data(
-            x, y, split_series, time_series
+            x, y, split_series, time_series, groups
+        )
+        Logger.print(
+            f"Entrenando modelos. Split={validation_type}. Train={len(x_train)} Test={len(x_test)}."
         )
         models = self._build_models()
 
@@ -45,6 +50,7 @@ class ModelTrainer:
         best_score = -np.inf
 
         for model_name, model_pipeline in models.items():
+            Logger.print(f"Entrenando: {model_name}...")
             model = clone(model_pipeline)
             model.fit(x_train, y_train)
             y_pred = model.predict(x_test)
@@ -52,6 +58,10 @@ class ModelTrainer:
             metrics = self.evaluator.compute(y_test, y_pred, y_score)
             metrics["model_name"] = model_name
             results.append(metrics)
+            Logger.print(
+                f"{model_name} -> f1_weighted={metrics['f1_weighted']:.4f} "
+                f"accuracy={metrics['accuracy']:.4f} auc={metrics['auc']:.4f}"
+            )
 
             evaluation_payloads.append(
                 {
@@ -73,6 +83,7 @@ class ModelTrainer:
 
         leaderboard = self.evaluator.to_dataframe(results)
         self._save_artifacts(best_model, leaderboard)
+        Logger.print(f"Mejor modelo seleccionado: {best_name} (f1_weighted={best_score:.4f}).")
         importances = self._extract_importance(best_model, list(x.columns))
 
         return {
@@ -90,6 +101,7 @@ class ModelTrainer:
         y: pd.Series,
         split_series: pd.Series | None = None,
         time_series: pd.Series | None = None,
+        groups: pd.Series | None = None,
     ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, str]:
         if split_series is not None:
             split_values = split_series.fillna("unknown").astype(str).str.lower()
@@ -103,6 +115,22 @@ class ModelTrainer:
                 # Si test no tiene variacion o es muy pequeno, volvemos al split aleatorio.
                 if len(y_test) > 1 and len(np.unique(y_test)) > 1:
                     return x_train, x_test, y_train, y_test, "fixed_train_test_split"
+
+        if groups is not None and len(x) > 10:
+            group_values = groups.fillna("unknown").astype(str)
+            if group_values.nunique() > 1:
+                splitter = GroupShuffleSplit(
+                    n_splits=1,
+                    test_size=self.config.test_size,
+                    random_state=self.config.random_state,
+                )
+                train_idx, test_idx = next(splitter.split(x, y, groups=group_values))
+                x_train = x.iloc[train_idx]
+                y_train = y.iloc[train_idx]
+                x_test = x.iloc[test_idx]
+                y_test = y.iloc[test_idx]
+                if len(y_test) > 1 and len(np.unique(y_test)) > 1:
+                    return x_train, x_test, y_train, y_test, "group_student_holdout_split"
 
         if time_series is not None and len(x) > 10:
             order = pd.to_numeric(time_series, errors="coerce")

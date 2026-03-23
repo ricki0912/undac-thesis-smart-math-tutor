@@ -15,16 +15,19 @@ from pydantic import BaseModel
 from main_train import main as run_training_pipeline
 from src.app.adaptive_engine import AdaptiveEngine
 from src.app.auth_store import AuthStore
+from src.app.learning_metrics import compute_learning_metrics_from_logs
 from src.app.student_simulator import Question, StudentSimulator
 from src.data_processing.data_loader import DataLoader
 from src.models.difficulty_model import DifficultyModel
 from src.utils.config import ProjectConfig
+from src.utils.logger import Logger
 
 config = ProjectConfig()
 auth_store = AuthStore(config)
 simulator = StudentSimulator(seed=42)
 model = DifficultyModel(config)
 loader = DataLoader(config)
+Logger.print("Inicializando FastAPI (modo local)...")
 
 WEB_DIR = Path("web")
 REPORTS_DIR = Path("reports")
@@ -158,12 +161,14 @@ def health() -> dict[str, str]:
 
 @app.post("/api/auth/register")
 def register(payload: RegisterPayload) -> dict[str, Any]:
+    Logger.print(f"Registro de usuario: {payload.username} (role={payload.role})")
     ok, msg = auth_store.register_user(payload.username, payload.password, payload.role)
     return {"ok": ok, "message": msg}
 
 
 @app.post("/api/auth/login")
 def login(payload: LoginPayload) -> dict[str, Any]:
+    Logger.print(f"Login de usuario: {payload.username}")
     ok, msg, role = auth_store.login(payload.username, payload.password)
     if not ok:
         return {"ok": False, "message": msg}
@@ -271,18 +276,28 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
     prediction = model.predict(record)
     avg_time = student_avg_time(payload.student_id)
     engine = AdaptiveEngine(initial_level=int(session["current_level"]))
+    recent_attempts = []
+    for item in (session.get("history") or [])[-2:]:
+        recent_attempts.append(
+            {
+                "is_correct": int(item.get("es_correcta", 0)),
+                "incorrects": int(item.get("incorrects", 0)),
+                "hints": int(item.get("hints", 0)),
+                "time_spent": float(item.get("time_spent", item.get("step_duration_sec", 0.0))),
+            }
+        )
     recommendation = engine.recommend_next_level(
-        errors=int(record["incorrects"]),
+        incorrects=int(record["incorrects"]),
+        hints=int(record["hints"]),
         time_spent=float(record["step_duration_sec"]),
         average_time=float(avg_time),
-        correct_first_attempt=int(record["correct_first_attempt"]),
-        predicted_difficulty=str(prediction["difficulty_label"]),
-        predicted_probability=float(prediction["probability"]),
+        is_correct=int(is_correct),
+        recent_attempts=recent_attempts,
     )
 
+    session["current_level"] = int(recommendation["next_level"])
     points = 0
     if is_correct:
-        session["current_level"] = int(recommendation["next_level"])
         points = max(0, 20 - int(record["incorrects"]) * 3 - int(record["hints"]) * 2)
         session["score"] = int(session["score"]) + points
         session["streak"] = int(session["streak"]) + 1
@@ -301,11 +316,17 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
         "respuesta_usuario": payload.answer,
         "respuesta_correcta": question.answer,
         "es_correcta": int(is_correct),
+        "incorrects": int(record["incorrects"]),
+        "hints": int(record["hints"]),
+        "time_spent": float(record["step_duration_sec"]),
+        "correct_first_attempt": int(record["correct_first_attempt"]),
         "nivel_antes": record["level"],
         "nivel_despues": int(session["current_level"]),
         "prediccion_modelo": prediction["difficulty_label"],
         "confianza_modelo": prediction["probability"],
         "accion_adaptativa": recommendation["action"],
+        "politica": recommendation.get("policy_label"),
+        "performance_score": recommendation.get("performance_score"),
         "puntaje_ronda": points,
         "model_inputs": prediction["model_inputs"],
         "model_output": {
@@ -337,6 +358,8 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
         "predicted_probability": prediction["probability"],
         "recommended_action": recommendation["action"],
         "recommended_reason": recommendation["reason"],
+        "policy_label": recommendation.get("policy_label"),
+        "performance_score": recommendation.get("performance_score"),
         "game_level_before": record["level"],
         "game_level_after": session["current_level"],
         "attempt_number": attempt_number,
@@ -346,6 +369,11 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
         event_row[f"model_input_{key}"] = value
     append_row(config.gameplay_log_path, event_row)
     auth_store.save_progress(payload.username, session)
+    Logger.print(
+        f"Submit: user={payload.username.lower()} student_id={payload.student_id} "
+        f"correct={int(is_correct)} pred={prediction['difficulty_label']} "
+        f"prob={float(prediction['probability']):.3f}"
+    )
 
     return {
         "ok": True,
@@ -367,7 +395,8 @@ def admin_summary() -> dict[str, Any]:
         logs = pd.read_csv(config.gameplay_log_path, on_bad_lines="skip", engine="python").tail(200).to_dict(
             orient="records"
         )
-    return {"ok": True, "leaderboard": leaderboard, "logs": logs}
+    metrics = compute_learning_metrics_from_logs(config.gameplay_log_path)
+    return {"ok": True, "leaderboard": leaderboard, "logs": logs, "metrics": metrics}
 
 
 @app.get("/api/admin/figures")
@@ -405,6 +434,7 @@ def admin_test_model(payload: AdminProbePayload) -> dict[str, Any]:
 
 @app.post("/api/admin/retrain")
 def admin_retrain() -> dict[str, Any]:
+    Logger.print("Reentrenamiento solicitado desde API (/api/admin/retrain).", level="WARNING")
     cached_dataset.cache_clear()
     run_training_pipeline()
     return {"ok": True, "message": "Modelo reentrenado localmente."}

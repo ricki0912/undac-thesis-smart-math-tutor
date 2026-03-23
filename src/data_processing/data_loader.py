@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.utils.config import ProjectConfig
+from src.utils.logger import Logger
 
 
 class DataLoader:
@@ -19,20 +20,22 @@ class DataLoader:
         """
         Carga dataset priorizando archivos KDD train/test en data/external.
         """
+        Logger.print("Cargando dataset...")
         # 1) Fuente principal: KDD externo (mismo nivel del proyecto)
         external_df = self._build_from_kdd_if_available()
         if external_df is not None:
+            Logger.print(f"Datos KDD detectados: {len(external_df)} filas (pre-limpieza).")
             cleaned = self.clean_data(external_df)
             cleaned = self._append_gameplay_logs(cleaned)
-            self.config.data_path.parent.mkdir(parents=True, exist_ok=True)
-            cleaned.to_csv(self.config.data_path, index=False)
-            return cleaned
+            return self.apply_dataset_rules(cleaned)
 
         # 2) Respaldo: CSV local en data/dataset.csv
         if self.config.data_path.exists():
             df = pd.read_csv(self.config.data_path)
+            Logger.print(f"Usando dataset local: {self.config.data_path}. Filas: {len(df)}.")
             cleaned = self.clean_data(df)
-            return self._append_gameplay_logs(cleaned)
+            cleaned = self._append_gameplay_logs(cleaned)
+            return self.apply_dataset_rules(cleaned)
 
         raise FileNotFoundError(
             f"No se encontraron archivos en {self.config.external_data_dir} "
@@ -66,6 +69,35 @@ class DataLoader:
         if "timestamp" in df.columns:
             df["timestamp"] = df["timestamp"].astype(str)
         return df
+
+    def apply_dataset_rules(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Aplica reglas opcionales de depuracion:
+        - Filtrado de step_name por blacklist (si existe archivo).
+        - Cap/drop de outliers en columnas numericas (si config lo indica).
+        """
+        data = df.copy()
+        blacklist = self._load_step_name_blacklist()
+        if blacklist:
+            Logger.print(f"Blacklist de step_name cargada: {len(blacklist)} nombres a filtrar.")
+        if blacklist:
+            data = self.filter_step_names(data, blacklist)
+
+        data = self._apply_outlier_rules(data)
+        return data.reset_index(drop=True)
+
+    @staticmethod
+    def filter_step_names(df: pd.DataFrame, step_names_to_drop: set[str]) -> pd.DataFrame:
+        """
+        Elimina filas donde step_name pertenece a la lista dada.
+        """
+        if df.empty or not step_names_to_drop:
+            return df
+        if "step_name" not in df.columns:
+            return df
+        step_series = df["step_name"].fillna("unknown_step").astype(str)
+        mask = ~step_series.isin(step_names_to_drop)
+        return df.loc[mask].copy()
 
     def _build_from_kdd_if_available(self) -> pd.DataFrame | None:
         """
@@ -141,6 +173,74 @@ class DataLoader:
         log_df = log_df[needed].copy()
         combined = pd.concat([base_df, log_df], ignore_index=True)
         return self.clean_data(combined)
+
+    def _load_step_name_blacklist(self) -> set[str]:
+        path = self.config.step_name_blacklist_path
+        if not path.exists():
+            return set()
+
+        if path.suffix.lower() == ".csv":
+            try:
+                table = pd.read_csv(path)
+            except Exception:
+                return set()
+            if table.empty:
+                return set()
+            if "step_name" in table.columns:
+                values = table["step_name"]
+            else:
+                values = table.iloc[:, 0]
+            return {str(v).strip() for v in values.dropna().tolist() if str(v).strip()}
+
+        try:
+            lines = path.read_text(encoding="utf-8").splitlines()
+        except Exception:
+            return set()
+        return {line.strip() for line in lines if line.strip() and not line.strip().startswith("#")}
+
+    def _apply_outlier_rules(self, df: pd.DataFrame) -> pd.DataFrame:
+        data = df.copy()
+        data = self._cap_column_quantile(data, "incorrects", self.config.incorrects_cap_quantile)
+        data = self._cap_column_quantile(data, "hints", self.config.hints_cap_quantile)
+        data = self._cap_column_quantile(
+            data, "step_duration_sec", self.config.step_duration_cap_quantile
+        )
+
+        data = self._drop_column_quantile(data, "incorrects", self.config.incorrects_drop_quantile)
+        data = self._drop_column_quantile(data, "hints", self.config.hints_drop_quantile)
+        data = self._drop_column_quantile(
+            data, "step_duration_sec", self.config.step_duration_drop_quantile
+        )
+        return data
+
+    @staticmethod
+    def _cap_column_quantile(df: pd.DataFrame, column: str, q: float | None) -> pd.DataFrame:
+        if q is None or df.empty or column not in df.columns:
+            return df
+        q = float(q)
+        if not (0.0 < q < 1.0):
+            return df
+        series = pd.to_numeric(df[column], errors="coerce")
+        if series.dropna().empty:
+            return df
+        threshold = float(series.quantile(q))
+        capped = series.clip(upper=threshold)
+        out = df.copy()
+        out[column] = capped
+        return out
+
+    @staticmethod
+    def _drop_column_quantile(df: pd.DataFrame, column: str, q: float | None) -> pd.DataFrame:
+        if q is None or df.empty or column not in df.columns:
+            return df
+        q = float(q)
+        if not (0.0 < q < 1.0):
+            return df
+        series = pd.to_numeric(df[column], errors="coerce")
+        if series.dropna().empty:
+            return df
+        threshold = float(series.quantile(q))
+        return df.loc[series <= threshold].copy()
 
     @staticmethod
     def _detect_split_name(filename: str) -> str:

@@ -1,0 +1,43 @@
+[2026-03-22 20:51:59] INFO: Iniciando pipeline de entrenamiento...
+[2026-03-22 20:51:59] INFO: Cargando dataset...
+[2026-03-22 20:52:04] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-03-22 20:52:05] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-03-22 20:52:05] INFO: Dataset cargado: 301006 filas.
+[2026-03-22 20:52:05] INFO: Aplicado --max-rows=100.
+[2026-03-22 20:52:05] INFO: Construyendo features (include_target=True)...
+[2026-03-22 20:52:05] INFO: Features listas. Filas: 100.
+[2026-03-22 20:52:05] INFO: Feature engineering completado.
+[2026-03-22 20:52:05] INFO: Entrenando modelos. Split=temporal_holdout_split. Train=80 Test=20.
+[2026-03-22 20:52:05] INFO: Entrenando: random_forest...
+[2026-03-22 20:52:05] INFO: random_forest -> f1_weighted=0.9492 accuracy=0.9500 auc=1.0000
+[2026-03-22 20:52:05] INFO: Entrenando: logistic_regression...
+[2026-03-22 20:52:05] INFO: logistic_regression -> f1_weighted=0.6497 accuracy=0.6000 auc=0.8528
+[2026-03-22 20:52:05] INFO: Entrenando: gradient_boosting...
+[2026-03-22 20:52:05] INFO: gradient_boosting -> f1_weighted=1.0000 accuracy=1.0000 auc=1.0000
+[2026-03-22 20:52:05] INFO: Mejor modelo seleccionado: gradient_boosting (f1_weighted=1.0000).
+[2026-03-22 20:52:09] INFO: Entrenamiento completado.
+[2026-03-22 20:52:09] INFO: Mejor modelo: gradient_boosting
+[2026-03-22 20:52:09] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-03-22 20:52:09] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-03-22 20:52:09] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-03-22 20:55:36] INFO: Iniciando pipeline de entrenamiento...
+[2026-03-22 20:55:36] INFO: Cargando dataset...
+[2026-03-22 20:55:40] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-03-22 20:55:41] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-03-22 20:55:41] INFO: Dataset cargado: 301006 filas.
+[2026-03-22 20:55:41] INFO: Construyendo features (include_target=True)...
+[2026-03-22 20:55:43] INFO: Features listas. Filas: 301006.
+[2026-03-22 20:55:43] INFO: Feature engineering completado.
+[2026-03-22 20:55:44] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=234884 Test=66122.
+[2026-03-22 20:55:44] INFO: Entrenando: random_forest...
+[2026-03-22 20:56:20] INFO: random_forest -> f1_weighted=1.0000 accuracy=1.0000 auc=1.0000
+[2026-03-22 20:56:20] INFO: Entrenando: logistic_regression...
+[2026-03-22 20:56:23] INFO: logistic_regression -> f1_weighted=1.0000 accuracy=1.0000 auc=1.0000
+[2026-03-22 20:56:23] INFO: Entrenando: gradient_boosting...
+[2026-03-22 20:59:05] INFO: gradient_boosting -> f1_weighted=1.0000 accuracy=1.0000 auc=1.0000
+[2026-03-22 20:59:05] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=1.0000).
+[2026-03-22 20:59:13] INFO: Entrenamiento completado.
+[2026-03-22 20:59:13] INFO: Mejor modelo: random_forest
+[2026-03-22 20:59:13] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-03-22 20:59:13] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-03-22 20:59:13] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures

@@ -179,6 +179,35 @@
             </div>
             <div id="adminFigures" class="row g-2 px-2 pb-2"></div>
           </div>
+          <div class="card p-2 mb-3">
+            <h3 class="h6 px-2 pt-2">Métricas de aprendizaje (logs)</h3>
+            <div class="px-2 pb-2 small text-muted">
+              Basado en <code>data/raw/gameplay_logs.csv</code>. Útil para evidenciar mejora del tutor (más allá de accuracy).
+            </div>
+            <div class="px-2 pb-2">
+              <div class="table-responsive mb-2">
+                <table class="table table-sm table-striped mb-0">
+                  <thead><tr><th colspan="2">Resumen general</th></tr></thead>
+                  <tbody id="adminMetricsOverall"></tbody>
+                </table>
+              </div>
+              <div class="table-responsive" style="max-height: 220px; overflow-y: auto;">
+                <table class="table table-sm table-striped mb-0">
+                  <thead>
+                    <tr>
+                      <th>Usuario</th>
+                      <th>Intentos</th>
+                      <th>Accuracy</th>
+                      <th>ΔAcc (2ª mitad)</th>
+                      <th>ΔTiempo (2ª mitad)</th>
+                      <th>Oscilación</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminMetricsUsers"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
           <div class="card p-2">
             <h3 class="h6 px-2 pt-2">Logs del juego</h3>
             <div class="table-responsive" style="max-height: 360px; overflow-y: auto;">

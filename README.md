@@ -11,7 +11,6 @@ configs/
 data/
   external/   # colocar aqui los archivos KDD (train/test/master)
   raw/
-  processed/
 models/
 notebooks/
 reports/
@@ -20,14 +19,15 @@ reports/
 scripts/
 src/
   api/
-  data/
   evaluation/
-  features/
   models/
-  training/
   utils/
 main.py
 ```
+
+## Notebooks
+
+- `notebooks/01_data_exploration.ipynb`: guía reproducible del preprocesamiento y del pipeline real de entrenamiento (DataLoader → FeatureEngineer → ModelTrainer), incluyendo validación y artefactos generados.
 
 ## Requisitos
 
@@ -58,25 +58,19 @@ Banco de preguntas del juego:
 
 ## Ejecucion rapida
 
-1. Limpiar y unificar dataset:
-
-```bash
-python main.py clean
-```
-
-2. Entrenar modelos y seleccionar el mejor:
+1. Entrenar el modelo del tutor:
 
 ```bash
 python main.py train
 ```
 
-Puedes cambiar la metrica de seleccion:
+Entrenamiento rapido (para pruebas) y sin figuras:
 
 ```bash
-python main.py train --metric f1
+python main.py train --max-rows 50000 --no-plots
 ```
 
-3. Levantar backend local:
+2. Levantar backend local:
 
 ```bash
 python main.py serve
@@ -97,29 +91,15 @@ La carpeta `web/` contiene:
 
 Todo corre en tu maquina y llama al backend Python local (FastAPI), sin servicios cloud.
 
-## Flujo adaptativo (Streamlit, opcional/legacy)
-
-Entrenar flujo adaptativo con features de dificultad:
+## Prueba rapida de inferencia
 
 ```bash
-py main_train.py
-```
-
-Ejecutar app interactiva:
-
-```bash
-py -m streamlit run main_app.py
-```
-
-Prueba rapida de inferencia:
-
-```bash
-py test_model.py
+python test_model.py
 ```
 
 ## Diccionario de datos del modelo
 
-### Entrada base (dataset limpio)
+### Entrada base (dataset del tutor)
 
 - `student_id`: identificador del estudiante (trazabilidad e historial).
 - `step_name`: texto de la ecuacion/paso matematico.
@@ -138,7 +118,6 @@ py test_model.py
 - `correct_first_attempt`
 - `error_rate`
 - `time_efficiency`
-- `difficulty_score`
 - `student_attempt_count_prev`
 - `student_avg_incorrects_prev`
 - `student_avg_time_prev`
@@ -157,6 +136,80 @@ py test_model.py
 - `difficulty_label`: etiqueta interpretada (`baja`, `media`, `alta`).
 - `probability`: confianza del modelo para la prediccion.
 - `model_inputs`: snapshot de las features usadas en la inferencia para auditoria.
+
+### Payload mostrado en UI/API (ejemplo)
+
+En el modal del jugador/admin veras un payload como:
+
+- `inputs_modelo`: diccionario con las **features finales** (equivale a `FeatureEngineer.feature_columns`).
+- `salida_modelo`: salida del modelo (`difficulty_level`, `difficulty_label`, `probability`).
+- `accion_adaptativa`: decision de la politica (`subir|mantener|bajar`) despues del intento.
+- `nivel_antes`, `nivel_despues`: nivel del juego antes/despues de aplicar la politica.
+- `puntaje_ronda`: puntos otorgados por la ronda.
+
+Ejemplo (recortado):
+
+```json
+{
+  "inputs_modelo": {
+    "incorrects": 0,
+    "hints": 0,
+    "step_duration_sec": 12.785186,
+    "correct_first_attempt": 1,
+    "error_rate": 0,
+    "time_efficiency": 0.07254163998947856,
+    "student_attempt_count_prev": 0,
+    "student_avg_incorrects_prev": 0,
+    "student_avg_time_prev": 12.785186,
+    "student_accuracy_prev": 1,
+    "step_success_rate_prev": 1,
+    "step_len": 9,
+    "step_num_ops": 2,
+    "step_has_parentheses": 0,
+    "step_num_digits": 2,
+    "step_num_variables": 1,
+    "step_abs_constant_sum": 5
+  },
+  "salida_modelo": {
+    "difficulty_level": 1,
+    "difficulty_label": "media",
+    "probability": 0.9999920611474927
+  },
+  "accion_adaptativa": "subir",
+  "nivel_antes": 1,
+  "nivel_despues": 2,
+  "puntaje_ronda": 20
+}
+```
+
+### Como se obtiene `inputs_modelo` desde el dataset/logs
+
+1) **Columnas base (observables post-intento)**  
+Se leen directamente del registro del intento (KDD convertido o logs del juego):
+- `incorrects`, `hints`, `step_duration_sec`, `correct_first_attempt`  
+  - En juego: se calculan en `src/api/main.py` a partir de intentos y tiempo transcurrido.
+  - En KDD: se mapean desde columnas como `Incorrects`, `Hints`, `Step Duration (sec)`, `Correct First Attempt` en `src/data_processing/data_loader.py`.
+
+2) **Features derivadas (formulas simples)** (`src/data_processing/feature_engineering.py`)
+- `error_rate = incorrects / (incorrects + hints + 1)`
+- `time_efficiency = correct_first_attempt / (step_duration_sec + 1)`
+
+3) **Features historicas (solo informacion previa)**  
+Se ordena por `event_order` (timestamp si existe; si no, orden del dataset) y se calculan acumulados previos:
+- `student_attempt_count_prev`: numero de intentos previos del estudiante (`groupby(student_id).cumcount()`).
+- `student_avg_incorrects_prev`, `student_avg_time_prev`, `student_accuracy_prev`: promedios previos por estudiante (sin incluir el intento actual).
+- `step_success_rate_prev`: tasa previa de acierto para ese `step_name` (sin incluir el intento actual).
+
+4) **Features estructurales del ejercicio/paso** (derivadas de `step_name`)
+- `step_len`: longitud del texto.
+- `step_num_ops`: conteo de operadores `+ - * / =`.
+- `step_has_parentheses`: 1 si contiene `(` o `)`.
+- `step_num_digits`: conteo de digitos.
+- `step_num_variables`: conteo de letras (variables).
+- `step_abs_constant_sum`: suma de valores absolutos de constantes encontradas en el texto.
+
+5) **Snapshot para auditoria**  
+En inferencia, la API guarda las features como `model_inputs` (`src/models/difficulty_model.py`) y ademas las registra en CSV como columnas `model_input_*` (`src/api/main.py`).
 
 ## Preprocesamiento aplicado
 
@@ -207,21 +260,22 @@ El flujo de preprocesamiento y construccion de features es:
 
 9. Esquema de validacion:
 - Si hay `source_split=train/test`, se respeta ese corte.
+- Si no, se aplica `group_student_holdout_split` (holdout por `student_id`) cuando es posible.
 - Si no, se aplica `temporal_holdout_split` con `event_order` para no mezclar futuro/pasado.
 - Como ultimo respaldo, split aleatorio estratificado.
 
 ## Modelos entrenados
 
-Se entrenan automaticamente:
+Se entrenan automaticamente (pipeline del tutor):
 
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- Gradient Boosting
-- SVM
-- Gaussian Naive Bayes
+- `random_forest`
+- `gradient_boosting`
+- `logistic_regression`
 
-Se guardan en `models/model_{name}.pkl` y metadata en `models/meta.pkl`.
+Artefactos:
+- Modelo final: `models/model.pkl`
+- Leaderboard: `reports/metrics/model_leaderboard.csv`
+- Resumen: `reports/metrics/training_summary.json`
 
 Metricas principales (multiclase) reportadas por modelo:
 
@@ -234,6 +288,49 @@ Metricas principales (multiclase) reportadas por modelo:
 - `auc_ovr_macro`
 
 El panel administrador web muestra estas metricas y las graficas por modelo.
+
+## Politica adaptativa (post-intento)
+
+El tutor ajusta el nivel **despues** de cada intento usando reglas explicables (ademas del modelo de dificultad).
+La idea es que el sistema no se evalue solo por accuracy del clasificador, sino por **mejora observable del estudiante** en los logs.
+
+Implementacion:
+- Motor: `src/app/adaptive_engine.py`
+- Registro de eventos: `data/raw/gameplay_logs.csv`
+- Resumen admin: endpoint `/api/admin/summary` agrega metricas de aprendizaje desde los logs.
+
+### Regla (resumen)
+
+Se calcula un `performance_score` (0..1) usando tiempo, errores y pistas.
+Luego se decide `subir/mantener/bajar` con una ventana corta (anti-oscilacion) de los ultimos 3 intentos:
+- Bajar si 2/3 sugieren bajar.
+- Subir si 2/3 sugieren subir y 0/3 sugieren bajar.
+- Si el intento es correcto pero con apoyo (errores/pistas), se recomienda refuerzo sin subir.
+
+## Metricas de aprendizaje (panel admin)
+
+Basadas en `data/raw/gameplay_logs.csv`, el panel admin muestra:
+- Accuracy global y por usuario.
+- Tiempo/pistas/errores promedio.
+- Dependencia de pistas (en intentos correctos).
+- Intentos promedio hasta resolver.
+- Tasa de oscilacion de nivel (sube y baja rapido).
+- Deltas por usuario (2da mitad - 1ra mitad) para ver tendencia: `Δaccuracy`, `Δtiempo`, `Δpistas`, `Δerrores`.
+
+## Donde leer el flujo (guia para entender el codigo)
+
+Entrenamiento del tutor:
+- `main_train.py`: orquesta carga → features → entrenamiento → reportes.
+- `src/data_processing/data_loader.py`: convierte KDD + logs del juego a un dataframe base.
+- `src/data_processing/feature_engineering.py`: crea features historicas/estructurales y `difficulty_level`.
+- `src/models/model_trainer.py`: split (incluye holdout por estudiante) + entrenamiento + guardado de modelo/leaderboard.
+- `src/evaluation/metrics.py` y `src/evaluation/plots.py`: metricas y graficas.
+
+Tutor (runtime):
+- `src/api/main.py`: endpoints del juego, registra `data/raw/gameplay_logs.csv` y expone resumen admin.
+- `src/models/difficulty_model.py`: carga `models/model.pkl` y predice dificultad.
+- `src/app/adaptive_engine.py`: politica post-intento (subir/mantener/bajar + score + anti-oscilacion).
+- `src/app/learning_metrics.py`: calcula metricas de aprendizaje desde los logs para el panel admin.
 
 ## Nota sobre XGBoost (opcional)
 

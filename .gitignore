@@ -19,13 +19,15 @@ env/
 # Artefactos de entrenamiento
 models/*.pkl
 models/*.joblib
+models/results.txt
 !models/.gitkeep
 
 # Datos procesados y crudos
 data/raw/*
 data/processed/*
 data/external/*
-!data/raw/.gitkeep
+data/dataset.csv
+data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/external/.gitkeep
 

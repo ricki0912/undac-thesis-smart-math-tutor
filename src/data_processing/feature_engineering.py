@@ -5,6 +5,8 @@ import re
 import numpy as np
 import pandas as pd
 
+from src.utils.logger import Logger
+
 
 class FeatureEngineer:
     """
@@ -18,7 +20,6 @@ class FeatureEngineer:
         "correct_first_attempt",
         "error_rate",
         "time_efficiency",
-        "difficulty_score",
         "student_attempt_count_prev",
         "student_avg_incorrects_prev",
         "student_avg_time_prev",
@@ -36,6 +37,7 @@ class FeatureEngineer:
         """
         Crea nuevas features para capturar comportamiento del estudiante.
         """
+        Logger.print(f"Construyendo features (include_target={include_target})...")
         data = df.copy()
         if "student_id" not in data.columns:
             data["student_id"] = "unknown_student"
@@ -93,6 +95,7 @@ class FeatureEngineer:
                 data["difficulty_level"] = pd.cut(
                     data["difficulty_score"], bins=bins, labels=labels, include_lowest=True
                 ).astype(int)
+        Logger.print(f"Features listas. Filas: {len(data)}.")
         return data
 
     def split_features_target(self, df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:

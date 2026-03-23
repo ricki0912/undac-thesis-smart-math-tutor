@@ -287,9 +287,48 @@ async function loadAdmin() {
   `).join("");
   setHtml("adminLogs", logRows || "<tr><td colspan='7'>Sin logs aun.</td></tr>");
 
+  renderAdminMetrics(data.metrics || {});
+
   state.adminFigures = figuresData.figures || [];
   setupFigureFilter();
   renderAdminFigures();
+}
+
+function renderAdminMetrics(metrics) {
+  const overall = metrics?.overall;
+  const perUser = metrics?.per_user || [];
+
+  if (!overall) {
+    setHtml("adminMetricsOverall", "<tr><td colspan='2'>Sin métricas (aún no hay logs).</td></tr>");
+    setHtml("adminMetricsUsers", "<tr><td colspan='6'>Sin datos.</td></tr>");
+    return;
+  }
+
+  const rows = [
+    ["Intentos", overall.attempts],
+    ["Usuarios únicos", overall.unique_users],
+    ["Estudiantes únicos", overall.unique_students],
+    ["Accuracy", Number(overall.accuracy ?? 0).toFixed(4)],
+    ["Tiempo promedio (s)", Number(overall.avg_time_sec ?? 0).toFixed(2)],
+    ["Pistas promedio", Number(overall.avg_hints ?? 0).toFixed(2)],
+    ["Errores promedio", Number(overall.avg_incorrects ?? 0).toFixed(2)],
+    ["Dependencia de pistas (correctos)", `${Math.round((overall.help_dependency ?? 0) * 100)}%`],
+    ["Intentos promedio hasta resolver", Number(overall.avg_attempts_to_resolve ?? 0).toFixed(2)],
+    ["Tasa de oscilación", `${Math.round((overall.oscillation_rate ?? 0) * 100)}%`],
+  ].map(([k, v]) => `<tr><td>${k}</td><td class="text-end">${v}</td></tr>`).join("");
+  setHtml("adminMetricsOverall", rows);
+
+  const userRows = perUser.map((row) => `
+    <tr>
+      <td>${row.username ?? "-"}</td>
+      <td>${row.attempts ?? 0}</td>
+      <td>${Number(row.accuracy ?? 0).toFixed(4)}</td>
+      <td>${Number(row.delta_accuracy_2half ?? 0).toFixed(4)}</td>
+      <td>${Number(row.delta_time_2half ?? 0).toFixed(2)}</td>
+      <td>${Math.round((row.oscillation_rate ?? 0) * 100)}%</td>
+    </tr>
+  `).join("");
+  setHtml("adminMetricsUsers", userRows || "<tr><td colspan='6'>Sin datos.</td></tr>");
 }
 
 async function testModelAdmin() {

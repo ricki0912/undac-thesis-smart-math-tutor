@@ -7,6 +7,7 @@ import pandas as pd
 
 from src.data_processing.feature_engineering import FeatureEngineer
 from src.utils.config import ProjectConfig
+from src.utils.logger import Logger
 
 
 class DifficultyModel:
@@ -26,11 +27,13 @@ class DifficultyModel:
             raise FileNotFoundError(
                 f"No se encontro {self.config.model_path}. Ejecuta primero main_train.py"
             )
+        Logger.print(f"Cargando modelo desde: {self.config.model_path}")
         self.model = joblib.load(self.config.model_path)
 
     def predict(self, record: dict[str, Any]) -> dict[str, Any]:
         if self.model is None:
             self.load()
+        Logger.print("Ejecutando prediccion de dificultad...")
 
         base_df = pd.DataFrame([record])
         transformed = self.engineer.transform(base_df, include_target=False)
