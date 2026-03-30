@@ -66,6 +66,10 @@ class DataLoader:
         df["incorrects"] = df["incorrects"].clip(lower=0)
         df["hints"] = df["hints"].clip(lower=0)
         df["step_duration_sec"] = df["step_duration_sec"].clip(lower=0)
+        # Limpieza de outliers: cap al percentil 99.9 (winsorizacion).
+        df = self._cap_column_percentile(df, "incorrects", percentile=0.999)
+        df = self._cap_column_percentile(df, "hints", percentile=0.999)
+        df = self._cap_column_percentile(df, "step_duration_sec", percentile=0.999)
         if "timestamp" in df.columns:
             df["timestamp"] = df["timestamp"].astype(str)
         return df
@@ -123,6 +127,7 @@ class DataLoader:
         for path in candidates:
             raw = pd.read_csv(path, sep="\t", low_memory=False)
             split_name = self._detect_split_name(path.name)
+            Logger.print(f"Archivo KDD detectado: {path.name} (split: {split_name}). Filas: {len(raw)}.")
             transformed = pd.DataFrame(
                 {
                     "student_id": raw.get("Anon Student Id", raw.get("Student ID", "unknown_student")),
@@ -212,6 +217,28 @@ class DataLoader:
             data, "step_duration_sec", self.config.step_duration_drop_quantile
         )
         return data
+
+    @staticmethod
+    def _cap_column_percentile(
+        df: pd.DataFrame,
+        column: str,
+        percentile: float = 0.999,
+        *,
+        positive_only: bool = True,
+    ) -> pd.DataFrame:
+        if df.empty or column not in df.columns:
+            return df
+        q = float(percentile)
+        if not (0.0 < q < 1.0):
+            return df
+        series = pd.to_numeric(df[column], errors="coerce").fillna(0.0)
+        base = series[series > 0] if positive_only else series.dropna()
+        if base.empty:
+            return df
+        threshold = float(base.quantile(q))
+        out = df.copy()
+        out[column] = series.clip(lower=0.0, upper=threshold)
+        return out
 
     @staticmethod
     def _cap_column_quantile(df: pd.DataFrame, column: str, q: float | None) -> pd.DataFrame:

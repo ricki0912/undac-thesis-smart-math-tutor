@@ -12,6 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import GroupShuffleSplit, train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.utils.multiclass import type_of_target
 
 from src.evaluation.metrics import MetricsEvaluator
 from src.utils.config import ProjectConfig
@@ -38,6 +39,7 @@ class ModelTrainer:
         x_train, x_test, y_train, y_test, validation_type = self._split_data(
             x, y, split_series, time_series, groups
         )
+        y_train, y_test, label_thresholds = self._ensure_discrete_target(y_train, y_test)
         Logger.print(
             f"Entrenando modelos. Split={validation_type}. Train={len(x_train)} Test={len(x_test)}."
         )
@@ -69,7 +71,7 @@ class ModelTrainer:
                     "y_true": y_test.copy(),
                     "y_pred": pd.Series(y_pred, index=y_test.index),
                     "y_score": y_score,
-                    "labels": sorted(pd.unique(y)),
+                    "labels": sorted({int(v) for v in pd.unique(y_train)}),
                 }
             )
 
@@ -93,7 +95,38 @@ class ModelTrainer:
             "feature_importance": importances,
             "validation_type": validation_type,
             "evaluation_payloads": evaluation_payloads,
+            "label_thresholds": label_thresholds,
         }
+
+    @staticmethod
+    def _ensure_discrete_target(
+        y_train: pd.Series, y_test: pd.Series
+    ) -> tuple[pd.Series, pd.Series, dict[str, float] | None]:
+        """
+        Los modelos definidos son clasificadores; si el target es continuo, lo
+        discretizamos a 3 clases usando cuantiles SOLO del train.
+        """
+        y_train_num = pd.to_numeric(y_train, errors="coerce").fillna(0.0)
+        y_test_num = pd.to_numeric(y_test, errors="coerce").fillna(0.0)
+
+        if type_of_target(y_train_num) != "continuous":
+            return y_train_num, y_test_num, None
+
+        q1 = float(y_train_num.quantile(0.33))
+        q2 = float(y_train_num.quantile(0.66))
+        if q1 == q2:
+            q1 = float(y_train_num.quantile(0.25))
+            q2 = float(y_train_num.quantile(0.75))
+
+        bins = [-np.inf, q1, q2, np.inf]
+        labels = [0, 1, 2]
+        y_train_binned = pd.cut(
+            y_train_num, bins=bins, labels=labels, include_lowest=True
+        ).astype(int)
+        y_test_binned = pd.cut(
+            y_test_num, bins=bins, labels=labels, include_lowest=True
+        ).astype(int)
+        return y_train_binned, y_test_binned, {"q1": q1, "q2": q2}
 
     def _split_data(
         self,
