@@ -26,7 +26,11 @@ class DataLoader:
         if external_df is not None:
             Logger.print(f"Datos KDD detectados: {len(external_df)} filas (pre-limpieza).")
             cleaned = self.clean_data(external_df)
+            Logger.print("Datos KDD limpiados." f" Filas tras limpieza: {len(cleaned)}.")
             cleaned = self._append_gameplay_logs(cleaned)
+            Logger.print(f"Dataset tras aplicar reglas: {len(cleaned)} filas.")
+            Logger.print(f"Estadísticas post-limpieza: incorrects - media={cleaned['incorrects'].mean():.2f}, std={cleaned['incorrects'].std():.2f}, min={cleaned['incorrects'].min()}, max={cleaned['incorrects'].max()}")
+            Logger.print(f"Distribución de correct_first_attempt: {cleaned['correct_first_attempt'].value_counts().to_dict()}")
             return self.apply_dataset_rules(cleaned)
 
         # 2) Respaldo: CSV local en data/dataset.csv
@@ -34,7 +38,11 @@ class DataLoader:
             df = pd.read_csv(self.config.data_path)
             Logger.print(f"Usando dataset local: {self.config.data_path}. Filas: {len(df)}.")
             cleaned = self.clean_data(df)
+            Logger.print(f"Dataset tras limpiar: {len(cleaned)} filas.")
             cleaned = self._append_gameplay_logs(cleaned)
+            Logger.print(f"Dataset tras aplicar reglas: {len(cleaned)} filas.")
+            Logger.print(f"Estadísticas post-limpieza: incorrects - media={cleaned['incorrects'].mean():.2f}, std={cleaned['incorrects'].std():.2f}, min={cleaned['incorrects'].min()}, max={cleaned['incorrects'].max()}")
+            Logger.print(f"Distribución de correct_first_attempt: {cleaned['correct_first_attempt'].value_counts().to_dict()}")
             return self.apply_dataset_rules(cleaned)
 
         raise FileNotFoundError(
@@ -68,10 +76,17 @@ class DataLoader:
         df["step_duration_sec"] = df["step_duration_sec"].clip(lower=0)
         # Limpieza de outliers: cap al percentil 99.9 (winsorizacion).
         df = self._cap_column_percentile(df, "incorrects", percentile=0.999)
+        Logger.print("Capping incorrects al percentil 99.9.")
         df = self._cap_column_percentile(df, "hints", percentile=0.999)
+        Logger.print("Capping hints al percentil 99.9.")
         df = self._cap_column_percentile(df, "step_duration_sec", percentile=0.999)
+        Logger.print("Capping step_duration_sec al percentil 99.9.")
+        #df = self._cap_column_percentile(df, "incorrects", percentile=0.95)
+        #df = self._cap_column_percentile(df, "hints", percentile=0.95)
+        #df = self._cap_column_percentile(df, "step_duration_sec", percentile=0.95)
         if "timestamp" in df.columns:
             df["timestamp"] = df["timestamp"].astype(str)
+        
         return df
 
     def apply_dataset_rules(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -88,6 +103,7 @@ class DataLoader:
             data = self.filter_step_names(data, blacklist)
 
         data = self._apply_outlier_rules(data)
+        Logger.print(f"Dataset tras aplicar reglas: {len(data)} filas.")
         return data.reset_index(drop=True)
 
     @staticmethod

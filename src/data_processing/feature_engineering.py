@@ -65,7 +65,10 @@ class FeatureEngineer:
         data["student_trend_accuracy"] = self._group_prev_rolling_mean(
             data, group_col="student_id", value_col="correct_first_attempt", window=5
         )
-
+        Logger.print(f"Feature student_avg_incorrects_prev: media={data['student_avg_incorrects_prev'].mean():.4f}, std={data['student_avg_incorrects_prev'].std():.4f}, nulos={data['student_avg_incorrects_prev'].isnull().sum()}")
+        Logger.print(f"Feature student_avg_time_prev: media={data['student_avg_time_prev'].mean():.4f}, std={data['student_avg_time_prev'].std():.4f}, nulos={data['student_avg_time_prev'].isnull().sum()}")
+        Logger.print(f"Feature student_accuracy_prev: media={data['student_accuracy_prev'].mean():.4f}, std={data['student_accuracy_prev'].std():.4f}, nulos={data['student_accuracy_prev'].isnull().sum()}")
+        Logger.print(f"Feature student_trend_accuracy: media={data['student_trend_accuracy'].mean():.4f}, std={data['student_trend_accuracy'].std():.4f}, nulos={data['student_trend_accuracy'].isnull().sum()}")
         # Features estructurales de la ecuacion/paso.
         data["step_len"] = data["step_name"].str.len().astype(float)
         data["step_num_ops"] = data["step_name"].str.count(r"[+\-*/=]").astype(float)
@@ -74,6 +77,7 @@ class FeatureEngineer:
         data["step_num_variables"] = data["step_name"].str.count(r"[a-zA-Z]").astype(float)
         data["step_abs_constant_sum"] = data["step_name"].apply(self._sum_abs_constants).astype(float)
         Logger.print(f"Features listas. Filas: {len(data)}.")
+        Logger.print(f"Resumen features: {len(self.feature_columns)} creadas. Estadísticas globales: {data[self.feature_columns].describe().to_string()}")
         return data
 
     def split_features_target(self, df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
@@ -102,7 +106,11 @@ class FeatureEngineer:
         cfa = pd.to_numeric(df.get("correct_first_attempt", 0), errors="coerce").fillna(0).clip(0, 1)
         fail_penalty = 1.0 - cfa
 
-        score = (0.40 * inc_norm) + (0.30 * hints_norm) + (0.30 * time_norm) + (0.15 * fail_penalty)
+        #score = (0.40 * inc_norm) + (0.30 * hints_norm) + (0.30 * time_norm) + (0.15 * fail_penalty)
+        score = (0.15 * inc_norm) + (0.15 * hints_norm) + (0.55 * time_norm) + (0.15 * fail_penalty)
+        Logger.print("Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.")
+        Logger.print("Effort score construido. Estadísticas:")
+        Logger.print(score.describe())
         return score.astype(float)
 
     @staticmethod

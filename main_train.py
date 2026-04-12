@@ -10,6 +10,11 @@ from src.models.model_trainer import ModelTrainer
 from src.utils.config import ProjectConfig
 from src.utils.logger import Logger
 
+#pPARA PRESENTAR INFORMACIÓN 
+import pandas as pd
+pd.set_option("display.max_columns", None)
+pd.set_option("display.max_colwidth", None)
+pd.set_option("display.width", 0)
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -30,7 +35,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(max_rows: int | None = None, generate_plots: bool = True) -> None:
-    Logger.print("Iniciando pipeline de entrenamiento...")
+    Logger.print("========================================")
+    Logger.print("INICIO -> Iniciando pipeline de entrenamiento...")
     config = ProjectConfig()
     loader = DataLoader(config)
     engineer = FeatureEngineer()
@@ -43,12 +49,26 @@ def main(max_rows: int | None = None, generate_plots: bool = True) -> None:
         raw_df = raw_df.head(max_rows).copy()
         Logger.print(f"Aplicado --max-rows={max_rows}.")
     dataset = engineer.transform(raw_df)
-    Logger.print("Feature engineering completado.")
-    x, y = engineer.split_features_target(dataset)
-    split_series = dataset["source_split"] if "source_split" in dataset.columns else None
-    time_series = dataset["event_order"] if "event_order" in dataset.columns else None
-    groups = dataset["student_id"] if "student_id" in dataset.columns else None
+    Logger.print(f"Cambio en dataset: filas {len(raw_df)} -> {len(dataset)}, columnas {len(raw_df.columns)} -> {len(dataset.columns)}")
+    Logger.print(f"Estadísticas target (effort_score): {dataset['effort_score'].value_counts().to_dict()}")
 
+    Logger.print(f"Dataset tras feature engineering: {len(dataset)} filas, {len(engineer.feature_columns)} features.")
+    Logger.print(f"Dataset tras feature engineering (100 filas de ejemplo):\n{dataset.sample(100).to_string()}")
+    Logger.print("Feature engineering completado.")
+
+    x, y = engineer.split_features_target(dataset)
+    Logger.print(f"Features shape: {x.shape}, Target distribución: {y.value_counts().to_dict()}")
+
+    Logger.print(f"Features y target separados. Features: {x.shape[1]}, Filas: {x.shape[0]}.")
+    Logger.print(f"Features (100 filas de ejemplo):\n{x.sample(100).to_string()}")
+    Logger.print(f"Target (100 filas de ejemplo):\n{y.sample(100).to_string()}")
+    
+    split_series = dataset["source_split"] if "source_split" in dataset.columns else None
+    Logger.print(f"Split series detectada: {'source_split' in dataset.columns}.")
+    time_series = dataset["event_order"] if "event_order" in dataset.columns else None
+    Logger.print(f"Time series detectada: {'event_order' in dataset.columns}.")
+    groups = dataset["student_id"] if "student_id" in dataset.columns else None
+    Logger.print(f"Groups detectados: {'student_id' in dataset.columns}.")
     training_output = trainer.train(
         x,
         y,

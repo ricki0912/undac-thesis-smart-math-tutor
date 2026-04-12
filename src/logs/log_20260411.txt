@@ -1,0 +1,938 @@
+[2026-04-11 15:15:29] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 15:15:29] INFO: Cargando dataset...
+[2026-04-11 15:15:34] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 15:15:34] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 15:15:34] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 15:15:36] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 15:15:36] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 15:15:36] INFO: Construyendo features (include_target=True)...
+[2026-04-11 15:15:38] INFO: Features listas. Filas: 301027.
+[2026-04-11 15:15:38] INFO: Feature engineering completado.
+[2026-04-11 15:15:38] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 15:15:38] INFO: Entrenando: random_forest...
+[2026-04-11 15:15:45] INFO: Levantando API en http://127.0.0.1:8000 ...
+[2026-04-11 15:15:46] INFO: Inicializando FastAPI (modo local)...
+[2026-04-11 15:16:52] INFO: Login de usuario: user01
+[2026-04-11 15:17:45] INFO: Login de usuario: admin01
+[2026-04-11 15:18:28] INFO: random_forest -> f1_weighted=0.5136 accuracy=0.5207 auc=0.7036
+[2026-04-11 15:18:28] INFO: Entrenando: logistic_regression...
+[2026-04-11 15:18:29] INFO: logistic_regression -> f1_weighted=0.4519 accuracy=0.4843 auc=0.6672
+[2026-04-11 15:18:29] INFO: Entrenando: gradient_boosting...
+[2026-04-11 15:21:39] INFO: gradient_boosting -> f1_weighted=0.5014 accuracy=0.5155 auc=0.7036
+[2026-04-11 15:21:45] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5136).
+[2026-04-11 15:22:02] INFO: Entrenamiento completado.
+[2026-04-11 15:22:02] INFO: Mejor modelo: random_forest
+[2026-04-11 15:22:02] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 15:22:02] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 15:22:02] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 15:27:08] INFO: Login de usuario: admin01
+[2026-04-11 15:37:24] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 15:37:24] INFO: Cargando dataset...
+[2026-04-11 15:37:28] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 15:37:28] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 15:37:28] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 15:37:30] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 15:37:30] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 15:37:30] INFO: Construyendo features (include_target=True)...
+[2026-04-11 15:37:32] INFO: Features listas. Filas: 301027.
+[2026-04-11 15:37:32] INFO: Feature engineering completado.
+[2026-04-11 15:37:33] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 15:37:33] INFO: Entrenando: random_forest...
+[2026-04-11 15:39:57] INFO: random_forest -> f1_weighted=0.5130 accuracy=0.5205 auc=0.7035
+[2026-04-11 15:39:57] INFO: Entrenando: logistic_regression...
+[2026-04-11 15:39:58] INFO: logistic_regression -> f1_weighted=0.4560 accuracy=0.4863 auc=0.6686
+[2026-04-11 15:39:58] INFO: Entrenando: gradient_boosting...
+[2026-04-11 15:42:19] INFO: gradient_boosting -> f1_weighted=0.5016 accuracy=0.5154 auc=0.7046
+[2026-04-11 15:42:28] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5130).
+[2026-04-11 15:42:38] INFO: Entrenamiento completado.
+[2026-04-11 15:42:38] INFO: Mejor modelo: random_forest
+[2026-04-11 15:42:38] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 15:42:38] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 15:42:38] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 15:51:07] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 15:51:07] INFO: Cargando dataset...
+[2026-04-11 15:51:12] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 15:51:13] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 15:51:13] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 15:51:15] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 15:51:16] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 15:51:16] INFO: Construyendo features (include_target=True)...
+[2026-04-11 15:51:20] INFO: Features listas. Filas: 301027.
+[2026-04-11 15:51:20] INFO: Feature engineering completado.
+[2026-04-11 15:51:21] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 15:51:21] INFO: Entrenando: random_forest...
+[2026-04-11 15:54:15] INFO: random_forest -> f1_weighted=0.5150 accuracy=0.5218 auc=0.7041
+[2026-04-11 15:54:15] INFO: Entrenando: logistic_regression...
+[2026-04-11 15:54:17] INFO: logistic_regression -> f1_weighted=0.4630 accuracy=0.4891 auc=0.6702
+[2026-04-11 15:54:17] INFO: Entrenando: gradient_boosting...
+[2026-04-11 15:57:25] INFO: gradient_boosting -> f1_weighted=0.5037 accuracy=0.5170 auc=0.7055
+[2026-04-11 15:57:33] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5150).
+[2026-04-11 15:57:48] INFO: Entrenamiento completado.
+[2026-04-11 15:57:48] INFO: Mejor modelo: random_forest
+[2026-04-11 15:57:48] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 15:57:48] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 15:57:48] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 17:07:38] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 17:07:38] INFO: Cargando dataset...
+[2026-04-11 17:07:43] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 17:07:43] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 17:07:43] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 17:07:45] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 17:07:45] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 17:07:45] INFO: Construyendo features (include_target=True)...
+[2026-04-11 17:07:47] INFO: Features listas. Filas: 301027.
+[2026-04-11 17:07:47] INFO: Feature engineering completado.
+[2026-04-11 17:07:47] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 17:07:47] INFO: Entrenando: random_forest...
+[2026-04-11 17:11:49] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 17:11:49] INFO: Cargando dataset...
+[2026-04-11 17:11:53] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 17:11:53] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 17:11:53] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 17:11:55] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 17:11:55] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 17:11:55] INFO: Construyendo features (include_target=True)...
+[2026-04-11 17:11:57] INFO: Features listas. Filas: 301027.
+[2026-04-11 17:11:57] INFO: Feature engineering completado.
+[2026-04-11 17:11:57] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 17:11:57] INFO: Entrenando: random_forest...
+[2026-04-11 17:13:52] INFO: random_forest -> f1_weighted=0.5124 accuracy=0.5203 auc=0.7037
+[2026-04-11 17:13:52] INFO: Entrenando: logistic_regression...
+[2026-04-11 17:13:52] INFO: logistic_regression -> f1_weighted=0.4519 accuracy=0.4843 auc=0.6672
+[2026-04-11 17:13:52] INFO: Entrenando: gradient_boosting...
+[2026-04-11 17:16:00] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5151 auc=0.7034
+[2026-04-11 17:16:08] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5124).
+[2026-04-11 17:16:16] INFO: Entrenamiento completado.
+[2026-04-11 17:16:16] INFO: Mejor modelo: random_forest
+[2026-04-11 17:16:16] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 17:16:16] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 17:16:16] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 18:16:00] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 18:16:00] INFO: Cargando dataset...
+[2026-04-11 18:16:06] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 18:16:06] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 18:16:06] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 18:16:07] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:16:07] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:16:07] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:16:07] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:16:07] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:16:08] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:16:08] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 18:16:08] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 18:16:08] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 18:16:08] INFO: Construyendo features (include_target=True)...
+[2026-04-11 18:16:09] INFO: Construyendo effort_score con pesos: inc=0.25, hints=0.25, time=0.35, fail_penalty=0.15.
+[2026-04-11 18:16:09] INFO: Effort score construido. Estadísticas:
+[2026-04-11 18:16:09] INFO: count    301027.000000
+mean          0.047586
+std           0.079356
+min           0.000000
+25%           0.003494
+50%           0.006406
+75%           0.030283
+max           0.854814
+dtype: float64
+[2026-04-11 18:16:12] INFO: Features listas. Filas: 301027.
+[2026-04-11 18:16:12] INFO: Feature engineering completado.
+[2026-04-11 18:16:13] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 18:16:13] INFO: Entrenando: random_forest...
+[2026-04-11 18:17:20] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 18:17:20] INFO: Cargando dataset...
+[2026-04-11 18:17:24] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 18:17:24] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 18:17:24] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 18:17:25] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:17:25] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:17:25] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:17:25] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:17:25] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:17:25] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:17:26] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 18:17:26] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 18:17:26] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 18:17:26] INFO: Construyendo features (include_target=True)...
+[2026-04-11 18:17:26] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 18:17:26] INFO: Effort score construido. Estadísticas:
+[2026-04-11 18:17:26] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 18:17:28] INFO: Features listas. Filas: 301027.
+[2026-04-11 18:17:28] INFO: Feature engineering completado.
+[2026-04-11 18:17:28] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 18:17:28] INFO: Entrenando: random_forest...
+[2026-04-11 18:19:21] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 18:19:21] INFO: Entrenando: logistic_regression...
+[2026-04-11 18:19:22] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 18:19:22] INFO: Entrenando: gradient_boosting...
+[2026-04-11 18:21:31] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5149 auc=0.7037
+[2026-04-11 18:21:40] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5138).
+[2026-04-11 18:21:49] INFO: Entrenamiento completado.
+[2026-04-11 18:21:49] INFO: Mejor modelo: random_forest
+[2026-04-11 18:21:49] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 18:21:49] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 18:21:49] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 18:38:37] INFO: Iniciando pipeline de entrenamiento...
+[2026-04-11 18:38:37] INFO: Cargando dataset...
+[2026-04-11 18:38:42] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 18:38:42] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 18:38:42] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 18:38:43] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:38:43] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:38:43] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:38:43] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 18:38:43] INFO: Capping hints al percentil 99.9.
+[2026-04-11 18:38:44] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 18:38:44] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 18:38:44] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 18:38:44] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 18:38:44] INFO: Construyendo features (include_target=True)...
+[2026-04-11 18:38:44] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 18:38:44] INFO: Effort score construido. Estadísticas:
+[2026-04-11 18:38:44] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 18:38:46] INFO: Features listas. Filas: 301027.
+[2026-04-11 18:38:46] INFO: Feature engineering completado.
+[2026-04-11 18:38:47] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 18:38:47] INFO: Entrenando: random_forest...
+[2026-04-11 18:40:56] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 18:40:56] INFO: Entrenando: logistic_regression...
+[2026-04-11 18:40:57] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 18:40:57] INFO: Entrenando: gradient_boosting...
+[2026-04-11 18:43:25] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5149 auc=0.7037
+[2026-04-11 18:43:36] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5138).
+[2026-04-11 18:43:46] INFO: Entrenamiento completado.
+[2026-04-11 18:43:46] INFO: Mejor modelo: random_forest
+[2026-04-11 18:43:46] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 18:43:46] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 18:43:46] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 19:08:23] INFO: ========================================
+[2026-04-11 19:08:23] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 19:08:23] INFO: Cargando dataset...
+[2026-04-11 19:08:27] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 19:08:28] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 19:08:28] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 19:08:28] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:08:28] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:08:28] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:08:28] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 19:08:29] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:08:29] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:08:29] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:08:29] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 19:08:29] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 19:08:29] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 19:08:29] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 19:08:29] INFO: Construyendo features (include_target=True)...
+[2026-04-11 19:08:30] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 19:08:30] INFO: Effort score construido. Estadísticas:
+[2026-04-11 19:08:30] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 19:08:32] INFO: Features listas. Filas: 301027.
+[2026-04-11 19:08:32] INFO: Feature engineering completado.
+[2026-04-11 19:08:32] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 19:08:32] INFO: Split series detectada: True.
+[2026-04-11 19:08:32] INFO: Time series detectada: True.
+[2026-04-11 19:08:32] INFO: Groups detectados: True.
+[2026-04-11 19:08:32] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 19:08:32] INFO: Entrenando: random_forest...
+[2026-04-11 19:10:41] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 19:10:41] INFO: Entrenando: logistic_regression...
+[2026-04-11 19:10:42] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 19:10:42] INFO: Entrenando: gradient_boosting...
+[2026-04-11 19:13:16] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5149 auc=0.7037
+[2026-04-11 19:13:26] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5138).
+[2026-04-11 19:13:39] INFO: Entrenamiento completado.
+[2026-04-11 19:13:39] INFO: Mejor modelo: random_forest
+[2026-04-11 19:13:39] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 19:13:39] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 19:13:39] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 19:14:56] INFO: ========================================
+[2026-04-11 19:14:56] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 19:14:56] INFO: Cargando dataset...
+[2026-04-11 19:15:03] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 19:15:03] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 19:15:03] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 19:15:03] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:15:04] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:15:04] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:15:04] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 19:15:04] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:15:04] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:15:05] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:15:05] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 19:15:05] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 19:15:05] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 19:15:05] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 19:15:05] INFO: Construyendo features (include_target=True)...
+[2026-04-11 19:15:06] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 19:15:06] INFO: Effort score construido. Estadísticas:
+[2026-04-11 19:15:06] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 19:15:09] INFO: Features listas. Filas: 301027.
+[2026-04-11 19:15:09] INFO: Dataset tras feature engineering: 301027 filas, 11 features.
+[2026-04-11 19:15:09] INFO: 10 filas de ejemplo:
+   student_id               step_name  incorrects  hints  ...  step_has_parentheses  step_num_digits step_num_variables step_abs_constant_sum
+0  0BrbPbwCMz         b+r*(x+y) = v-s         0.0    0.0  ...                   1.0              0.0                6.0                   0.0
+1  0BrbPbwCMz           m*(k-n) = g*s         0.0    0.0  ...                   1.0              0.0                5.0                   0.0
+2  2oNLCndtam      -9.91y-6.3 = -2.13         0.0    0.0  ...                   0.0              8.0                1.0                 124.0
+3  2oNLCndtam                 25X = 0         0.0    0.0  ...                   0.0              3.0                1.0                  25.0
+4  2oNLCndtam              60X = 3500         0.0    0.0  ...                   0.0              6.0                1.0                3560.0
+5  2oNLCndtam  (9+sqrt(9^2-56))/2 = x         0.0    0.0  ...                   1.0              6.0                5.0                  78.0
+6  2oNLCndtam          1.75X = 219.21         0.0    0.0  ...                   0.0              8.0                1.0                 316.0
+7  46z59pQP58                 y/9 = 7         0.0    0.0  ...                   0.0              2.0                1.0                  16.0
+8  46z59pQP58              6/7 = 7x/7         0.0    0.0  ...                   0.0              4.0                1.0                  27.0
+9  46z59pQP58              15X = 3.75         0.0    0.0  ...                   0.0              5.0                1.0                  93.0
+
+[10 rows x 21 columns]
+[2026-04-11 19:15:09] INFO: Feature engineering completado.
+[2026-04-11 19:15:09] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 19:15:09] INFO: Split series detectada: True.
+[2026-04-11 19:15:09] INFO: Time series detectada: True.
+[2026-04-11 19:15:09] INFO: Groups detectados: True.
+[2026-04-11 19:15:09] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 19:15:09] INFO: Entrenando: random_forest...
+[2026-04-11 19:17:19] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 19:17:19] INFO: Entrenando: logistic_regression...
+[2026-04-11 19:17:20] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 19:17:20] INFO: Entrenando: gradient_boosting...
+[2026-04-11 19:18:27] INFO: ========================================
+[2026-04-11 19:18:27] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 19:18:27] INFO: Cargando dataset...
+[2026-04-11 19:18:31] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 19:18:31] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 19:18:31] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 19:18:31] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 19:18:32] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:18:32] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 19:18:32] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 19:18:33] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 19:18:33] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 19:18:33] INFO: Construyendo features (include_target=True)...
+[2026-04-11 19:18:33] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 19:18:33] INFO: Effort score construido. Estadísticas:
+[2026-04-11 19:18:33] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 19:18:35] INFO: Features listas. Filas: 301027.
+[2026-04-11 19:18:35] INFO: Dataset tras feature engineering: 301027 filas, 11 features.
+[2026-04-11 19:18:35] INFO: 10 filas de ejemplo:
+   student_id               step_name  incorrects  hints  correct_first_attempt  step_duration_sec source_split timestamp  event_order  effort_score  student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+0  0BrbPbwCMz         b+r*(x+y) = v-s         0.0    0.0                      0                0.0         test       nan       299585          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723      15.0           5.0                   1.0              0.0                 6.0                    0.0
+1  0BrbPbwCMz           m*(k-n) = g*s         0.0    0.0                      0                0.0         test       nan       299586          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000      13.0           4.0                   1.0              0.0                 5.0                    0.0
+2  2oNLCndtam      -9.91y-6.3 = -2.13         0.0    0.0                      0                0.0         test       nan       299587          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723      18.0           4.0                   0.0              8.0                 1.0                  124.0
+3  2oNLCndtam                 25X = 0         0.0    0.0                      0                0.0         test       nan       299588          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000       7.0           1.0                   0.0              3.0                 1.0                   25.0
+4  2oNLCndtam              60X = 3500         0.0    0.0                      0                0.0         test       nan       299589          0.15                         2.0                     0.000000               0.000000               0.000000                0.000000      10.0           1.0                   0.0              6.0                 1.0                 3560.0
+5  2oNLCndtam  (9+sqrt(9^2-56))/2 = x         0.0    0.0                      0                0.0         test       nan       299590          0.15                         3.0                     0.000000               0.000000               0.000000                0.000000      22.0           4.0                   1.0              6.0                 5.0                   78.0
+6  2oNLCndtam          1.75X = 219.21         0.0    0.0                      0                0.0         test       nan       299591          0.15                         4.0                     0.000000               0.000000               0.000000                0.000000      14.0           1.0                   0.0              8.0                 1.0                  316.0
+7  46z59pQP58                 y/9 = 7         0.0    0.0                      0                0.0         test       nan       299592          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723       7.0           2.0                   0.0              2.0                 1.0                   16.0
+8  46z59pQP58              6/7 = 7x/7         0.0    0.0                      0                0.0         test       nan       299593          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000      10.0           3.0                   0.0              4.0                 1.0                   27.0
+9  46z59pQP58              15X = 3.75         0.0    0.0                      0                0.0         test       nan       299594          0.15                         2.0                     0.000000               0.000000               0.000000                0.000000      10.0           1.0                   0.0              5.0                 1.0                   93.0
+[2026-04-11 19:18:35] INFO: Feature engineering completado.
+[2026-04-11 19:18:35] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 19:18:35] INFO: Split series detectada: True.
+[2026-04-11 19:18:35] INFO: Time series detectada: True.
+[2026-04-11 19:18:35] INFO: Groups detectados: True.
+[2026-04-11 19:18:35] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 19:18:35] INFO: Entrenando: random_forest...
+[2026-04-11 19:20:46] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 19:20:46] INFO: Entrenando: logistic_regression...
+[2026-04-11 19:20:47] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 19:20:47] INFO: Entrenando: gradient_boosting...
+[2026-04-11 19:21:05] INFO: ========================================
+[2026-04-11 19:21:05] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 19:21:05] INFO: Cargando dataset...
+[2026-04-11 19:21:10] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 19:21:10] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 19:21:10] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 19:21:10] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:21:11] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:21:11] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:21:11] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 19:21:11] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:21:11] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:21:12] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:21:12] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 19:21:12] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 19:21:12] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 19:21:12] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 19:21:12] INFO: Construyendo features (include_target=True)...
+[2026-04-11 19:21:12] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 19:21:12] INFO: Effort score construido. Estadísticas:
+[2026-04-11 19:21:12] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 19:21:14] INFO: Features listas. Filas: 301027.
+[2026-04-11 19:21:14] INFO: Dataset tras feature engineering: 301027 filas, 11 features.
+[2026-04-11 19:21:14] INFO: 10 filas de ejemplo:
+   student_id               step_name  incorrects  hints  correct_first_attempt  step_duration_sec source_split timestamp  event_order  effort_score  student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+0  0BrbPbwCMz         b+r*(x+y) = v-s         0.0    0.0                      0                0.0         test       nan       299585          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723      15.0           5.0                   1.0              0.0                 6.0                    0.0
+1  0BrbPbwCMz           m*(k-n) = g*s         0.0    0.0                      0                0.0         test       nan       299586          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000      13.0           4.0                   1.0              0.0                 5.0                    0.0
+2  2oNLCndtam      -9.91y-6.3 = -2.13         0.0    0.0                      0                0.0         test       nan       299587          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723      18.0           4.0                   0.0              8.0                 1.0                  124.0
+3  2oNLCndtam                 25X = 0         0.0    0.0                      0                0.0         test       nan       299588          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000       7.0           1.0                   0.0              3.0                 1.0                   25.0
+4  2oNLCndtam              60X = 3500         0.0    0.0                      0                0.0         test       nan       299589          0.15                         2.0                     0.000000               0.000000               0.000000                0.000000      10.0           1.0                   0.0              6.0                 1.0                 3560.0
+5  2oNLCndtam  (9+sqrt(9^2-56))/2 = x         0.0    0.0                      0                0.0         test       nan       299590          0.15                         3.0                     0.000000               0.000000               0.000000                0.000000      22.0           4.0                   1.0              6.0                 5.0                   78.0
+6  2oNLCndtam          1.75X = 219.21         0.0    0.0                      0                0.0         test       nan       299591          0.15                         4.0                     0.000000               0.000000               0.000000                0.000000      14.0           1.0                   0.0              8.0                 1.0                  316.0
+7  46z59pQP58                 y/9 = 7         0.0    0.0                      0                0.0         test       nan       299592          0.15                         0.0                     0.335109              22.107139               0.795723                0.795723       7.0           2.0                   0.0              2.0                 1.0                   16.0
+8  46z59pQP58              6/7 = 7x/7         0.0    0.0                      0                0.0         test       nan       299593          0.15                         1.0                     0.000000               0.000000               0.000000                0.000000      10.0           3.0                   0.0              4.0                 1.0                   27.0
+9  46z59pQP58              15X = 3.75         0.0    0.0                      0                0.0         test       nan       299594          0.15                         2.0                     0.000000               0.000000               0.000000                0.000000      10.0           1.0                   0.0              5.0                 1.0                   93.0
+[2026-04-11 19:21:14] INFO: Feature engineering completado.
+[2026-04-11 19:21:14] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 19:21:14] INFO: Split series detectada: True.
+[2026-04-11 19:21:14] INFO: Time series detectada: True.
+[2026-04-11 19:21:14] INFO: Groups detectados: True.
+[2026-04-11 19:21:15] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 19:21:15] INFO: Entrenando: random_forest...
+[2026-04-11 19:23:24] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 19:23:24] INFO: Entrenando: logistic_regression...
+[2026-04-11 19:23:25] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 19:23:25] INFO: Entrenando: gradient_boosting...
+[2026-04-11 19:23:45] INFO: ========================================
+[2026-04-11 19:23:45] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 19:23:45] INFO: Cargando dataset...
+[2026-04-11 19:23:49] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 19:23:49] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 19:23:49] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 19:23:49] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:23:49] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:23:49] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:23:50] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 19:23:50] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 19:23:50] INFO: Capping hints al percentil 99.9.
+[2026-04-11 19:23:50] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 19:23:50] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 19:23:50] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 19:23:50] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 19:23:51] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 19:23:51] INFO: Construyendo features (include_target=True)...
+[2026-04-11 19:23:51] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 19:23:51] INFO: Effort score construido. Estadísticas:
+[2026-04-11 19:23:51] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 19:23:53] INFO: Features listas. Filas: 301027.
+[2026-04-11 19:23:53] INFO: Dataset tras feature engineering: 301027 filas, 11 features.
+[2026-04-11 19:23:53] INFO: 100 filas de ejemplo:
+        student_id                                          step_name  incorrects  hints  correct_first_attempt  step_duration_sec source_split              timestamp          event_order  effort_score  student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+31744   5a5qA8VLfI                                     -19(-5+11) = x         1.0    0.0                      0                8.0        train  2005-10-13 14:34:20.0  1129214060000000000      0.160582                       276.0                     0.460145              19.438406               0.771739                1.000000      14.0           4.0                   1.0              5.0                 1.0                   35.0
+151720  1CI7f2R98c                                 -36.4-7x-22.2x = 9         0.0    0.0                      1               18.0        train  2006-02-16 12:47:31.0  1140094051000000000      0.016473                       470.0                     0.185106              14.344681               0.878723                1.000000      18.0           4.0                   0.0              8.0                 2.0                   80.0
+30456   X4ZaxfDz3Q                                       T*25.5 = 102         0.0    0.0                      1               43.0        train  2005-10-13 10:48:13.0  1129200493000000000      0.039351                       133.0                     0.067669              19.210526               0.924812                1.000000      12.0           2.0                   0.0              6.0                 1.0                  132.0
+240877  ub1y4M34bR                                       0.29X = 8700         0.0    0.0                      1               11.0        train  2006-04-07 12:13:51.0  1144412031000000000      0.010067                        94.0                     0.148936              13.372340               0.840426                1.000000      12.0           1.0                   0.0              7.0                 1.0                 8729.0
+148613  56dTCKdr74                                      -2x+8x-16 = 0         0.0    0.0                      1                3.0        train  2006-02-14 15:09:00.0  1139929740000000000      0.002745                       684.0                     0.163743              19.595029               0.909357                1.000000      13.0           4.0                   0.0              5.0                 2.0                   26.0
+288700  68gXsA3M68                                -58.7y-4537.51 = -9         2.0    0.0                      0               39.0        train  2006-05-16 10:41:39.0  1147776099000000000      0.192212                       369.0                     0.254743              23.333333               0.861789                1.000000      19.0           4.0                   0.0             10.0                 1.0                 4662.0
+94394   jR1rpwLHNu                                       40 = y/-8*-8         0.0    0.0                      1                3.0        train  2005-12-14 08:54:29.0  1134550469000000000      0.002745                       361.0                     0.645429              26.531856               0.639889                0.800000      12.0           5.0                   0.0              4.0                 1.0                   56.0
+155594  1wJ0kz1I0l                                       0.5X+55 = 30         0.0    3.0                      0               36.0        train  2006-02-21 09:25:20.0  1140513920000000000      0.199017                         3.0                     1.666667              48.333333               0.333333                0.333333      12.0           2.0                   0.0              6.0                 1.0                   90.0
+240795  EV28POlwE4                                      -110+6c = -74         0.0    0.0                      1               27.0        train  2006-04-07 09:48:09.0  1144403289000000000      0.024709                      1338.0                     0.408072              23.948430               0.740658                1.000000      13.0           4.0                   0.0              6.0                 1.0                  190.0
+121524  LM96hW22T2                                          -7/x = -8         0.0    3.0                      0               15.0        train  2006-01-20 08:32:30.0  1137745950000000000      0.179799                      1093.0                     0.150961              10.474839               0.188472                0.000000       9.0           4.0                   0.0              2.0                 1.0                   15.0
+159155  b4NIYojEYn                                         7(y+7) = 7         0.0    0.0                      1                5.0        train  2006-02-22 09:47:07.0  1140601627000000000      0.004576                         9.0                     0.000000              10.111111               0.666667                1.000000      10.0           2.0                   1.0              3.0                 1.0                   21.0
+147099  l5eh0S53tB                                   6.60555128/2 = x         0.0    0.0                      1                7.0        train  2006-02-13 12:42:09.0  1139834529000000000      0.006406                      2298.0                     0.474326              19.944082               0.611836                0.600000      16.0           2.0                   0.0             10.0                 1.0                    8.0
+182726  6Ax4SKe470                          (6-sqrt(6^2-4*1*0))/2 = x         0.0    0.0                      1                4.0        train  2006-03-03 14:06:05.0  1141394765000000000      0.003661                      1226.0                     0.354812              14.415987               0.763458                0.800000      25.0           6.0                   1.0              7.0                 5.0                   21.0
+117498  9QD9297moO                     -8.4/-1.5 = (-y-1.5)*-1.5/-1.5         1.0    0.0                      0              103.0        train  2006-01-13 09:36:35.0  1137144995000000000      0.247520                      1271.0                     0.765539              34.171515               0.546814                0.400000      30.0          10.0                   1.0             10.0                 1.0                   36.0
+187827  9FFmzviIHD                         (-1*-41x-1*-39)/2*2 = 38*2         0.0    0.0                      1               11.0        train  2006-03-07 10:54:55.0  1141728895000000000      0.010067                       192.0                     0.322917              34.307292               0.880208                1.000000      26.0          10.0                   1.0             11.0                 1.0                  126.0
+289963  MCA1W52H2T                                 -w*j = (b-j*t)/j*j         1.0    0.0                      0               10.0        train  2006-05-17 10:21:58.0  1147861318000000000      0.162412                       427.0                     0.098361              16.747073               0.911007                0.400000      18.0           7.0                   1.0              0.0                 7.0                    0.0
+262882  wwSQeRjs22                                      323y-400 = 39         0.0    0.0                      1                7.0        train  2006-04-26 09:28:58.0  1146043738000000000      0.006406                       372.0                     0.120968              14.327957               0.889785                0.800000      13.0           2.0                   0.0              8.0                 1.0                  762.0
+267363  02i5jCrfQK                                  -1.95-0.75Q = -10         0.0    0.0                      1                5.0        train  2006-04-27 13:30:21.0  1146144621000000000      0.004576                      2263.0                     0.232877              12.063411               0.820150                0.800000      17.0           4.0                   0.0              8.0                 1.0                  181.0
+94811   1to8tgu4IT                                 -c*v+v*f = d*g-a*b         0.0    0.0                      1               11.0        train  2005-12-14 14:12:27.0  1134569547000000000      0.010067                       607.0                     0.308072              33.364086               0.861614                0.600000      18.0           8.0                   0.0              0.0                 8.0                    0.0
+23873   i8f2gg51r5                                         90A = -350         0.0    0.0                      1                4.0        train  2005-10-06 11:45:06.0  1128599106000000000      0.003661                      1000.0                     0.229000              14.345000               0.854000                0.600000      10.0           2.0                   0.0              5.0                 1.0                  440.0
+28915   39Uc7ru04l                                              8+6*4         1.0    0.0                      0               19.0        train  2005-10-12 12:02:40.0  1129118560000000000      0.170649                        22.0                     0.454545              32.000000               0.318182                0.400000       5.0           2.0                   0.0              3.0                 0.0                   18.0
+60866   46z59pQP58                                         -2 = 10y-3         0.0    0.0                      1                9.0        train  2005-11-02 12:19:58.0  1130933998000000000      0.008236                       302.0                     0.135762              18.009934               0.857616                1.000000      10.0           3.0                   0.0              4.0                 1.0                   15.0
+227418  HvghFVBS5v                                   6t-q*t = w*r+q*v         0.0    0.0                      1               15.0        train  2006-03-30 09:57:02.0  1143712622000000000      0.013727                      1327.0                     0.352675              25.047476               0.838734                0.800000      16.0           6.0                   0.0              1.0                 7.0                    6.0
+34759   1kKxS8urAH                             -4050000D = -500000000         0.0    0.0                      1                7.0        train  2005-10-17 08:04:37.0  1129536277000000000      0.006406                       778.0                     0.408740              15.253213               0.705656                0.800000      22.0           3.0                   0.0             16.0                 1.0                    0.0
+188103  tyU2s0MBzm                             (-19+sqrt(529))/14 = x         0.0    0.0                      1                5.0        train  2006-03-07 11:22:45.0  1141730565000000000      0.004576                      1986.0                     0.415911              22.581571               0.821752                1.000000      22.0           4.0                   1.0              7.0                 5.0                  562.0
+278932  X5eS5kvC8h                         (-8+sqrt(64-48))/(2*4) = x         0.0    0.0                      1               51.0        train  2006-05-08 08:55:44.0  1147078544000000000      0.046672                      1360.0                     0.281618              18.818382               0.880882                1.000000      26.0           6.0                   1.0              7.0                 5.0                  126.0
+239278  39Uc7ru04l                             35 = -6*-27x-6*-42+49x         0.0    0.0                      1                6.0        train  2006-04-06 11:20:34.0  1144322434000000000      0.005491                      1873.0                     0.528564              21.879872               0.655099                0.800000      22.0           8.0                   0.0             10.0                 2.0                  165.0
+260776  ZP886G3Z76                                     -150-6H = -250         0.0    0.0                      1               18.0        train  2006-04-25 11:06:22.0  1145963182000000000      0.016473                      1135.0                     0.219383              21.339207               0.887225                1.000000      14.0           4.0                   0.0              7.0                 1.0                  406.0
+32391   84qYt0yA5y                                      x = (8-8.6)*7         0.0    0.0                      1               18.0        train  2005-10-14 08:20:55.0  1129278055000000000      0.016473                        66.0                     0.030303              16.045455               0.924242                1.000000      13.0           3.0                   1.0              4.0                 1.0                   29.0
+73132   02ZjVTxC34                                            6 = -1x         1.0    0.0                      0               24.0        train  2005-11-17 13:06:27.0  1132232787000000000      0.175224                       386.0                     0.393782              18.323834               0.634715                0.800000       7.0           2.0                   0.0              2.0                 1.0                    7.0
+53007   dTIQk6Xt3r                                                1+0         0.0    0.0                      1                5.0        train  2005-10-27 11:12:31.0  1130411551000000000      0.004576                       242.0                     0.342975              22.016529               0.739669                1.000000       3.0           1.0                   0.0              2.0                 0.0                    1.0
+212662  g209g5Vve6                                    275000 = 45000X         0.0    0.0                      1                5.0        train  2006-03-22 12:57:14.0  1143032234000000000      0.004576                      1080.0                     0.337037              17.106481               0.800000                1.000000      15.0           1.0                   0.0             11.0                 1.0                    0.0
+69069   4X3016rdOZ                                          7.5G = 75         0.0    0.0                      1                4.0        train  2005-11-11 11:33:57.0  1131708837000000000      0.003661                       540.0                     0.264815              14.814813               0.833333                0.800000       9.0           1.0                   0.0              4.0                 1.0                   87.0
+168316  l5eh0S53tB                                       x^2+7x+9 = 0         2.0    0.0                      0               36.0        train  2006-02-24 11:51:17.0  1140781877000000000      0.189467                      2329.0                     0.478317              19.963718               0.613139                0.600000      12.0           3.0                   0.0              4.0                 2.0                   18.0
+205623  6e1627evYc                              -40.4 = -37.6y+y-31.4         0.0    0.0                      1                5.0        train  2006-03-17 13:54:12.0  1142603652000000000      0.004576                       142.0                     0.112676              19.915493               0.922535                1.000000      21.0           5.0                   0.0              9.0                 2.0                  122.0
+209471  8cSO1GK90W                                      3/-4 = -4y/-4         0.0    0.0                      1               17.0        train  2006-03-21 10:53:56.0  1142938436000000000      0.015557                        58.0                     0.189655              19.586207               0.724138                1.000000      13.0           6.0                   0.0              4.0                 1.0                   15.0
+284113  4X3016rdOZ                                      13000 = 2500L         0.0    0.0                      1                9.0        train  2006-05-11 10:04:04.0  1147341844000000000      0.008236                      2171.0                     0.524182              25.091662               0.783510                0.400000      13.0           1.0                   0.0              9.0                 1.0                 2500.0
+254122  B7l5Zfxxu6              -0.60620256y = 0.99999999y+0.28227033         0.0    0.0                      1               25.0        train  2006-04-21 09:00:13.0  1145610013000000000      0.022879                       700.0                     0.638571              29.550000               0.655714                0.800000      37.0           3.0                   0.0             27.0                 2.0                    0.0
+46047   odPTXtfS78                                             2 = 9y         0.0    0.0                      1               13.0        train  2005-10-24 08:43:58.0  1130143438000000000      0.011897                       351.0                     0.393162              19.923077               0.752137                0.400000       6.0           1.0                   0.0              2.0                 1.0                   11.0
+117720  l8kuAhlIWI                                          -525 = 5X         0.0    0.0                      1                9.0        train  2006-01-13 12:27:07.0  1137155227000000000      0.008236                       285.0                     0.414035              45.414035               0.792982                1.000000       9.0           2.0                   0.0              4.0                 1.0                  530.0
+166901  jdT9cZAxyb                        -6497.21 = -5721.73-212.29x         0.0    0.0                      1               16.0        train  2006-02-24 09:13:41.0  1140772421000000000      0.014642                       126.0                     0.206349              19.293651               0.912698                1.000000      27.0           4.0                   0.0             17.0                 1.0                12553.0
+123263  PpTLi2Qz8E  822.34x+54844.8758 = 317.77-657.9408+422559.2536x         0.0    0.0                      1                3.0        train  2006-01-20 12:48:43.0  1137761323000000000      0.002745                       501.0                     0.279441              19.948104               0.828343                0.800000      49.0           4.0                   0.0             36.0                 2.0                22609.0
+276539  6jCygPdswz                                  3141.6 = 3141.6+b         0.0    0.0                      1               15.0        train  2006-05-04 14:04:02.0  1146751442000000000      0.013727                      1729.0                     0.443609              15.578947               0.778485                1.000000      17.0           2.0                   0.0             10.0                 1.0                 6294.0
+150060  075kbY53c1                               1.3x/1.3 = -15.2/1.3         0.0    0.0                      1                6.0        train  2006-02-15 14:50:45.0  1140015045000000000      0.005491                       933.0                     1.086817              26.042872               0.633441                0.600000      20.0           4.0                   0.0              9.0                 1.0                   29.0
+130233  Hd9GW3f95j                                       -1R/2+10 = 0         0.0    0.0                      1                8.0        train  2006-01-27 11:29:15.0  1138361355000000000      0.007321                       516.0                     0.310078              19.672481               0.788760                0.600000      12.0           4.0                   0.0              5.0                 1.0                   13.0
+155805  EE579r50K3                                   6.8y+14.2 = -4.6         0.0    0.0                      1                8.0        train  2006-02-21 09:33:08.0  1140514388000000000      0.007321                       114.0                     0.280702              10.684211               0.850877                0.800000      16.0           3.0                   0.0              7.0                 1.0                   40.0
+6211    8ZPoEJbXB7                                      -8500 = -250X         0.0    0.0                      1                8.0        train  2005-09-16 13:52:30.0  1126878750000000000      0.007321                        20.0                     0.100000              11.950000               0.750000                1.000000      13.0           3.0                   0.0              7.0                 1.0                 8750.0
+282656  DkXJps09H6                                       (6x^3)(3x^4)         1.0    4.0                      1              109.0        train  2006-05-10 09:47:19.0  1147254439000000000      0.124440                       219.0                     0.310502               9.452055               0.694064                1.000000      12.0           0.0                   1.0              4.0                 2.0                   16.0
+161606  h0UbH181l8                                   -6 = 9y/9+1/9*-6         0.0    0.0                      1               14.0        train  2006-02-22 14:39:34.0  1140619174000000000      0.012812                      1153.0                     0.483955              22.464007               0.764094                0.600000      16.0           7.0                   0.0              6.0                 1.0                   40.0
+162182  562xzTNuI6                                         y/-2 = 8-8         0.0    0.0                      1               12.0        train  2006-02-23 08:24:24.0  1140683064000000000      0.010982                       153.0                     0.189542              15.758170               0.843137                0.800000      10.0           4.0                   0.0              3.0                 1.0                   18.0
+203185  075kbY53c1                                      y*(a+b) = n-m         1.0    3.0                      0               29.0        train  2006-03-16 10:19:16.0  1142504356000000000      0.195871                      1545.0                     0.819417              23.317152               0.671197                0.400000      13.0           4.0                   1.0              0.0                 5.0                    0.0
+222501  5ZR29q8c56                                        34.2x = 6.3         1.0    0.0                      0               30.0        train  2006-03-28 10:13:39.0  1143540819000000000      0.180715                       102.0                     0.049020              14.617647               0.931373                0.800000      11.0           1.0                   0.0              5.0                 1.0                   45.0
+86145   52vEY7f17k                                         8(x+6) = 7         0.0    0.0                      1               40.0        train  2005-12-02 12:31:54.0  1133526714000000000      0.036606                       319.0                     0.545455              25.150470               0.727273                0.800000      10.0           2.0                   1.0              3.0                 1.0                   21.0
+74776   t4K5z0e2NZ                                    -22 = -45y+28+y         0.0    0.0                      1                9.0        train  2005-11-18 09:51:04.0  1132307464000000000      0.008236                       442.0                     0.233032              12.825792               0.832579                1.000000      15.0           5.0                   0.0              6.0                 2.0                   95.0
+61670   Si4v9635O3                                     2y/2*2 = 8/2*2         1.0    0.0                      0               33.0        train  2005-11-03 09:56:16.0  1131011776000000000      0.183461                       280.0                     0.464286              20.453571               0.817857                0.800000      14.0           5.0                   0.0              6.0                 1.0                   18.0
+124251  USdRVl9AOe                                          s*v+r = y         0.0    0.0                      1               41.0        train  2006-01-24 09:45:23.0  1138095923000000000      0.037521                      1100.0                     0.117273              19.902273               0.735455                1.000000       9.0           3.0                   0.0              0.0                 4.0                    0.0
+19550   6jCygPdswz                                     -5600+200V = 0         1.0    0.0                      0               12.0        train  2005-10-03 11:59:07.0  1128340747000000000      0.164243                       425.0                     0.442353              12.458824               0.729412                0.600000      14.0           3.0                   0.0              8.0                 1.0                 5800.0
+243113  80nlN05JQ6                                        4x-5*0 = 40         0.0    0.0                      1                9.0        train  2006-04-11 09:54:06.0  1144749246000000000      0.008236                      2114.0                     0.513245              21.574740               0.754021                1.000000      11.0           3.0                   0.0              5.0                 1.0                   49.0
+177946  R440Y09vu3                         -14.21 = -72.71x-6584.6176         0.0    0.0                      1               11.0        train  2006-03-02 10:18:18.0  1141294698000000000      0.010067                       156.0                     0.205128              18.243590               0.929487                0.600000      26.0           4.0                   0.0             16.0                 1.0                12938.0
+33083   t4K5z0e2NZ                                              -4*-5         0.0    0.0                      1                5.0        train  2005-10-14 09:05:45.0  1129280745000000000      0.004576                       129.0                     0.193798              14.713178               0.829457                0.800000       5.0           3.0                   0.0              2.0                 0.0                    9.0
+232421  0493L6bGa9                                 -0.38y = 2.62-1.36         1.0    2.0                      0               16.0        train  2006-04-03 10:14:20.0  1144059260000000000      0.178617                       326.0                     0.420245              37.395706               0.736196                0.400000      18.0           3.0                   0.0              9.0                 1.0                  139.0
+94096   l5eh0S53tB                                     -150-6A = -250         2.0    0.0                      0               30.0        train  2005-12-13 11:45:32.0  1134474332000000000      0.183976                      2162.0                     0.473173              20.014570               0.602683                0.600000      14.0           4.0                   0.0              7.0                 1.0                  406.0
+289336  stK4H8Vit6                                 1204-67S = 53S+602         0.0    2.0                      0                8.0        train  2006-05-17 09:21:47.0  1147857707000000000      0.168035                      1864.0                     0.635730              28.503845               0.776288                0.400000      18.0           3.0                   0.0             11.0                 2.0                 1926.0
+97958   tyU2s0MBzm                                 (975+15N)/3 = 4000         0.0    0.0                      1                6.0        train  2005-12-16 10:20:36.0  1134728436000000000      0.005491                      1211.0                     0.377374              20.992568               0.824112                0.800000      18.0           3.0                   1.0             10.0                 1.0                 4993.0
+136900  8gH5u019ZH                                        -7 = -5x+21         0.0    0.0                      1               20.0        train  2006-02-02 11:02:38.0  1138878158000000000      0.018303                       514.0                     0.264591              16.338521               0.834630                0.800000      11.0           4.0                   0.0              4.0                 1.0                   33.0
+219400  zBpW3sqPf6                                3+20 = 14x-7x-20+20         0.0    0.0                      1               15.0        train  2006-03-27 08:42:56.0  1143448976000000000      0.013727                       134.0                     0.358209              25.805970               0.686567                0.600000      19.0           5.0                   0.0             10.0                 2.0                   84.0
+35683   qL6HDg57R9                                    16x/16 = -37/16         0.0    0.0                      1                2.0        train  2005-10-17 09:16:53.0  1129540613000000000      0.001830                       581.0                     0.843373              19.717728               0.602410                0.800000      15.0           4.0                   0.0              8.0                 1.0                   85.0
+109572  6bJ4auIa8L                                   row1-D-21.5-18.6         0.0    0.0                      1                2.0        train  2006-01-06 08:38:44.0  1136536724000000000      0.001830                       968.0                     0.493802              18.388430               0.668388                0.800000      16.0           3.0                   0.0              7.0                 4.0                   51.0
+226840  l8bH01vT7z                                  -3.7-8.9y+y = 3.3         0.0    0.0                      1                3.0        train  2006-03-29 14:46:48.0  1143643608000000000      0.002745                       612.0                     0.344771              26.316993               0.841503                1.000000      17.0           4.0                   0.0              6.0                 2.0                   33.0
+25535   tyU2s0MBzm                                           y = -8/3         1.0    0.0                      0                4.0        train  2005-10-07 09:15:02.0  1128676502000000000      0.156921                       506.0                     0.395257              19.509881               0.794466                1.000000       8.0           3.0                   0.0              2.0                 1.0                   11.0
+127643  45TTYcotWk                                  1.9 = -49(y-62.2)         0.0    0.0                      1               77.0        train  2006-01-26 10:09:26.0  1138270166000000000      0.070466                       998.0                     0.539078              22.009018               0.708417                1.000000      17.0           3.0                   1.0              7.0                 1.0                  123.0
+3830    6W08a98ZQV                                         -5 = -1y+8         0.0    0.0                      1               12.0        train  2005-09-14 12:26:08.0  1126700768000000000      0.010982                       106.0                     0.216981              14.330189               0.839623                1.000000      10.0           4.0                   0.0              3.0                 1.0                   14.0
+123746  88Uhb8760x                                        -17 = 1y-7y         0.0    0.0                      1                6.0        train  2006-01-24 08:55:37.0  1138092937000000000      0.005491                      1511.0                     0.395103              22.014891               0.827929                0.800000      11.0           3.0                   0.0              4.0                 2.0                   25.0
+80183   bt0ZuHaCGY                                           -3x = -2         0.0    0.0                      1               10.0        train  2005-11-29 10:28:08.0  1133260088000000000      0.009151                       696.0                     0.250000              18.704023               0.856322                0.600000       8.0           3.0                   0.0              2.0                 1.0                    5.0
+264803  i8f2gg51r5                 42.68y = -1421.25504225-6157.1744y         2.0    3.0                      0               49.0        train  2006-04-27 08:25:48.0  1146126348000000000      0.217435                      1882.0                     0.246015              15.310308               0.835282                1.000000      34.0           3.0                   0.0             24.0                 2.0                 9432.0
+51201   2AMmebFl86                                     (36+39)*44 = y         0.0    0.0                      1                6.0        train  2005-10-26 14:48:46.0  1130338126000000000      0.005491                        57.0                     0.280702               7.543860               0.701754                0.600000      14.0           3.0                   1.0              6.0                 1.0                  119.0
+213991  81E41tTtV9                                12.99 = 5.19+10.99x         0.0    0.0                      1               12.0        train  2006-03-23 09:22:21.0  1143105741000000000      0.010982                      1281.0                     0.338798              15.111241               0.849336                1.000000      19.0           2.0                   0.0             11.0                 1.0                  244.0
+272673  39Uc7ru04l                                           row1-D-n         1.0    0.0                      0                7.0        train  2006-05-02 11:17:19.0  1146568639000000000      0.159667                      2119.0                     0.499292              21.076923               0.677206                1.000000       8.0           2.0                   0.0              1.0                 5.0                    1.0
+259057  CEA35ELhs4                                        H+1/3 = 7/3         0.0    0.0                      1                9.0        train  2006-04-25 09:32:23.0  1145957543000000000      0.008236                       181.0                     0.204420              36.801105               0.486188                0.800000      11.0           4.0                   0.0              4.0                 1.0                   14.0
+241619  Si4v9635O3                                          750 = 50T         0.0    0.0                      1                6.0        train  2006-04-10 08:52:57.0  1144659177000000000      0.005491                      1493.0                     0.476892              19.539183               0.816477                0.600000       9.0           1.0                   0.0              5.0                 1.0                  800.0
+59118   5yasLi1Avt                                            3/2 = y         1.0    0.0                      0                5.0        train  2005-11-01 14:24:31.0  1130855071000000000      0.157837                       413.0                     0.375303              15.782082               0.738499                1.000000       7.0           2.0                   0.0              2.0                 1.0                    5.0
+15795   5ey2xUDZTA                                        -2X/5 = -25         0.0    0.0                      1                4.0        train  2005-09-29 12:44:20.0  1127997860000000000      0.003661                        88.0                     0.045455               7.011364               0.897727                0.800000      11.0           4.0                   0.0              4.0                 1.0                   32.0
+298509  5SXHhHKGxC                                         x^2-16x+63         0.0    0.0                      1                6.0        train  2006-05-24 10:46:04.0  1148467564000000000      0.005491                       352.0                     0.150568              14.593750               0.923295                1.000000      10.0           2.0                   0.0              5.0                 2.0                   81.0
+46587   l5eh0S53tB                                             -x = 5         2.0    0.0                      0               27.0        train  2005-10-24 11:50:07.0  1130154607000000000      0.181231                      1124.0                     0.448399              17.163701               0.549822                0.800000       6.0           2.0                   0.0              1.0                 1.0                    5.0
+43425   LP15lX652E                                               4*-5         0.0    0.0                      1               12.0        train  2005-10-21 07:54:36.0  1129881276000000000      0.010982                       223.0                     0.206278              14.103139               0.847534                1.000000       4.0           2.0                   0.0              2.0                 0.0                    9.0
+183162  zfYl0YECr0                                       y+6-6 = -2-6         0.0    0.0                      1                4.0        train  2006-03-03 19:30:32.0  1141414232000000000      0.003661                        83.0                     0.060241               9.722892               0.951807                1.000000      12.0           5.0                   0.0              4.0                 1.0                   20.0
+65261   88Uhb8760x                                 -25y/-25 = -59/-25         0.0    0.0                      1               13.0        train  2005-11-09 09:27:49.0  1131528469000000000      0.011897                       564.0                     0.331560              22.280142               0.851064                1.000000      18.0           7.0                   0.0              8.0                 1.0                  134.0
+106790  XL0eQIoG72                                   0.35G+500 = 2.5G         0.0    0.0                      1                8.0        train  2006-01-04 12:32:44.0  1136377964000000000      0.007321                      1356.0                     0.458702              21.585546               0.778761                0.800000      16.0           2.0                   0.0              8.0                 2.0                  542.0
+155753  XUwJ9E07Zd                                         9 = -11x+1         0.0    0.0                      1                4.0        train  2006-02-21 09:31:31.0  1140514291000000000      0.003661                        64.0                     0.093750               9.140625               0.921875                1.000000      10.0           3.0                   0.0              4.0                 1.0                   21.0
+143970  OS2vxzjz6W                          (b+r*y)/r+x-x = (v-s)/r-x         0.0    0.0                      1                8.0        train  2006-02-09 10:16:57.0  1139480217000000000      0.007321                      1511.0                     0.632694              24.081733               0.670417                0.600000      25.0           9.0                   1.0              0.0                10.0                    0.0
+150263  z1iLCTB32T                                   -8+4 = 7x-7x-4+4         3.0    0.0                      0               27.0        train  2006-02-15 15:06:16.0  1140015976000000000      0.184491                       848.0                     1.666274              39.712264               0.489387                0.400000      16.0           6.0                   0.0              6.0                 2.0                   34.0
+46026   odPTXtfS78                                       7 = -7+10x+7         0.0    0.0                      1                3.0        train  2005-10-24 08:39:58.0  1130143198000000000      0.002745                       344.0                     0.392442              19.677326               0.755814                0.400000      12.0           4.0                   0.0              5.0                 1.0                   31.0
+98004   X5eS5kvC8h                                        j-c+c = y+c         0.0    0.0                      1                4.0        train  2005-12-16 10:23:20.0  1134728600000000000      0.003661                       588.0                     0.258503              15.171769               0.880952                0.600000      11.0           4.0                   0.0              0.0                 5.0                    0.0
+252376  tLgc420s9N                                             4 = 2X         0.0    0.0                      1               13.0        train  2006-04-20 10:52:32.0  1145530352000000000      0.011897                       195.0                     0.153846              18.584615               0.912821                1.000000       6.0           1.0                   0.0              2.0                 1.0                    6.0
+106129  oEt3YTvS4G                                           -2x = -8         0.0    0.0                      1               11.0        train  2006-01-04 08:25:36.0  1136363136000000000      0.010067                       193.0                     0.082902              14.787565               0.917098                1.000000       8.0           3.0                   0.0              2.0                 1.0                   10.0
+28250   6jCygPdswz                                     22 = -7.6y-19y         0.0    0.0                      1                3.0        train  2005-10-11 12:11:57.0  1129032717000000000      0.002745                       505.0                     0.386139              11.665347               0.756436                0.800000      14.0           3.0                   0.0              6.0                 2.0                   54.0
+112835  m58s5oOZCm                                    4.8x-2.6 = -3.4         1.0    0.0                      0               20.0        train  2006-01-10 11:07:44.0  1136891264000000000      0.171564                       885.0                     0.488136              14.832768               0.761582                1.000000      15.0           3.0                   0.0              6.0                 1.0                   27.0
+102405  oEt3YTvS4G                                        -28*-15 = x         0.0    0.0                      1                5.0        train  2005-12-21 08:54:54.0  1135155294000000000      0.004576                       182.0                     0.087912              13.895604               0.912088                1.000000      11.0           4.0                   0.0              4.0                 1.0                   43.0
+204504  6A16l70g5Q                                          7y = 5-2x         0.0    0.0                      1                5.0        train  2006-03-17 08:58:08.0  1142585888000000000      0.004576                       248.0                     0.161290              13.608871               0.927419                0.800000       9.0           2.0                   0.0              3.0                 2.0                   14.0
+103306  XL0eQIoG72                                          0.5P = 35         0.0    0.0                      1                5.0        train  2005-12-21 11:29:01.0  1135164541000000000      0.004576                      1328.0                     0.463102              21.798193               0.777861                0.800000       9.0           1.0                   0.0              4.0                 1.0                   40.0
+[2026-04-11 19:23:53] INFO: Feature engineering completado.
+[2026-04-11 19:23:53] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 19:23:53] INFO: Split series detectada: True.
+[2026-04-11 19:23:53] INFO: Time series detectada: True.
+[2026-04-11 19:23:53] INFO: Groups detectados: True.
+[2026-04-11 19:23:53] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 19:23:53] INFO: Entrenando: random_forest...
+[2026-04-11 19:26:08] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 19:26:08] INFO: Entrenando: logistic_regression...
+[2026-04-11 19:26:09] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 19:26:09] INFO: Entrenando: gradient_boosting...
+[2026-04-11 19:28:53] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5149 auc=0.7037
+[2026-04-11 19:29:10] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5138).
+[2026-04-11 19:29:24] INFO: Entrenamiento completado.
+[2026-04-11 19:29:24] INFO: Mejor modelo: random_forest
+[2026-04-11 19:29:24] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 19:29:24] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 19:29:24] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
+[2026-04-11 21:53:45] INFO: ========================================
+[2026-04-11 21:53:45] INFO: INICIO -> Iniciando pipeline de entrenamiento...
+[2026-04-11 21:53:45] INFO: Cargando dataset...
+[2026-04-11 21:53:51] INFO: Archivo KDD detectado: algebra_2005_2006_train.txt (split: train). Filas: 809694.
+[2026-04-11 21:53:51] INFO: Archivo KDD detectado: algebra_2005_2006_test.txt (split: test). Filas: 3967.
+[2026-04-11 21:53:51] INFO: Datos KDD detectados: 813661 filas (pre-limpieza).
+[2026-04-11 21:53:52] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 21:53:52] INFO: Capping hints al percentil 99.9.
+[2026-04-11 21:53:52] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 21:53:52] INFO: Datos KDD limpiados. Filas tras limpieza: 813661.
+[2026-04-11 21:53:52] INFO: Capping incorrects al percentil 99.9.
+[2026-04-11 21:53:53] INFO: Capping hints al percentil 99.9.
+[2026-04-11 21:53:53] INFO: Capping step_duration_sec al percentil 99.9.
+[2026-04-11 21:53:53] INFO: Dataset tras aplicar reglas: 813690 filas.
+[2026-04-11 21:53:53] INFO: Blacklist de step_name cargada: 154 nombres a filtrar.
+[2026-04-11 21:53:53] INFO: Dataset tras aplicar reglas: 301027 filas.
+[2026-04-11 21:53:53] INFO: Dataset cargado: 301027 filas.
+[2026-04-11 21:53:53] INFO: Construyendo features (include_target=True)...
+[2026-04-11 21:53:54] INFO: Construyendo effort_score con pesos: inc=0.15, hints=0.15, time=0.35, fail_penalty=0.15.
+[2026-04-11 21:53:54] INFO: Effort score construido. Estadísticas:
+[2026-04-11 21:53:54] INFO: count    301027.000000
+mean          0.053315
+std           0.084720
+min           0.000000
+25%           0.005491
+50%           0.010067
+75%           0.045757
+max           0.912888
+dtype: float64
+[2026-04-11 21:53:57] INFO: Features listas. Filas: 301027.
+[2026-04-11 21:53:57] INFO: Dataset tras feature engineering: 301027 filas, 11 features.
+[2026-04-11 21:53:57] INFO: Dataset tras feature engineering (100 filas de ejemplo):
+        student_id                                         step_name  incorrects  hints  correct_first_attempt  step_duration_sec source_split              timestamp          event_order  effort_score  student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+17877   g209g5Vve6                                          y = -t*x         0.0    0.0                      1                7.0        train  2005-09-30 12:26:00.0  1128083160000000000      0.006406                       367.0                     0.291553              13.760218               0.871935                     0.8       8.0           3.0                   0.0              0.0                 3.0                    0.0
+57098   USdRVl9AOe                                        x = -3*-39         0.0    0.0                      1                5.0        train  2005-11-01 09:37:54.0  1130837874000000000      0.004576                       375.0                     0.077333              24.112000               0.605333                     0.4      10.0           4.0                   0.0              3.0                 1.0                   42.0
+21459   6bJ4auIa8L                                          -8-9 = y         0.0    0.0                      1                6.0        train  2005-10-05 08:51:07.0  1128502267000000000      0.005491                        93.0                     0.494624              11.956989               0.720430                     0.2       8.0           3.0                   0.0              2.0                 1.0                   17.0
+134447  Fx8d98DRud                                         H+12 = 42         0.0    0.0                      1               10.0        train  2006-02-01 08:52:39.0  1138783959000000000      0.009151                       514.0                     0.344358              33.815175               0.717899                     0.4       9.0           2.0                   0.0              4.0                 1.0                   54.0
+251178  QUcO70Q91P                                     k*c+r-r = 7-r         0.0    0.0                      1                9.0        train  2006-04-20 09:30:03.0  1145525403000000000      0.008236                       356.0                     0.264045              28.162921               0.879213                     1.0      13.0           5.0                   0.0              1.0                 5.0                    7.0
+222782  8cSO1GK90W                              -9/-6.5 = -6.5x/-6.5         1.0    0.0                      0               42.0        train  2006-03-28 10:30:26.0  1143541826000000000      0.191697                       132.0                     0.159091              22.242424               0.825758                     1.0      20.0           7.0                   0.0              7.0                 1.0                   42.0
+66462   Dmq6441349                           -4.4-7.1 = 9.6x+7.1-7.1         0.0    0.0                      1                5.0        train  2005-11-10 09:51:57.0  1131616317000000000      0.004576                       443.0                     0.119639              11.902935               0.889391                     1.0      23.0           5.0                   0.0             10.0                 1.0                   47.0
+6866    bt0ZuHaCGY                                            1(4+8)         0.0    0.0                      1                5.0        train  2005-09-20 11:13:39.0  1127214819000000000      0.004576                        32.0                     0.000000               8.625000               0.750000                     1.0       6.0           1.0                   1.0              3.0                 0.0                   13.0
+196814  odPTXtfS78                               -r = (x*s-6u)/(u+w)         1.0    3.0                      0               26.0        train  2006-03-13 09:57:23.0  1142243843000000000      0.193126                      1189.0                     0.556770              26.398654               0.716569                     0.4      19.0           6.0                   1.0              1.0                 6.0                    6.0
+251496  740FTSQ19O                                   -35-2.5H = -100         0.0    0.0                      1               13.0        train  2006-04-20 09:59:02.0  1145527142000000000      0.011897                       228.0                     0.460526              24.434211               0.837719                     1.0      15.0           4.0                   0.0              7.0                 1.0                  142.0
+95672   Dmq6441349                                         3/n = -5h         3.0    0.0                      0               22.0        train  2005-12-15 10:24:28.0  1134642268000000000      0.179916                       682.0                     0.134897              14.938416               0.900293                     0.8       9.0           3.0                   0.0              2.0                 2.0                    8.0
+205280  081u59Iq1D                                        -1x-6 = -2         0.0    0.0                      1               12.0        train  2006-03-17 10:57:54.0  1142593074000000000      0.010982                       138.0                     0.072464              13.065217               0.934783                     0.6      10.0           4.0                   0.0              3.0                 1.0                    9.0
+277293  wz0V4oY4Z2                                   -x+20-46x = -21         0.0    0.0                      1                0.0        train  2006-05-05 09:01:51.0  1146819711000000000      0.000000                       130.0                     0.138462              20.646154               0.846154                     0.8      15.0           5.0                   0.0              6.0                 2.0                   87.0
+131398  h0UbH181l8                                9.4 = 6.3x-8.9+8.9         0.0    0.0                      1                8.0        train  2006-01-30 09:56:48.0  1138615008000000000      0.007321                       818.0                     0.584352              24.370416               0.776284                     1.0      18.0           3.0                   0.0              8.0                 1.0                   56.0
+71314   LnVZmUuwc8                                           x+2 = 5         0.0    0.0                      1               12.0        train  2005-11-16 11:37:01.0  1132141021000000000      0.010982                       591.0                     0.274112              10.455161               0.798646                     1.0       7.0           2.0                   0.0              2.0                 1.0                    7.0
+42795   ajPRq0Q08b                                        0.5D = 145         0.0    0.0                      1                5.0        train  2005-10-20 13:34:44.0  1129815284000000000      0.004576                       448.0                     0.379464              12.260045               0.767857                     0.8      10.0           1.0                   0.0              5.0                 1.0                  150.0
+41614   hwF4tyWU50                                (-22y-20)/-32 = 37         0.0    0.0                      1                9.0        train  2005-10-20 09:57:22.0  1129802242000000000      0.008236                       617.0                     0.085900              13.272285               0.923825                     0.8      18.0           5.0                   1.0              8.0                 1.0                  111.0
+282514  7cEjwssz1R            (-320+sqrt(320^2-4*-16*-1000))/-32 = t         0.0    0.0                      1                3.0        train  2006-05-10 09:25:58.0  1147253158000000000      0.002745                       479.0                     0.108559              10.037578               0.916493                     0.8      38.0          10.0                   1.0             16.0                 5.0                 1694.0
+207065  075kbY53c1                                             g*xR2         0.0    0.0                      1                4.0        train  2006-03-20 10:20:22.0  1142850022000000000      0.003661                      1657.0                     0.802655              23.164756               0.674713                     0.8       5.0           1.0                   0.0              1.0                 3.0                    2.0
+229316  c1zVCHxCEz                               (-6+sqrt(4))/16 = x         1.0    0.0                      0                7.0        train  2006-03-31 08:27:21.0  1143793641000000000      0.159667                      1654.0                     0.191657              12.592503               0.846433                     0.8      19.0           4.0                   1.0              4.0                 5.0                   26.0
+118049  XNEgfvXx50                                         7X+51 = 0         0.0    0.0                      1                4.0        train  2006-01-13 13:56:17.0  1137160577000000000      0.003661                       739.0                     0.202977              20.106901               0.890392                     1.0       9.0           2.0                   0.0              4.0                 1.0                   58.0
+4403    6Ax4SKe470                                  34.8y = -3073.68         0.0    0.0                      1                8.0        train  2005-09-14 14:09:13.0  1126706953000000000      0.007321                       125.0                     0.168000              12.208000               0.856000                     1.0      16.0           2.0                   0.0              9.0                 1.0                 3183.0
+74946   t4K5z0e2NZ                                       6 = -3+8x+x         0.0    0.0                      1                6.0        train  2005-11-18 10:03:54.0  1132308234000000000      0.005491                       469.0                     0.234542              13.326226               0.837953                     1.0      11.0           4.0                   0.0              3.0                 2.0                   17.0
+4732    l5eh0S53tB                                             9+4*3         0.0    0.0                      1               13.0        train  2005-09-15 11:32:25.0  1126783945000000000      0.011897                        47.0                     0.191489               7.723404               0.638298                     1.0       5.0           2.0                   0.0              3.0                 0.0                   16.0
+221999  04N6FdP4pd                                         5X = -525         0.0    0.0                      1                4.0        train  2006-03-28 09:39:10.0  1143538750000000000      0.003661                        41.0                     0.000000               7.756098               0.951220                     1.0       9.0           2.0                   0.0              4.0                 1.0                  530.0
+82199   3hSu07XfGd                    -4275.86(x-1018.19) = -6737.02         0.0    0.0                      1                4.0        train  2005-11-30 08:22:53.0  1133338973000000000      0.003661                       551.0                     0.154265              10.136116               0.872958                     0.8      30.0           4.0                   1.0             18.0                 1.0                12137.0
+239081  dTIQk6Xt3r                                       -n/z*z = 6z         0.0    2.0                      0               14.0        train  2006-04-06 10:51:16.0  1144320676000000000      0.173526                       900.0                     0.260000              27.077778               0.785556                     0.6      11.0           4.0                   0.0              1.0                 4.0                    6.0
+159448  b4NIYojEYn                                      2867.8 = 60x         0.0    0.0                      1                8.0        train  2006-02-22 09:59:19.0  1140602359000000000      0.007321                        49.0                     0.040816              12.632653               0.938776                     1.0      12.0           1.0                   0.0              7.0                 1.0                 2935.0
+1932    9hs21hUG5O                                   -5y/-5 = -10/-5         0.0    0.0                      1                6.0        train  2005-09-09 12:31:06.0  1126269066000000000      0.005491                        20.0                     0.000000              19.450000               0.800000                     1.0      15.0           7.0                   0.0              5.0                 1.0                   25.0
+185932  USdRVl9AOe                                             x*zR2         0.0    0.0                      1               10.0        train  2006-03-07 09:42:37.0  1141724557000000000      0.009151                      1351.0                     0.148038              20.840489               0.742413                     1.0       5.0           1.0                   0.0              1.0                 3.0                    2.0
+23812   qL6HDg57R9                                    11/-5 = -5y/-5         2.0    0.0                      0               15.0        train  2005-10-06 11:27:18.0  1128598038000000000      0.170249                       423.0                     0.895981              18.669031               0.591017                     0.4      14.0           6.0                   0.0              5.0                 1.0                   26.0
+253657  B7l5Zfxxu6  214.83y-(-875.51y) = -875.51y+1228.66-(-875.51y)         0.0    0.0                      1               76.0        train  2006-04-21 08:35:09.0  1145608509000000000      0.069551                       674.0                     0.639466              29.663205               0.654303                     0.8      48.0           7.0                   1.0             26.0                 4.0                 4369.0
+288192  3k85qY4Y2B                                    35/-5 = -5x/-5         0.0    0.0                      1               33.0        train  2006-05-16 09:38:23.0  1147772303000000000      0.030200                       349.0                     0.501433              35.951292               0.713467                     0.8      14.0           6.0                   0.0              5.0                 1.0                   50.0
+150002  yB480DNZ70                                            1 = 8y         0.0    0.0                      1                7.0        train  2006-02-15 14:46:19.0  1140014779000000000      0.006406                       954.0                     0.480084              24.898323               0.699161                     1.0       6.0           1.0                   0.0              2.0                 1.0                    9.0
+239621  YvD7H8XduF                                       2X = 170-9X         0.0    0.0                      1               11.0        train  2006-04-06 14:09:51.0  1144332591000000000      0.010067                       325.0                     0.255385              16.701538               0.886154                     1.0      11.0           2.0                   0.0              5.0                 2.0                  181.0
+154263  5yasLi1Avt                                      20 = -40y+4y         3.0    0.0                      0               54.0        train  2006-02-17 13:48:32.0  1140184112000000000      0.209200                      1175.0                     0.360000              23.034043               0.788085                     0.6      12.0           3.0                   0.0              5.0                 2.0                   64.0
+133724  LP15lX652E                     -42.7y+42.8-42.8 = -26.2-42.8         0.0    0.0                      1                8.0        train  2006-01-31 14:52:28.0  1138719148000000000      0.007321                       701.0                     0.358060              20.450785               0.813124                     0.8      29.0           6.0                   0.0             15.0                 1.0                  227.0
+189352  XJyS25Yg27               w*(-d+g)/(-d+g) = (-b*c+f*h)/(-d+g)         0.0    0.0                      1               22.0        train  2006-03-08 08:28:29.0  1141806509000000000      0.020133                       983.0                     0.189217              14.476094               0.869786                     1.0      35.0          14.0                   1.0              0.0                11.0                    0.0
+151463  EWHJMBPf94                                     -x-16.6x = 26         0.0    0.0                      1                9.0        train  2006-02-16 11:24:59.0  1140089099000000000      0.008236                       576.0                     0.147569               7.220486               0.897569                     1.0      13.0           3.0                   0.0              5.0                 2.0                   48.0
+58898   2J2SH6Fk63                                            9*-2-3         0.0    0.0                      1                8.0        train  2005-11-01 14:09:53.0  1130854193000000000      0.007321                       246.0                     0.276423              14.174797               0.800813                     1.0       6.0           3.0                   0.0              3.0                 0.0                   14.0
+201415  b4NIYojEYn                                2-2x+6x = -1-6x+6x         3.0    2.0                      1              119.0        train  2006-03-15 10:43:40.0  1142419420000000000      0.129399                       214.0                     0.065421              16.878505               0.948598                     1.0      18.0           6.0                   0.0              6.0                 4.0                   23.0
+231131  dvG32rxRzQ                                     550X = -45550         0.0    0.0                      1                5.0        train  2006-04-03 07:52:50.0  1144050770000000000      0.004576                      1854.0                     0.155340               9.567152               0.855987                     0.8      13.0           2.0                   0.0              8.0                 1.0                  550.0
+71994   6Ax4SKe470                                   14.99y = -11.77         0.0    0.0                      1                7.0        train  2005-11-16 14:15:24.0  1132150524000000000      0.006406                       838.0                     0.402148              15.595465               0.773270                     0.6      15.0           2.0                   0.0              8.0                 1.0                  201.0
+162342  QUcO70Q91P                                       2-m+m = s+m         0.0    0.0                      1                6.0        train  2006-02-23 08:41:56.0  1140684116000000000      0.005491                        72.0                     0.069444              23.444444               0.916667                     1.0      11.0           4.0                   0.0              1.0                 4.0                    2.0
+284149  0w8srd7i18                                       3(x+2) = 15         3.0    0.0                      0              184.0        train  2006-05-11 10:07:30.0  1147342050000000000      0.328169                       247.0                     0.165992              30.036437               0.846154                     0.8      11.0           2.0                   1.0              4.0                 1.0                   20.0
+174759  LM96hW22T2                                          row3-N-u         1.0    0.0                      0                4.0        train  2006-03-01 08:55:08.0  1141203308000000000      0.156921                      1720.0                     0.259302              12.003488               0.311047                     0.6       8.0           2.0                   0.0              1.0                 5.0                    3.0
+66627   Dmq6441349                             -38.2 = -0.4-2.2y+32y         0.0    0.0                      1               29.0        train  2005-11-10 10:06:04.0  1131617164000000000      0.026539                       468.0                     0.119658              12.448718               0.888889                     1.0      21.0           5.0                   0.0              9.0                 2.0                   80.0
+238142  D4md1bS6DC             38.14/-35.12 = -35.12(x+67.91)/-35.12         0.0    0.0                      1               37.0        train  2006-04-06 09:22:23.0  1144315343000000000      0.033860                       323.0                     0.179567              19.055728               0.860681                     1.0      37.0           7.0                   1.0             20.0                 1.0                  351.0
+72789   4X3016rdOZ                                      0.25L = 16.5         0.0    0.0                      1                4.0        train  2005-11-17 11:11:08.0  1132225868000000000      0.003661                       594.0                     0.269360              14.510099               0.828283                     1.0      12.0           1.0                   0.0              6.0                 1.0                   46.0
+62885   2J2SH6Fk63                                      3-1y-3 = 8-3         0.0    0.0                      1                8.0        train  2005-11-03 13:55:31.0  1131026131000000000      0.007321                       323.0                     0.346749              13.981424               0.792570                     0.8      12.0           4.0                   0.0              5.0                 1.0                   18.0
+194164  st945Ucdi6                            -5.6x/-5.6 = -3.9/-5.6         0.0    0.0                      1               20.0        train  2006-03-09 13:56:29.0  1141912589000000000      0.018303                       186.0                     0.166667              13.618280               0.887097                     1.0      22.0           7.0                   0.0              8.0                 1.0                   45.0
+292563  1CI7f2R98c                                 c*j+s*u = n*q-w*u         0.0    0.0                      1               55.0        train  2006-05-18 13:06:17.0  1147957577000000000      0.050333                      1075.0                     0.283721              17.919070               0.824186                     0.2      17.0           7.0                   0.0              0.0                 8.0                    0.0
+19518   i8f2gg51r5                                     m*k-n*m = g*s         1.0    0.0                      0                8.0        train  2005-10-03 11:38:09.0  1128339489000000000      0.160582                       911.0                     0.212953              14.025247               0.870472                     1.0      13.0           5.0                   0.0              0.0                 6.0                    0.0
+222449  7o7172ufx2                     3652.14(x-1541.23) = -3141.81         0.0    0.0                      1                7.0        train  2006-03-28 10:10:24.0  1143540624000000000      0.006406                       210.0                     0.042857              18.390476               0.957143                     1.0      29.0           3.0                   1.0             18.0                 1.0                 8452.0
+200584  7rP4RofmNF                                          7r = b-y         0.0    3.0                      0               42.0        train  2006-03-15 09:20:44.0  1142414444000000000      0.204507                       115.0                     0.313043              28.573913               0.756522                     0.6       8.0           2.0                   0.0              1.0                 3.0                    7.0
+294556  OPv5PP9Bi4                                          36 = 45x         0.0    0.0                      1                8.0        train  2006-05-19 09:46:05.0  1148031965000000000      0.007321                       248.0                     0.125000              14.536290               0.923387                     1.0       8.0           1.0                   0.0              4.0                 1.0                   81.0
+266781  ZP886G3Z76                                          0.5H = 7         0.0    0.0                      1                6.0        train  2006-04-27 11:10:47.0  1146136247000000000      0.005491                      1155.0                     0.215584              21.148918               0.889177                     1.0       8.0           1.0                   0.0              3.0                 1.0                   12.0
+203715  66Ak255E3j                               3500(B+20) = 217000         0.0    0.0                      1               15.0        train  2006-03-16 13:51:55.0  1142517115000000000      0.013727                       643.0                     0.083981              18.046656               0.928460                     1.0      19.0           2.0                   1.0             12.0                 1.0                 3520.0
+279715  dVqVsN8nD8                                -y+25.6+27y = 27.2         0.0    0.0                      1               47.0        train  2006-05-09 09:01:23.0  1147165283000000000      0.043012                       216.0                     0.208333              25.291667               0.898148                     1.0      18.0           4.0                   0.0              8.0                 2.0                   87.0
+24494   81E41tTtV9                                      (4+20)*9 = x         0.0    0.0                      1                3.0        train  2005-10-07 07:45:35.0  1128671135000000000      0.002745                        50.0                     0.020000               5.120000               0.780000                     1.0      12.0           3.0                   1.0              4.0                 1.0                   33.0
+47127   80nlN05JQ6                                         7x+5 = -4         0.0    0.0                      1               13.0        train  2005-10-25 10:02:43.0  1130234563000000000      0.011897                       540.0                     0.646296              19.953704               0.631481                     0.6       9.0           3.0                   0.0              3.0                 1.0                   16.0
+298412  41qrfb88lU                                         -2x+0 = 9         0.0    0.0                      1                8.0        train  2006-05-24 10:21:08.0  1148466068000000000      0.007321                       418.0                     0.258373              28.729665               0.844498                     1.0       9.0           3.0                   0.0              3.0                 1.0                   11.0
+194707  LM96hW22T2                                -5.3(x+0.5) = -3.8         0.0    0.0                      1               37.0        train  2006-03-10 08:44:43.0  1141980283000000000      0.033860                      1987.0                     0.290388              12.647458               0.326623                     0.4      18.0           4.0                   1.0              6.0                 1.0                   24.0
+118972  bcoY3s64sj                                         5P = -525         0.0    0.0                      1               15.0        train  2006-01-18 10:18:44.0  1137579524000000000      0.013727                       670.0                     0.535821              29.214925               0.725373                     1.0       9.0           2.0                   0.0              4.0                 1.0                  530.0
+151724  1CI7f2R98c                         -29.2x/-29.2 = 45.4/-29.2         0.0    0.0                      1               12.0        train  2006-02-16 12:50:27.0  1140094227000000000      0.010982                       474.0                     0.183544              14.470464               0.879747                     1.0      25.0           6.0                   0.0             12.0                 1.0                  142.0
+36909   11fnXrq9Jf                                        1-(-9) = y         0.0    0.0                      1                8.0        train  2005-10-18 10:02:05.0  1129629725000000000      0.007321                       140.0                     0.464286              17.407143               0.728571                     0.8      10.0           3.0                   1.0              2.0                 1.0                   10.0
+141956  0U9x5pNv8t                                          y = 0+12         1.0    0.0                      0               10.0        train  2006-02-07 13:57:09.0  1139320629000000000      0.162412                      1930.0                     0.465285              17.776166               0.769948                     0.4       8.0           2.0                   0.0              3.0                 1.0                   12.0
+242327  stK4H8Vit6                                 -1x+(-50x)+80 = 1         0.0    0.0                      1               16.0        train  2006-04-10 10:04:15.0  1144663455000000000      0.014642                      1395.0                     0.678136              29.363561               0.774194                     1.0      17.0           5.0                   1.0              6.0                 2.0                  132.0
+89281   589M2uPIY4                                         -6x = 8-4         0.0    0.0                      1                4.0        train  2005-12-07 08:18:45.0  1133943525000000000      0.003661                       341.0                     0.439883              20.387097               0.753666                     0.4       9.0           3.0                   0.0              3.0                 1.0                   18.0
+1891    0BrbPbwCMz                                           9y = -1         0.0    0.0                      1                5.0        train  2005-09-09 12:29:36.0  1126268976000000000      0.004576                        11.0                     0.454545              25.090909               0.545455                     0.8       7.0           2.0                   0.0              2.0                 1.0                   10.0
+223049  SoEcLAeJi1                                  -1 = -50x-100+5x         0.0    0.0                      1                7.0        train  2006-03-28 10:48:46.0  1143542926000000000      0.006406                       872.0                     0.336009              31.158257               0.819954                     0.6      16.0           5.0                   0.0              7.0                 2.0                  156.0
+161362  1to8tgu4IT                                           11x = 0         0.0    0.0                      1                6.0        train  2006-02-22 14:05:28.0  1140617128000000000      0.005491                       776.0                     0.329897              30.828608               0.838918                     1.0       7.0           1.0                   0.0              3.0                 1.0                   11.0
+187724  Axp5cwW7T8                                          D+5 = 17         0.0    0.0                      1                7.0        train  2006-03-07 10:44:35.0  1141728275000000000      0.006406                       189.0                     0.492063              21.888889               0.820106                     1.0       8.0           2.0                   0.0              3.0                 1.0                   22.0
+174845  DykSLZf35a                                    -660 = -47y-19         0.0    0.0                      1               23.0        train  2006-03-01 08:59:53.0  1141203593000000000      0.021048                        75.0                     0.213333              23.826667               0.906667                     0.4      14.0           4.0                   0.0              7.0                 1.0                  726.0
+152320  Hd9GW3f95j                                (15R+975)/3 = 4000         0.0    0.0                      1               44.0        train  2006-02-16 14:10:21.0  1140099021000000000      0.040266                      1224.0                     0.296569              19.297386               0.821078                     0.8      18.0           3.0                   1.0             10.0                 1.0                 4993.0
+253284  WD2Q7495E0                                   -4y/-4 = -12/-4         0.0    0.0                      1               12.0        train  2006-04-20 14:19:22.0  1145542762000000000      0.010982                        71.0                     0.338028              13.760563               0.704225                     0.4      15.0           7.0                   0.0              5.0                 1.0                   24.0
+59678   jR1rpwLHNu                                               3+9         0.0    0.0                      1                3.0        train  2005-11-02 08:35:02.0  1130920502000000000      0.002745                        58.0                     0.293103              15.793103               0.672414                     0.8       3.0           1.0                   0.0              2.0                 0.0                   12.0
+163559  QQTAp3k3UP                                       840 = 104/y         0.0    0.0                      1                7.0        train  2006-02-23 10:11:10.0  1140689470000000000      0.006406                       102.0                     0.352941              27.078431               0.843137                     1.0      11.0           2.0                   0.0              6.0                 1.0                  944.0
+122229  81E41tTtV9                                     7+5.7 = -1.6y         0.0    0.0                      1                4.0        train  2006-01-20 09:21:04.0  1137748864000000000      0.003661                       648.0                     0.265432              12.347994               0.848765                     1.0      13.0           3.0                   0.0              5.0                 1.0                   26.0
+73450   yuB6nxh3FX                                         y = 78/13         1.0    0.0                      0                9.0        train  2005-11-17 14:20:43.0  1132237243000000000      0.161497                       614.0                     0.584691              19.307818               0.615635                     1.0       9.0           2.0                   0.0              4.0                 1.0                   91.0
+45201   9hs21hUG5O                               10.4(y-37.5) = -5.1         0.0    0.0                      1                5.0        train  2005-10-21 12:42:59.0  1129898579000000000      0.004576                       244.0                     0.176230              22.573770               0.897541                     1.0      19.0           3.0                   1.0              8.0                 1.0                   62.0
+221472  3k85qY4Y2B                                     8500-250M = 0         0.0    0.0                      1               11.0        train  2006-03-28 08:51:40.0  1143535900000000000      0.010067                       218.0                     0.481651              34.142206               0.642202                     0.8      13.0           2.0                   0.0              8.0                 1.0                 8750.0
+172598  77y7iIIXuv                                 14/-16 = -16X/-16         0.0    0.0                      1                6.0        train  2006-02-28 11:25:03.0  1141125903000000000      0.005491                      1321.0                     0.438304              19.664648               0.772899                     0.8      17.0           6.0                   0.0              8.0                 1.0                   62.0
+43218   yuB6nxh3FX                                           0 = -6y         0.0    0.0                      1               28.0        train  2005-10-20 14:19:31.0  1129817971000000000      0.025624                       447.0                     0.624161              20.760626               0.612975                     1.0       7.0           2.0                   0.0              2.0                 1.0                    6.0
+38860   5a5qA8VLfI                                      3X/4 = 75000         1.0    0.0                      0               29.0        train  2005-10-18 14:18:50.0  1129645130000000000      0.179800                       518.0                     0.720077              22.864865               0.754826                     1.0      12.0           2.0                   0.0              7.0                 1.0                    7.0
+204565  7rP4RofmNF                                       2+t*v = z*t         0.0    3.0                      0               18.0        train  2006-03-17 09:10:12.0  1142586612000000000      0.182544                       159.0                     0.345912              28.433962               0.698113                     0.4      11.0           4.0                   0.0              1.0                 4.0                    2.0
+168436  5ey2xUDZTA                                        0.8X = 530         0.0    0.0                      1                4.0        train  2006-02-24 12:16:52.0  1140783412000000000      0.003661                       678.0                     0.134218              12.234021               0.799410                     0.8      10.0           1.0                   0.0              5.0                 1.0                  538.0
+75454   hwF4tyWU50                                          M-4 = 20         0.0    0.0                      1                6.0        train  2005-11-18 13:09:15.0  1132319355000000000      0.005491                       776.0                     0.094072              13.976804               0.926546                     1.0       8.0           2.0                   0.0              3.0                 1.0                   24.0
+247133  gPaagaJ8aq                                   4 = -1x+4(9x+1)         0.0    0.0                      1                8.0        train  2006-04-18 14:39:49.0  1145371189000000000      0.007321                      1143.0                     0.342957              23.480315               0.771654                     1.0      15.0           4.0                   1.0              5.0                 2.0                   19.0
+188972  EV28POlwE4                        -0.73434125 = -46.3y/-46.3         0.0    0.0                      1                4.0        train  2006-03-07 15:08:41.0  1141744121000000000      0.003661                       702.0                     0.403134              19.179487               0.675214                     1.0      26.0           5.0                   0.0             15.0                 1.0                   98.0
+137937  34f4oB5Cod                                          17/w = b         0.0    0.0                      1                6.0        train  2006-02-03 08:20:25.0  1138954825000000000      0.005491                      1021.0                     0.158668              12.658178               0.806072                     0.4       8.0           2.0                   0.0              2.0                 2.0                   17.0
+76432   l5eh0S53tB                                13200 = 10560+250A         0.0    0.0                      1               11.0        train  2005-11-21 11:19:58.0  1132571998000000000      0.010067                      1915.0                     0.479896              20.704178               0.583812                     0.6      18.0           2.0                   0.0             13.0                 1.0                  250.0
+80798   88Uhb8760x                                       2 = (z-v)*t         0.0    0.0                      1               14.0        train  2005-11-29 12:08:42.0  1133266122000000000      0.012812                      1008.0                     0.370040              22.431548               0.853175                     0.8      11.0           3.0                   1.0              1.0                 3.0                    2.0
+214812  OCmTg4ha6w                                           3y = -4         0.0    2.0                      0               18.0        train  2006-03-23 10:42:52.0  1143110572000000000      0.177187                       214.0                     0.112150              22.925234               0.471963                     0.6       7.0           2.0                   0.0              2.0                 1.0                    7.0
+77969   3hSu07XfGd                                  -8y-80+80 = 4+80         0.0    0.0                      1                9.0        train  2005-11-23 08:50:09.0  1132735809000000000      0.008236                       515.0                     0.149515               9.848544               0.875728                     1.0      16.0           5.0                   0.0              8.0                 1.0                  252.0
+100298  9EAa0nJjb1                                          row1-N-b         0.0    0.0                      1                7.0        train  2005-12-20 10:08:54.0  1135073334000000000      0.006406                       712.0                     0.400281              24.691011               0.793539                     0.6       8.0           2.0                   0.0              1.0                 5.0                    1.0
+122768  h0UbH181l8                                      (4-10)/7 = x         0.0    0.0                      1                7.0        train  2006-01-20 10:08:04.0  1137751684000000000      0.006406                       579.0                     0.616580              23.889465               0.765112                     0.6      12.0           3.0                   1.0              4.0                 1.0                   21.0
+111179  DS5ecUMGJi                                      0.25L = 21.5         0.0    0.0                      1                5.0        train  2006-01-09 09:01:34.0  1136797294000000000      0.004576                       404.0                     0.423267              22.811881               0.747525                     0.8      12.0           1.0                   0.0              6.0                 1.0                   51.0
+176449  GlZwe88Gzo                                             8+4*3         0.0    0.0                      1                5.0        train  2006-03-01 13:01:59.0  1141218119000000000      0.004576                        24.0                     0.000000               9.416667               0.916667                     1.0       5.0           2.0                   0.0              3.0                 0.0                   15.0
+254915  Un24RpQEWg                                 y*t-f*w = h*(b-x)         0.0    0.0                      1               11.0        train  2006-04-21 10:48:16.0  1145616496000000000      0.010067                       263.0                     0.201521              17.019011               0.889734                     1.0      17.0           6.0                   1.0              0.0                 7.0                    0.0
+[2026-04-11 21:53:57] INFO: Feature engineering completado.
+[2026-04-11 21:53:57] INFO: Features y target separados. Features: 11, Filas: 301027.
+[2026-04-11 21:53:57] INFO: Features (100 filas de ejemplo):
+        student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+234620                       567.0                     0.447972              24.263226               0.677249                0.800000      35.0           5.0                   0.0             20.0                 3.0                  371.0
+230791                       793.0                     0.201765              13.978562               0.810845                0.800000      13.0           1.0                   1.0              4.0                 2.0                   14.0
+191888                      1073.0                     0.186393              14.614166               0.870457                0.800000       9.0           3.0                   0.0              0.0                 4.0                    0.0
+255494                      1220.0                     0.401639              15.872131               0.838525                1.000000      17.0           3.0                   1.0              3.0                 5.0                   20.0
+111184                        46.0                     0.173913              17.173913               0.891304                1.000000      10.0           1.0                   0.0              6.0                 1.0                  941.0
+249475                       257.0                     0.097276              18.019455               0.910506                0.600000      20.0           7.0                   1.0              7.0                 2.0                   51.0
+182730                      1229.0                     0.353946              14.390561               0.764036                1.000000      11.0           3.0                   1.0              3.0                 1.0                   14.0
+14419                        663.0                     0.227753              14.301659               0.852187                1.000000      16.0           2.0                   1.0              6.0                 1.0                   30.0
+124506                       946.0                     0.095137              14.013742               0.927061                1.000000      23.0           6.0                   0.0             14.0                 1.0                 1184.0
+227557                       177.0                     0.152542              15.740113               0.892655                0.800000      14.0           2.0                   0.0              9.0                 1.0                    8.0
+226602                      1165.0                     0.406867              16.136481               0.800000                1.000000      22.0           7.0                   0.0             11.0                 2.0                  887.0
+104577                       370.0                     0.289189              28.886486               0.835135                1.000000      15.0           7.0                   0.0              5.0                 1.0                   32.0
+81047                       1300.0                     0.246154              10.907692               0.849231                0.600000      27.0           8.0                   1.0              0.0                 9.0                    0.0
+205212                        76.0                     0.236842              27.763158               0.855263                1.000000      12.0           5.0                   0.0              3.0                 2.0                    9.0
+38801                        145.0                     0.165517              11.510345               0.813793                1.000000      11.0           3.0                   0.0              4.0                 1.0                   19.0
+89905                       1014.0                     0.207101              12.248521               0.839250                1.000000      16.0           2.0                   1.0              8.0                 1.0                  348.0
+223236                      2681.0                     0.466244              19.372809               0.641179                1.000000       8.0           1.0                   0.0              3.0                 1.0                    9.0
+77288                       1988.0                     0.477364              20.445423               0.589537                1.000000      13.0           4.0                   0.0              6.0                 1.0                  159.0
+100941                      1103.0                     0.180417              13.016772               0.829556                0.600000      18.0           7.0                   0.0              2.0                 7.0                   16.0
+242297                      1767.0                     1.525184              38.894737               0.562535                0.800000      19.0           9.0                   0.0              0.0                 8.0                    0.0
+28360                          4.0                     0.000000               0.000000               0.000000                0.000000       6.0           1.0                   1.0              3.0                 0.0                   17.0
+256782                       169.0                     0.272189              37.757396               0.733728                1.000000      10.0           2.0                   1.0              3.0                 1.0                   12.0
+88834                        146.0                     0.308219              27.109589               0.815068                0.800000      10.0           4.0                   0.0              3.0                 1.0                   17.0
+169299                        49.0                     0.081633              28.040816               0.816327                1.000000      11.0           2.0                   0.0              6.0                 1.0                    4.0
+70649                        309.0                     0.336570              17.388350               0.796117                0.400000      13.0           5.0                   0.0              5.0                 1.0                   16.0
+267745                      1544.0                     0.306347              13.258420               0.771373                0.800000      18.0           3.0                   0.0             12.0                 1.0                    0.0
+176174                       681.0                     0.133627              12.230053               0.800294                1.000000      20.0           2.0                   0.0             15.0                 1.0                 1130.0
+150456                       899.0                     1.612903              38.327030               0.497219                0.600000      10.0           3.0                   0.0              4.0                 1.0                   30.0
+115434                       921.0                     0.128122              20.128664               0.703583                1.000000       9.0           2.0                   0.0              4.0                 1.0                  104.0
+180066                        11.0                     1.909091             105.181818               0.454545                0.600000      14.0           5.0                   0.0              6.0                 1.0                   28.0
+89408                        368.0                     0.429348              19.858696               0.752717                0.600000       8.0           3.0                   0.0              2.0                 1.0                   12.0
+211946                        36.0                     1.861111             107.027778               0.500000                0.800000      12.0           5.0                   0.0              4.0                 1.0                   35.0
+100599                       375.0                     0.274667              18.592000               0.845333                1.000000       7.0           1.0                   0.0              3.0                 1.0                   23.0
+1566                          80.0                     0.125000               4.025000               0.812500                1.000000      11.0           3.0                   0.0              4.0                 1.0                   17.0
+4458                         140.0                     0.178571              13.164286               0.850000                0.600000      15.0           1.0                   0.0              9.0                 1.0                 4188.0
+200276                       219.0                     0.607306              34.493151               0.634703                0.400000       9.0           3.0                   0.0              1.0                 3.0                    2.0
+166281                        18.0                     0.333333              18.222222               0.666667                0.800000      20.0           4.0                   0.0             10.0                 1.0                   69.0
+230755                       155.0                     0.148387              23.387097               0.916129                1.000000       7.0           1.0                   0.0              3.0                 1.0                   33.0
+185834                      1922.0                     0.419875              22.891259               0.820499                1.000000      24.0           6.0                   1.0              5.0                 5.0                   76.0
+22520                        259.0                     0.208494              14.316602               0.845560                1.000000      22.0           5.0                   1.0              5.0                 5.0                   20.0
+75123                        794.0                     0.245592              11.016373               0.826196                1.000000      13.0           2.0                   0.0              7.0                 1.0                  292.0
+71487                        637.0                     0.332810              17.949765               0.874411                1.000000      12.0           4.0                   0.0              5.0                 1.0                   37.0
+206347                      1490.0                     0.527517              22.039597               0.724832                0.400000      27.0           8.0                   1.0              0.0                 9.0                    0.0
+257043                       301.0                     0.205980              23.468439               0.883721                0.800000       8.0           2.0                   0.0              3.0                 1.0                   20.0
+211223                       240.0                     0.091667              16.958333               0.945833                0.800000      23.0           3.0                   0.0             12.0                 2.0                  116.0
+209566                         3.0                     0.000000               4.666667               0.666667                0.666667      10.0           0.0                   1.0              2.0                 2.0                    9.0
+209340                       196.0                     0.433673              21.301020               0.632653                0.600000      15.0           2.0                   0.0             10.0                 1.0                  990.0
+109353                      1929.0                     0.636081              22.348885               0.765682                0.800000      27.0           3.0                   0.0             16.0                 2.0                  371.0
+249628                       693.0                     0.516595              29.316017               0.740260                1.000000      31.0          10.0                   1.0              3.0                 8.0                   24.0
+4925                         206.0                     0.417476               9.786408               0.703883                0.800000       5.0           2.0                   0.0              3.0                 0.0                   48.0
+257857                       545.0                     0.177982              20.831193               0.853211                0.800000       9.0           3.0                   0.0              0.0                 4.0                    0.0
+31563                        238.0                     0.478992              20.546218               0.768908                0.600000       6.0           3.0                   0.0              3.0                 0.0                   15.0
+4274                          80.0                     0.525000              16.925000               0.787500                0.600000      10.0           2.0                   1.0              3.0                 1.0                   11.0
+105203                      1494.0                     0.269076              11.992637               0.831995                0.800000       9.0           3.0                   0.0              0.0                 4.0                    0.0
+135975                      1563.0                     0.344210              20.444018               0.736404                0.800000      17.0           6.0                   1.0              0.0                 7.0                    0.0
+235148                      1358.0                     0.554492              26.513255               0.717231                0.600000      15.0           4.0                   0.0              7.0                 2.0                 1329.0
+264186                       167.0                     0.047904              15.604790               0.946108                0.800000       9.0           3.0                   0.0              3.0                 1.0                   63.0
+197551                        66.0                     0.121212              17.545455               0.272727                0.400000      14.0           2.0                   0.0              7.0                 1.0                   58.0
+159820                        20.0                     0.900000              54.650000               0.450000                1.000000       8.0           3.0                   0.0              2.0                 1.0                   13.0
+39933                        252.0                     0.448413              20.460317               0.841270                1.000000      22.0           3.0                   0.0             14.0                 1.0                 3207.0
+226982                      1969.0                     0.396140              22.809548               0.776536                0.000000      12.0           3.0                   0.0              4.0                 2.0                   16.0
+70319                        576.0                     0.996528              36.460069               0.555556                0.400000      13.0           6.0                   0.0              4.0                 1.0                   28.0
+261822                      1393.0                     0.413496              23.931802               0.738693                0.800000      31.0           5.0                   1.0             16.0                 1.0                  280.0
+116972                      1219.0                     0.771124              34.605411               0.536505                0.600000      18.0           4.0                   0.0              8.0                 1.0                   92.0
+74774                        441.0                     0.233560              12.848073               0.832200                1.000000      14.0           6.0                   0.0              5.0                 1.0                   27.0
+68419                        383.0                     0.347258              18.686684               0.822454                0.400000      10.0           2.0                   0.0              4.0                 1.0                   34.0
+89252                        263.0                     0.235741              12.749049               0.840304                1.000000      13.0           4.0                   0.0              6.0                 1.0                  148.0
+213026                       845.0                     0.885207              33.216568               0.726627                1.000000      13.0           2.0                   0.0              6.0                 1.0                   82.0
+76509                         55.0                     0.018182               7.818182               0.927273                1.000000      10.0           2.0                   0.0              5.0                 1.0                  699.0
+237016                       331.0                     0.148036              23.468278               0.882175                1.000000      46.0           6.0                   0.0             32.0                 1.0                28637.0
+91598                        520.0                     0.121154              12.978846               0.892308                1.000000      10.0           4.0                   0.0              3.0                 1.0                   20.0
+269883                      1562.0                     0.304097              13.185659               0.772727                0.800000      15.0           1.0                   0.0             10.0                 1.0                  330.0
+237799                       316.0                     0.224684              19.531646               0.860759                1.000000      20.0           4.0                   1.0              8.0                 1.0                   86.0
+131375                       990.0                     0.516162              20.745455               0.796970                1.000000      13.0           2.0                   0.0              6.0                 1.0                   98.0
+233098                       221.0                     0.212670              22.809955               0.873303                0.800000      11.0           4.0                   0.0              1.0                 4.0                    2.0
+216593                        28.0                     0.107143              14.928571               0.857143                1.000000      16.0           2.0                   0.0             10.0                 1.0                 2875.0
+252400                       200.0                     0.155000              18.915000               0.910000                0.800000       8.0           2.0                   0.0              3.0                 1.0                   38.0
+151249                       908.0                     0.267621              22.636564               0.846916                0.800000      19.0           7.0                   1.0              0.0                 8.0                    0.0
+287004                       112.0                     0.401786              14.062500               0.392857                0.000000      13.0           3.0                   1.0              5.0                 1.0                   86.0
+45269                        222.0                     0.463964              22.747748               0.738739                0.800000      20.0           5.0                   0.0             11.0                 1.0                  189.0
+101108                      2155.0                     0.322042               9.905916               0.790255                0.400000      10.0           3.0                   0.0              4.0                 1.0                 6000.0
+291610                      1960.0                     0.322959              29.204592               0.783673                1.000000      34.0           5.0                   0.0             21.0                 2.0                19369.0
+89851                        670.0                     0.343284              17.273134               0.762687                0.400000      14.0           7.0                   0.0              4.0                 1.0                   34.0
+277238                       387.0                     0.291990              23.571059               0.839793                0.800000      31.0          10.0                   1.0              0.0                11.0                    0.0
+37296                         50.0                     0.300000              23.460000               0.600000                0.600000       3.0           1.0                   0.0              2.0                 0.0                   16.0
+69999                        553.0                     0.280289              15.088606               0.824593                0.800000      14.0           5.0                   0.0              6.0                 1.0                   27.0
+2630                          54.0                     0.111111              17.759259               0.851852                1.000000      17.0           3.0                   1.0              7.0                 1.0                  178.0
+158622                        61.0                     0.245902               6.049180               0.672131                0.800000       6.0           1.0                   1.0              3.0                 0.0                   14.0
+206331                      1201.0                     0.273938              20.759367               0.855121                1.000000      26.0           3.0                   0.0             17.0                 1.0                 6681.0
+84733                        518.0                     0.050193               7.025097               0.965251                1.000000      17.0           3.0                   1.0              7.0                 1.0                  145.0
+21642                        894.0                     0.315436               8.893736               0.778523                0.800000      17.0           4.0                   0.0              7.0                 1.0                   37.0
+124027                       539.0                     0.376623              18.111317               0.805195                0.800000       9.0           3.0                   0.0              3.0                 1.0                   15.0
+32257                         56.0                     0.017857              12.464286               0.928571                1.000000       9.0           2.0                   0.0              4.0                 1.0                  111.0
+98137                       1981.0                     0.311459               9.772463               0.794043                0.400000      12.0           4.0                   0.0              4.0                 2.0                   12.0
+178859                         7.0                     0.000000               8.000000               0.857143                1.000000      11.0           0.0                   1.0              3.0                 2.0                   12.0
+188420                      1750.0                     0.602857              23.886000               0.682286                1.000000      15.0           5.0                   0.0              6.0                 2.0                   28.0
+300904                      1998.0                     0.301802              19.325325               0.751251                0.400000      36.0          10.0                   1.0             12.0                 5.0                  160.0
+297073                      1258.0                     0.266296              26.143084               0.844197                1.000000      19.0           2.0                   0.0             10.0                 2.0                  102.0
+284607                       310.0                     0.300000              33.600000               0.861290                0.800000      17.0           2.0                   0.0             12.0                 1.0                 7350.0
+62025                        318.0                     0.462264              19.443396               0.817610                1.000000       5.0           2.0                   0.0              3.0                 0.0                   22.0
+[2026-04-11 21:53:57] INFO: Target (100 filas de ejemplo):
+230542    0.020133
+246314    0.187121
+125453    0.161497
+93354     0.258217
+22535     0.003661
+124283    0.167120
+280119    0.006406
+246939    0.009151
+75466     0.010982
+93941     0.016473
+91441     0.006406
+10115     0.005491
+225719    0.003661
+94947     0.014642
+32795     0.005491
+296980    0.007321
+95624     0.006406
+194784    0.003661
+258573    0.002745
+33151     0.002745
+223909    0.030200
+23921     0.005491
+261217    0.007321
+12423     0.174308
+215145    0.003661
+266933    0.053078
+43789     0.208683
+176809    0.076472
+43097     0.024709
+91999     0.164243
+75760     0.027055
+44709     0.173394
+139364    0.007321
+134297    0.003661
+194602    0.193126
+46123     0.185291
+19974     0.010982
+140263    0.008236
+15086     0.006406
+299847    0.002745
+218915    0.002745
+27993     0.005491
+77410     0.004576
+199784    0.003661
+62404     0.009151
+240654    0.010067
+90978     0.015557
+166192    0.003661
+229221    0.004576
+96719     0.002745
+114060    0.165290
+38035     0.002745
+2187      0.003661
+135740    0.005491
+43780     0.002745
+24275     0.012812
+14004     0.014642
+176015    0.005491
+108059    0.009151
+44206     0.003661
+266493    0.020133
+68165     0.005491
+17611     0.010067
+178332    0.023794
+215075    0.003661
+101299    0.005491
+229037    0.031115
+280828    0.169733
+255453    0.007321
+224970    0.034376
+62149     0.049933
+48014     0.010982
+137763    0.010067
+106047    0.008236
+133008    0.012812
+152260    0.040266
+155714    0.011897
+189628    0.015557
+127169    0.006406
+166363    0.002745
+244430    0.166073
+240780    0.047587
+319       0.150000
+72589     0.010982
+119052    0.008236
+140330    0.208253
+189198    0.012812
+299708    0.005491
+175777    0.018303
+74829     0.206055
+162041    0.037769
+160868    0.166988
+175146    0.227102
+36867     0.008236
+92361     0.004576
+32342     0.004576
+173916    0.185291
+12828     0.004576
+123060    0.000915
+59937     0.166205
+[2026-04-11 21:53:57] INFO: Split series detectada: True.
+[2026-04-11 21:53:57] INFO: Time series detectada: True.
+[2026-04-11 21:53:57] INFO: Groups detectados: True.
+[2026-04-11 21:53:58] INFO: Entrenando modelos. Split=group_student_holdout_split. Train=230853 Test=70174.
+[2026-04-11 21:53:58] INFO: Entrenando: random_forest...
+[2026-04-11 21:56:08] INFO: random_forest -> f1_weighted=0.5138 accuracy=0.5216 auc=0.7044
+[2026-04-11 21:56:08] INFO: Entrenando: logistic_regression...
+[2026-04-11 21:56:09] INFO: logistic_regression -> f1_weighted=0.4520 accuracy=0.4838 auc=0.6670
+[2026-04-11 21:56:09] INFO: Entrenando: gradient_boosting...
+[2026-04-11 21:58:30] INFO: gradient_boosting -> f1_weighted=0.5008 accuracy=0.5149 auc=0.7037
+[2026-04-11 21:58:47] INFO: Mejor modelo seleccionado: random_forest (f1_weighted=0.5138).
+[2026-04-11 21:59:01] INFO: Entrenamiento completado.
+[2026-04-11 21:59:01] INFO: Mejor modelo: random_forest
+[2026-04-11 21:59:01] INFO: Modelo guardado en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-11 21:59:01] INFO: Metricas guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\metrics\model_leaderboard.csv
+[2026-04-11 21:59:01] INFO: Figuras guardadas en: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\reports\figures
