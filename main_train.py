@@ -57,9 +57,11 @@ def main(max_rows: int | None = None, generate_plots: bool = True) -> None:
     Logger.print("Feature engineering completado.")
 
     x, y = engineer.split_features_target(dataset)
-    Logger.print(f"Features shape: {x.shape}, Target distribución: {y.value_counts().to_dict()}")
-
     Logger.print(f"Features y target separados. Features: {x.shape[1]}, Filas: {x.shape[0]}.")
+    Logger.print(f"Estadísticas X (features): {x.describe().to_string()}")
+    Logger.print(f"Estadísticas y (target): media={y.mean():.4f}, std={y.std():.4f}, min={y.min():.4f}, max={y.max():.4f}")
+    Logger.print(f"Features (10 filas de ejemplo):\n{x.head(10).to_string()}")
+    Logger.print(f"Target (10 filas de ejemplo):\n{y.head(10).to_string()}")
     Logger.print(f"Features (100 filas de ejemplo):\n{x.sample(100).to_string()}")
     Logger.print(f"Target (100 filas de ejemplo):\n{y.sample(100).to_string()}")
     
@@ -78,7 +80,10 @@ def main(max_rows: int | None = None, generate_plots: bool = True) -> None:
     )
     leaderboard = training_output["leaderboard"]
     importances = training_output["feature_importance"]
-
+    Logger.print(f"Leaderboard de modelos:\n{leaderboard.to_string()}")
+    #Logger.print(f"Importancia de features (top 10):\n{importances.head(10).to_string()}")
+    importances_df = pd.DataFrame({'feature': engineer.feature_columns, 'importance': importances}).sort_values('importance', ascending=False)
+    Logger.print("Importancia de features calculada.(10 filas de ejemplo):\n" + importances_df.head(10).to_string())
     config.metrics_dir.mkdir(parents=True, exist_ok=True)
     dataset.to_csv(config.processed_path, index=False)
 

@@ -77,7 +77,28 @@ class FeatureEngineer:
         data["step_num_variables"] = data["step_name"].str.count(r"[a-zA-Z]").astype(float)
         data["step_abs_constant_sum"] = data["step_name"].apply(self._sum_abs_constants).astype(float)
         Logger.print(f"Features listas. Filas: {len(data)}.")
-        Logger.print(f"Resumen features: {len(self.feature_columns)} creadas. Estadísticas globales: {data[self.feature_columns].describe().to_string()}")
+        
+        # === CAPPING DE OUTLIERS ===
+        Logger.print("Aplicando capping de outliers...")
+        outlier_caps = {
+            "step_abs_constant_sum": 0.99,
+            "step_len": 0.99,
+            "student_attempt_count_prev": 0.99,
+            "step_num_ops": 0.95,
+            "student_avg_time_prev": 0.99,
+            "step_num_digits": 0.99,
+            "step_num_variables": 0.95,
+        }
+        
+        for col, quantile in outlier_caps.items():
+            if col in data.columns:
+                cap_value = data[col].quantile(quantile)
+                original_max = data[col].max()
+                data[col] = data[col].clip(upper=cap_value)
+                Logger.print(f"{col}: capped percentil {int(quantile*100)} = {cap_value:.0f} (original max: {original_max:.0f})")
+        
+        Logger.print("Outliers capped completado.")
+        Logger.print(f"Resumen features post-capping: {len(self.feature_columns)} creadas. Estadísticas globales: {data[self.feature_columns].describe().to_string()}")
         return data
 
     def split_features_target(self, df: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
