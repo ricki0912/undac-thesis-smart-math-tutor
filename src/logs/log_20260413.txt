@@ -1,0 +1,78 @@
+[2026-04-13 20:24:47] INFO: Levantando API en http://127.0.0.1:8000 ...
+[2026-04-13 20:24:47] INFO: Inicializando FastAPI (modo local)...
+[2026-04-13 20:26:03] INFO: Login de usuario: admin
+[2026-04-13 20:26:08] INFO: Login de usuario: admin
+[2026-04-13 20:26:12] INFO: Login de usuario: admin
+[2026-04-13 20:26:18] INFO: Login de usuario: admin
+[2026-04-13 20:26:18] INFO: Login de usuario: admin
+[2026-04-13 20:26:18] INFO: Login de usuario: admin
+[2026-04-13 20:26:21] INFO: Login de usuario: admin01
+[2026-04-13 20:27:02] INFO: Cargando modelo desde: C:\Users\javie\Documents\b\undac-thesis-smart-math-tutor\models\model.pkl
+[2026-04-13 20:27:06] INFO: Ejecutando prediccion de dificultad...
+[2026-04-13 20:27:06] INFO: Construyendo features (include_target=False)...
+[2026-04-13 20:27:06] INFO: === CONSTRUYENDO FEATURES HISTÓRICAS POR ESTUDIANTE ===
+[2026-04-13 20:27:06] INFO: Features que capturan comportamiento histórico del estudiante (sin leakage)
+[2026-04-13 20:27:06] INFO: Feature student_attempt_count_prev: conteo acumulado de intentos previos por estudiante
+[2026-04-13 20:27:06] INFO:   - Rango: 0 - 0
+[2026-04-13 20:27:06] INFO:   - Media: 0.00
+[2026-04-13 20:27:06] INFO: Feature student_avg_incorrects_prev: promedio histórico de errores
+[2026-04-13 20:27:06] INFO:   - Media: 0.0000, Std: nan
+[2026-04-13 20:27:06] INFO:   - Nulos: 0
+[2026-04-13 20:27:06] INFO: Feature student_avg_time_prev: promedio histórico de tiempo
+[2026-04-13 20:27:06] INFO:   - Media: 60.0000, Std: nan
+[2026-04-13 20:27:06] INFO:   - Nulos: 0
+[2026-04-13 20:27:06] INFO: Feature student_accuracy_prev: promedio histórico de aciertos en primer intento
+[2026-04-13 20:27:06] INFO:   - Media: 1.0000, Std: nan
+[2026-04-13 20:27:06] INFO:   - Nulos: 0
+[2026-04-13 20:27:06] INFO: Feature student_trend_accuracy: tendencia de accuracy (rolling mean window=5)
+[2026-04-13 20:27:06] INFO:   - Media: 1.0000, Std: nan
+[2026-04-13 20:27:06] INFO:   - Nulos: 0
+[2026-04-13 20:27:06] INFO: === CONSTRUYENDO FEATURES ESTRUCTURALES DEL PASO ===
+[2026-04-13 20:27:06] INFO: Features derivadas del texto del step_name (dificultad intrínseca del problema)
+[2026-04-13 20:27:06] INFO: Feature step_len: longitud del texto del paso
+[2026-04-13 20:27:06] INFO:   - Media: 7.0, Std: nan
+[2026-04-13 20:27:06] INFO: Feature step_num_ops: número de operadores matemáticos
+[2026-04-13 20:27:06] INFO:   - Media: 2.00, Std: nan
+[2026-04-13 20:27:06] INFO: Feature step_has_parentheses: presencia de paréntesis (0/1)
+[2026-04-13 20:27:06] INFO:   - Proporción: 0.000
+[2026-04-13 20:27:06] INFO: Feature step_num_digits: cantidad de dígitos numéricos
+[2026-04-13 20:27:06] INFO:   - Media: 4.00, Std: nan
+[2026-04-13 20:27:06] INFO: Feature step_num_variables: cantidad de letras/variables
+[2026-04-13 20:27:06] INFO:   - Media: 1.00, Std: nan
+[2026-04-13 20:27:06] INFO: Feature step_abs_constant_sum: suma absoluta de constantes numéricas
+[2026-04-13 20:27:06] INFO:   - Media: 16.00, Std: nan
+[2026-04-13 20:27:06] INFO: === RESUMEN FEATURES CREADAS ===
+[2026-04-13 20:27:06] INFO: Total features creadas: 11
+[2026-04-13 20:27:06] INFO: Features históricas estudiante: 5
+[2026-04-13 20:27:06] INFO: Features estructurales paso: 6
+[2026-04-13 20:27:06] INFO: Filas procesadas: 1
+[2026-04-13 20:27:06] INFO: === APLICANDO CAPPING DE OUTLIERS ===
+[2026-04-13 20:27:06] INFO: Estrategia: winsorización al percentil especificado para evitar valores extremos
+[2026-04-13 20:27:06] INFO: step_abs_constant_sum: capped al percentil 99% = 16.0 (max original: 16.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: step_len: capped al percentil 99% = 7.0 (max original: 7.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: student_attempt_count_prev: capped al percentil 99% = 0.0 (max original: 0.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: step_num_ops: capped al percentil 95% = 2.0 (max original: 2.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: student_avg_time_prev: capped al percentil 99% = 60.0 (max original: 60.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: step_num_digits: capped al percentil 99% = 4.0 (max original: 4.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: step_num_variables: capped al percentil 95% = 1.0 (max original: 1.0, valores capped: 1)
+[2026-04-13 20:27:06] INFO: === CAPPING COMPLETADO ===
+[2026-04-13 20:27:06] INFO: Resumen global post-capping:
+       student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+count                         1.0                          1.0                    1.0                    1.0                     1.0       1.0           1.0                   1.0              1.0                 1.0                    1.0
+mean                          0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+std                           NaN                          NaN                    NaN                    NaN                     NaN       NaN           NaN                   NaN              NaN                 NaN                    NaN
+min                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+25%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+50%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+75%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+max                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+[2026-04-13 20:27:06] INFO: Feature engineering completado.
+[2026-04-13 20:27:06] INFO: Resumen features post-capping: 11 creadas. Estadísticas globales:        student_attempt_count_prev  student_avg_incorrects_prev  student_avg_time_prev  student_accuracy_prev  student_trend_accuracy  step_len  step_num_ops  step_has_parentheses  step_num_digits  step_num_variables  step_abs_constant_sum
+count                         1.0                          1.0                    1.0                    1.0                     1.0       1.0           1.0                   1.0              1.0                 1.0                    1.0
+mean                          0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+std                           NaN                          NaN                    NaN                    NaN                     NaN       NaN           NaN                   NaN              NaN                 NaN                    NaN
+min                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+25%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+50%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+75%                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
+max                           0.0                          0.0                   60.0                    1.0                     1.0       7.0           2.0                   0.0              4.0                 1.0                   16.0
