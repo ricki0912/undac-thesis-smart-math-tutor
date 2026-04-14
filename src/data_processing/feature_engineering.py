@@ -57,29 +57,74 @@ class FeatureEngineer:
         if include_target:
             data["effort_score"] = self.build_effort_score(data)
 
+        Logger.print(f"=== CONSTRUYENDO FEATURES HISTÓRICAS POR ESTUDIANTE ===")
+        Logger.print("Features que capturan comportamiento histórico del estudiante (sin leakage)")
+
         # Features historicas por estudiante (solo informacion previa).
         data["student_attempt_count_prev"] = data.groupby("student_id").cumcount().astype(float)
+        Logger.print(f"Feature student_attempt_count_prev: conteo acumulado de intentos previos por estudiante")
+        Logger.print(f"  - Rango: {data['student_attempt_count_prev'].min():.0f} - {data['student_attempt_count_prev'].max():.0f}")
+        Logger.print(f"  - Media: {data['student_attempt_count_prev'].mean():.2f}")
+
         data["student_avg_incorrects_prev"] = self._group_prev_mean(data, "student_id", "incorrects")
+        Logger.print(f"Feature student_avg_incorrects_prev: promedio histórico de errores")
+        Logger.print(f"  - Media: {data['student_avg_incorrects_prev'].mean():.4f}, Std: {data['student_avg_incorrects_prev'].std():.4f}")
+        Logger.print(f"  - Nulos: {data['student_avg_incorrects_prev'].isnull().sum()}")
+
         data["student_avg_time_prev"] = self._group_prev_mean(data, "student_id", "step_duration_sec")
+        Logger.print(f"Feature student_avg_time_prev: promedio histórico de tiempo")
+        Logger.print(f"  - Media: {data['student_avg_time_prev'].mean():.4f}, Std: {data['student_avg_time_prev'].std():.4f}")
+        Logger.print(f"  - Nulos: {data['student_avg_time_prev'].isnull().sum()}")
+
         data["student_accuracy_prev"] = self._group_prev_mean(data, "student_id", "correct_first_attempt")
+        Logger.print(f"Feature student_accuracy_prev: promedio histórico de aciertos en primer intento")
+        Logger.print(f"  - Media: {data['student_accuracy_prev'].mean():.4f}, Std: {data['student_accuracy_prev'].std():.4f}")
+        Logger.print(f"  - Nulos: {data['student_accuracy_prev'].isnull().sum()}")
+
         data["student_trend_accuracy"] = self._group_prev_rolling_mean(
             data, group_col="student_id", value_col="correct_first_attempt", window=5
         )
-        Logger.print(f"Feature student_avg_incorrects_prev: media={data['student_avg_incorrects_prev'].mean():.4f}, std={data['student_avg_incorrects_prev'].std():.4f}, nulos={data['student_avg_incorrects_prev'].isnull().sum()}")
-        Logger.print(f"Feature student_avg_time_prev: media={data['student_avg_time_prev'].mean():.4f}, std={data['student_avg_time_prev'].std():.4f}, nulos={data['student_avg_time_prev'].isnull().sum()}")
-        Logger.print(f"Feature student_accuracy_prev: media={data['student_accuracy_prev'].mean():.4f}, std={data['student_accuracy_prev'].std():.4f}, nulos={data['student_accuracy_prev'].isnull().sum()}")
-        Logger.print(f"Feature student_trend_accuracy: media={data['student_trend_accuracy'].mean():.4f}, std={data['student_trend_accuracy'].std():.4f}, nulos={data['student_trend_accuracy'].isnull().sum()}")
-        # Features estructurales de la ecuacion/paso.
+        Logger.print(f"Feature student_trend_accuracy: tendencia de accuracy (rolling mean window=5)")
+        Logger.print(f"  - Media: {data['student_trend_accuracy'].mean():.4f}, Std: {data['student_trend_accuracy'].std():.4f}")
+        Logger.print(f"  - Nulos: {data['student_trend_accuracy'].isnull().sum()}")
+
+        Logger.print(f"=== CONSTRUYENDO FEATURES ESTRUCTURALES DEL PASO ===")
+        Logger.print("Features derivadas del texto del step_name (dificultad intrínseca del problema)")
+
         data["step_len"] = data["step_name"].str.len().astype(float)
+        Logger.print(f"Feature step_len: longitud del texto del paso")
+        Logger.print(f"  - Media: {data['step_len'].mean():.1f}, Std: {data['step_len'].std():.1f}")
+
         data["step_num_ops"] = data["step_name"].str.count(r"[+\-*/=]").astype(float)
+        Logger.print(f"Feature step_num_ops: número de operadores matemáticos")
+        Logger.print(f"  - Media: {data['step_num_ops'].mean():.2f}, Std: {data['step_num_ops'].std():.2f}")
+
         data["step_has_parentheses"] = data["step_name"].str.contains(r"[()]", regex=True).astype(float)
+        Logger.print(f"Feature step_has_parentheses: presencia de paréntesis (0/1)")
+        Logger.print(f"  - Proporción: {data['step_has_parentheses'].mean():.3f}")
+
         data["step_num_digits"] = data["step_name"].str.count(r"\d").astype(float)
+        Logger.print(f"Feature step_num_digits: cantidad de dígitos numéricos")
+        Logger.print(f"  - Media: {data['step_num_digits'].mean():.2f}, Std: {data['step_num_digits'].std():.2f}")
+
         data["step_num_variables"] = data["step_name"].str.count(r"[a-zA-Z]").astype(float)
+        Logger.print(f"Feature step_num_variables: cantidad de letras/variables")
+        Logger.print(f"  - Media: {data['step_num_variables'].mean():.2f}, Std: {data['step_num_variables'].std():.2f}")
+
         data["step_abs_constant_sum"] = data["step_name"].apply(self._sum_abs_constants).astype(float)
-        Logger.print(f"Features listas. Filas: {len(data)}.")
-        
+        Logger.print(f"Feature step_abs_constant_sum: suma absoluta de constantes numéricas")
+        Logger.print(f"  - Media: {data['step_abs_constant_sum'].mean():.2f}, Std: {data['step_abs_constant_sum'].std():.2f}")
+
+        Logger.print(f"=== RESUMEN FEATURES CREADAS ===")
+        Logger.print(f"Total features creadas: {len(self.feature_columns)}")
+        Logger.print(f"Features históricas estudiante: 5")
+        Logger.print(f"Features estructurales paso: 6")
+        Logger.print(f"Filas procesadas: {len(data)}")
+
         # === CAPPING DE OUTLIERS ===
-        Logger.print("Aplicando capping de outliers...")
+        Logger.print("=== APLICANDO CAPPING DE OUTLIERS ===")
+        Logger.print("Estrategia: winsorización al percentil especificado para evitar valores extremos")
+
         outlier_caps = {
             "step_abs_constant_sum": 0.99,
             "step_len": 0.99,
@@ -89,15 +134,25 @@ class FeatureEngineer:
             "step_num_digits": 0.99,
             "step_num_variables": 0.95,
         }
-        
+
+        capping_stats = {}
         for col, quantile in outlier_caps.items():
             if col in data.columns:
-                cap_value = data[col].quantile(quantile)
                 original_max = data[col].max()
+                cap_value = data[col].quantile(quantile)
                 data[col] = data[col].clip(upper=cap_value)
-                Logger.print(f"{col}: capped percentil {int(quantile*100)} = {cap_value:.0f} (original max: {original_max:.0f})")
-        
-        Logger.print("Outliers capped completado.")
+                capping_stats[col] = {
+                    'original_max': original_max,
+                    'cap_value': cap_value,
+                    'percentile': quantile,
+                    'values_capped': (data[col] == cap_value).sum()
+                }
+                Logger.print(f"{col}: capped al percentil {int(quantile*100)}% = {cap_value:.1f} (max original: {original_max:.1f}, valores capped: {capping_stats[col]['values_capped']})")
+
+        Logger.print("=== CAPPING COMPLETADO ===")
+        Logger.print(f"Resumen global post-capping:\n{data[self.feature_columns].describe().to_string()}")
+
+        Logger.print("Feature engineering completado.")
         Logger.print(f"Resumen features post-capping: {len(self.feature_columns)} creadas. Estadísticas globales: {data[self.feature_columns].describe().to_string()}")
         return data
 

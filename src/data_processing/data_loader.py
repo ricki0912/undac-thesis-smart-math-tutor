@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from src.utils.config import ProjectConfig
@@ -20,30 +21,61 @@ class DataLoader:
         """
         Carga dataset priorizando archivos KDD train/test en data/external.
         """
-        Logger.print("Cargando dataset...")
+        Logger.print("=== INICIO CARGA DE DATASET ===")
+        Logger.print(f"Buscando datos en: {self.config.external_data_dir}")
+        Logger.print(f"Archivo local alternativo: {self.config.data_path}")
+
         # 1) Fuente principal: KDD externo (mismo nivel del proyecto)
         external_df = self._build_from_kdd_if_available()
         if external_df is not None:
-            Logger.print(f"Datos KDD detectados: {len(external_df)} filas (pre-limpieza).")
+            Logger.print("=== DATOS KDD ENCONTRADOS ===")
+            Logger.print(f"Filas totales KDD: {len(external_df)}")
+            Logger.print(f"Columnas KDD: {list(external_df.columns)}")
+            Logger.print(f"Tipos de datos iniciales:\n{external_df.dtypes.to_string()}")
+
+            # Estadísticas iniciales detalladas
+            Logger.print("=== ESTADÍSTICAS INICIALES KDD ===")
+            numeric_cols = external_df.select_dtypes(include=[np.number]).columns
+            if len(numeric_cols) > 0:
+                Logger.print(f"Estadísticas numéricas iniciales:\n{external_df[numeric_cols].describe().to_string()}")
+
+            Logger.print(f"Valores nulos por columna:\n{external_df.isnull().sum().to_string()}")
+            Logger.print(f"Duplicados iniciales: {external_df.duplicated().sum()}")
+
             cleaned = self.clean_data(external_df)
-            Logger.print("Datos KDD limpiados." f" Filas tras limpieza: {len(cleaned)}.")
+            Logger.print(f"=== POST-LIMPIEZA KDD ===")
+            Logger.print(f"Filas tras limpieza: {len(cleaned)}")
+            Logger.print(f"Columnas tras limpieza: {len(cleaned.columns)}")
+            Logger.print(f"Filas eliminadas: {len(external_df) - len(cleaned)}")
+
             cleaned = self._append_gameplay_logs(cleaned)
-            Logger.print(f"Dataset tras aplicar reglas: {len(cleaned)} filas.")
-            Logger.print(f"Estadísticas post-limpieza: incorrects - media={cleaned['incorrects'].mean():.2f}, std={cleaned['incorrects'].std():.2f}, min={cleaned['incorrects'].min()}, max={cleaned['incorrects'].max()}")
-            Logger.print(f"Distribución de correct_first_attempt: {cleaned['correct_first_attempt'].value_counts().to_dict()}")
-            return self.apply_dataset_rules(cleaned)
+            Logger.print(f"Filas tras append gameplay logs: {len(cleaned)}")
+
+            final_df = self.apply_dataset_rules(cleaned)
+            Logger.print(f"=== DATASET FINAL KDD ===")
+            Logger.print(f"Filas finales: {len(final_df)}")
+            Logger.print(f"Columnas finales: {len(final_df.columns)}")
+            Logger.print(f"Ratio de retención: {len(final_df)/len(external_df):.3f}")
+
+            return final_df
 
         # 2) Respaldo: CSV local en data/dataset.csv
         if self.config.data_path.exists():
+            Logger.print("=== USANDO DATASET LOCAL ===")
+            Logger.print(f"Cargando: {self.config.data_path}")
             df = pd.read_csv(self.config.data_path)
-            Logger.print(f"Usando dataset local: {self.config.data_path}. Filas: {len(df)}.")
+            Logger.print(f"Filas dataset local: {len(df)}")
+            Logger.print(f"Columnas dataset local: {list(df.columns)}")
+
             cleaned = self.clean_data(df)
-            Logger.print(f"Dataset tras limpiar: {len(cleaned)} filas.")
             cleaned = self._append_gameplay_logs(cleaned)
-            Logger.print(f"Dataset tras aplicar reglas: {len(cleaned)} filas.")
-            Logger.print(f"Estadísticas post-limpieza: incorrects - media={cleaned['incorrects'].mean():.2f}, std={cleaned['incorrects'].std():.2f}, min={cleaned['incorrects'].min()}, max={cleaned['incorrects'].max()}")
-            Logger.print(f"Distribución de correct_first_attempt: {cleaned['correct_first_attempt'].value_counts().to_dict()}")
-            return self.apply_dataset_rules(cleaned)
+            final_df = self.apply_dataset_rules(cleaned)
+
+            Logger.print(f"=== DATASET LOCAL FINAL ===")
+            Logger.print(f"Filas finales: {len(final_df)}")
+            Logger.print(f"Ratio de retención: {len(final_df)/len(df):.3f}")
+
+            return final_df
 
         raise FileNotFoundError(
             f"No se encontraron archivos en {self.config.external_data_dir} "

@@ -40,10 +40,16 @@ class ModelTrainer:
             x, y, split_series, time_series, groups
         )
         y_train, y_test, label_thresholds = self._ensure_discrete_target(y_train, y_test)
-        Logger.print(
-            f"Entrenando modelos. Split={validation_type}. Train={len(x_train)} Test={len(x_test)}."
-        )
+        Logger.print(f"=== INICIO ENTRENAMIENTO DE MODELOS ===")
+        Logger.print(f"Tipo de validación: {validation_type}")
+        Logger.print(f"Tamaño train: {len(x_train)} filas, {x_train.shape[1]} features")
+        Logger.print(f"Tamaño test: {len(x_test)} filas, {x_test.shape[1]} features")
+        Logger.print(f"Target discretizado: {label_thresholds is not None}")
+        if label_thresholds:
+            Logger.print(f"Umbrales de discretización: {label_thresholds}")
+
         models = self._build_models()
+        Logger.print(f"Modelos a evaluar: {list(models.keys())}")
 
         results: list[dict[str, float | str]] = []
         evaluation_payloads: list[dict[str, Any]] = []
@@ -51,19 +57,51 @@ class ModelTrainer:
         best_model: Pipeline | None = None
         best_score = -np.inf
 
+        training_times = {}
+
         for model_name, model_pipeline in models.items():
-            Logger.print(f"Entrenando: {model_name}...")
+            Logger.print(f"=== ENTRENANDO MODELO: {model_name} ===")
+
+            # Log hiperparámetros
+            model_params = model_pipeline.get_params()
+            Logger.print(f"Hiperparámetros de {model_name}:")
+            for param_name, param_value in model_params.items():
+                if 'model__' in param_name:  # Solo parámetros del estimador final
+                    Logger.print(f"  {param_name}: {param_value}")
+
+            # Entrenamiento con timing
+            import time
+            start_time = time.time()
             model = clone(model_pipeline)
             model.fit(x_train, y_train)
+            training_time = time.time() - start_time
+            training_times[model_name] = training_time
+            Logger.print(f"Tiempo de entrenamiento {model_name}: {training_time:.2f} segundos")
+
+            # Predicciones
             y_pred = model.predict(x_test)
             y_score = self._extract_scores(model, x_test)
+
+            # Cálculo de métricas
             metrics = self.evaluator.compute(y_test, y_pred, y_score)
             metrics["model_name"] = model_name
+            metrics["training_time"] = training_time
             results.append(metrics)
-            Logger.print(
-                f"{model_name} -> f1_weighted={metrics['f1_weighted']:.4f} "
-                f"accuracy={metrics['accuracy']:.4f} auc={metrics['auc']:.4f}"
-            )
+
+            # Log detallado de métricas
+            Logger.print(f"=== MÉTRICAS DE {model_name} ===")
+            Logger.print(f"  F1-weighted: {metrics['f1_weighted']:.4f}")
+            Logger.print(f"  Accuracy: {metrics['accuracy']:.4f}")
+            Logger.print(f"  Precision: {metrics['precision']:.4f}")
+            Logger.print(f"  Recall: {metrics['recall']:.4f}")
+            Logger.print(f"  F1-macro: {metrics['f1_macro']:.4f}")
+            Logger.print(f"  AUC: {metrics['auc']:.4f}")
+            Logger.print(f"  Tiempo entrenamiento: {training_time:.2f}s")
+
+            # Matriz de confusión resumida
+            from sklearn.metrics import confusion_matrix
+            cm = confusion_matrix(y_test, y_pred)
+            Logger.print(f"  Matriz de confusión:\n{cm}")
 
             evaluation_payloads.append(
                 {
@@ -72,6 +110,8 @@ class ModelTrainer:
                     "y_pred": pd.Series(y_pred, index=y_test.index),
                     "y_score": y_score,
                     "labels": sorted({int(v) for v in pd.unique(y_train)}),
+                    "training_time": training_time,
+                    "hyperparameters": model_params,
                 }
             )
 
@@ -79,6 +119,13 @@ class ModelTrainer:
                 best_score = metrics["f1_weighted"]
                 best_name = model_name
                 best_model = model
+                Logger.print(f"¡NUEVO MEJOR MODELO: {model_name} (F1={best_score:.4f})!")
+
+        Logger.print(f"=== RESUMEN ENTRENAMIENTO ===")
+        Logger.print(f"Mejor modelo: {best_name} (F1-weighted={best_score:.4f})")
+        Logger.print(f"Tiempos de entrenamiento:")
+        for model, time_taken in training_times.items():
+            Logger.print(f"  {model}: {time_taken:.2f}s")
 
         if best_model is None:
             raise RuntimeError("No se pudo entrenar ningun modelo.")
@@ -86,7 +133,9 @@ class ModelTrainer:
         leaderboard = self.evaluator.to_dataframe(results)
         self._save_artifacts(best_model, leaderboard)
         Logger.print(f"Mejor modelo seleccionado: {best_name} (f1_weighted={best_score:.4f}).")
+
         importances = self._extract_importance(best_model, list(x.columns))
+        Logger.print(f"Importancia de features extraída para {best_name}.")
 
         return {
             "best_model_name": best_name,
@@ -96,6 +145,7 @@ class ModelTrainer:
             "validation_type": validation_type,
             "evaluation_payloads": evaluation_payloads,
             "label_thresholds": label_thresholds,
+            "training_times": training_times,
         }
 
     @staticmethod
@@ -106,26 +156,48 @@ class ModelTrainer:
         Los modelos definidos son clasificadores; si el target es continuo, lo
         discretizamos a 3 clases usando cuantiles SOLO del train.
         """
+        Logger.print("=== EVALUACIÓN DEL TARGET ===")
         y_train_num = pd.to_numeric(y_train, errors="coerce").fillna(0.0)
         y_test_num = pd.to_numeric(y_test, errors="coerce").fillna(0.0)
 
-        if type_of_target(y_train_num) != "continuous":
+        target_type = type_of_target(y_train_num)
+        Logger.print(f"Tipo de target detectado: {target_type}")
+
+        if target_type != "continuous":
+            Logger.print("Target ya es discreto/categórico, no se requiere discretización")
             return y_train_num, y_test_num, None
+
+        Logger.print("=== DISCRETIZACIÓN DEL TARGET CONTINUO ===")
+        Logger.print("Estrategia: discretización a 3 clases usando cuantiles del conjunto de train")
+        Logger.print(f"Estadísticas target train: media={y_train_num.mean():.4f}, std={y_train_num.std():.4f}, min={y_train_num.min():.4f}, max={y_train_num.max():.4f}")
 
         q1 = float(y_train_num.quantile(0.33))
         q2 = float(y_train_num.quantile(0.66))
+        Logger.print(f"Cuartil 33% (Q1): {q1:.4f}")
+        Logger.print(f"Cuartil 66% (Q2): {q2:.4f}")
+
         if q1 == q2:
+            Logger.print("Q1=Q2, ajustando cuantiles para evitar colapso de clases")
             q1 = float(y_train_num.quantile(0.25))
             q2 = float(y_train_num.quantile(0.75))
+            Logger.print(f"Nuevos cuantiles - Q1 (25%): {q1:.4f}, Q2 (75%): {q2:.4f}")
 
         bins = [-np.inf, q1, q2, np.inf]
         labels = [0, 1, 2]
+        Logger.print(f"Bins de discretización: {bins}")
+        Logger.print(f"Labels de clase: {labels} (0=bajo, 1=medio, 2=alto esfuerzo)")
+
         y_train_binned = pd.cut(
             y_train_num, bins=bins, labels=labels, include_lowest=True
         ).astype(int)
         y_test_binned = pd.cut(
             y_test_num, bins=bins, labels=labels, include_lowest=True
         ).astype(int)
+
+        Logger.print("=== DISTRIBUCIÓN POST-DISCRETIZACIÓN ===")
+        Logger.print(f"Train - Clase 0: {(y_train_binned == 0).sum()}, Clase 1: {(y_train_binned == 1).sum()}, Clase 2: {(y_train_binned == 2).sum()}")
+        Logger.print(f"Test - Clase 0: {(y_test_binned == 0).sum()}, Clase 1: {(y_test_binned == 1).sum()}, Clase 2: {(y_test_binned == 2).sum()}")
+
         return y_train_binned, y_test_binned, {"q1": q1, "q2": q2}
 
     def _split_data(
@@ -136,7 +208,12 @@ class ModelTrainer:
         time_series: pd.Series | None = None,
         groups: pd.Series | None = None,
     ) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series, str]:
+        Logger.print("=== ESTRATEGIA DE SPLIT DE DATOS ===")
+        Logger.print(f"Dataset total: {len(x)} filas")
+        Logger.print(f"Test size configurado: {self.config.test_size}")
+
         if split_series is not None:
+            Logger.print("Intentando split fijo (train/test) basado en split_series...")
             split_values = split_series.fillna("unknown").astype(str).str.lower()
             train_mask = split_values == "train"
             test_mask = split_values == "test"
@@ -145,12 +222,19 @@ class ModelTrainer:
                 y_train = y.loc[train_mask]
                 x_test = x.loc[test_mask]
                 y_test = y.loc[test_mask]
+                Logger.print(f"Split fijo encontrado: Train={len(x_train)}, Test={len(x_test)}")
                 # Si test no tiene variacion o es muy pequeno, volvemos al split aleatorio.
                 if len(y_test) > 1 and len(np.unique(y_test)) > 1:
+                    Logger.print("Split fijo válido - usando fixed_train_test_split")
                     return x_train, x_test, y_train, y_test, "fixed_train_test_split"
+                else:
+                    Logger.print("Split fijo inválido (test sin variación) - fallback a aleatorio")
 
         if groups is not None and len(x) > 10:
+            Logger.print("Intentando split por grupos (estudiantes)...")
             group_values = groups.fillna("unknown").astype(str)
+            num_groups = group_values.nunique()
+            Logger.print(f"Grupos detectados: {num_groups} grupos únicos")
             if group_values.nunique() > 1:
                 splitter = GroupShuffleSplit(
                     n_splits=1,
@@ -162,10 +246,15 @@ class ModelTrainer:
                 y_train = y.iloc[train_idx]
                 x_test = x.iloc[test_idx]
                 y_test = y.iloc[test_idx]
+                Logger.print(f"Split por grupos: Train={len(x_train)} ({len(y_train.unique())} clases), Test={len(x_test)} ({len(y_test.unique())} clases)")
                 if len(y_test) > 1 and len(np.unique(y_test)) > 1:
+                    Logger.print("Split por grupos válido - usando group_student_holdout_split")
                     return x_train, x_test, y_train, y_test, "group_student_holdout_split"
+                else:
+                    Logger.print("Split por grupos inválido - fallback a otra estrategia")
 
         if time_series is not None and len(x) > 10:
+            Logger.print("Intentando split temporal...")
             order = pd.to_numeric(time_series, errors="coerce")
             fallback = pd.Series(np.arange(len(x), dtype=float), index=x.index)
             order = order.where(order.notna(), fallback)
@@ -173,15 +262,24 @@ class ModelTrainer:
             split_point = max(1, int(len(sorted_idx) * (1.0 - self.config.test_size)))
             train_idx = sorted_idx[:split_point]
             test_idx = sorted_idx[split_point:]
+            Logger.print(f"Split temporal: punto de corte en posición {split_point}/{len(sorted_idx)}")
             if len(test_idx) > 1 and len(np.unique(y.loc[test_idx])) > 1:
+                x_train = x.loc[train_idx]
+                y_train = y.loc[train_idx]
+                x_test = x.loc[test_idx]
+                y_test = y.loc[test_idx]
+                Logger.print(f"Split temporal válido: Train={len(x_train)}, Test={len(x_test)} - usando temporal_holdout_split")
                 return (
-                    x.loc[train_idx],
-                    x.loc[test_idx],
-                    y.loc[train_idx],
-                    y.loc[test_idx],
+                    x_train,
+                    x_test,
+                    y_train,
+                    y_test,
                     "temporal_holdout_split",
                 )
+            else:
+                Logger.print("Split temporal inválido - fallback a aleatorio")
 
+        Logger.print("Usando split aleatorio estratificado...")
         try:
             x_train, x_test, y_train, y_test = train_test_split(
                 x,
@@ -190,8 +288,10 @@ class ModelTrainer:
                 random_state=self.config.random_state,
                 stratify=y,
             )
+            Logger.print(f"Split estratificado exitoso: Train={len(x_train)}, Test={len(x_test)}")
             return x_train, x_test, y_train, y_test, "random_stratified_split"
-        except ValueError:
+        except ValueError as e:
+            Logger.print(f"Split estratificado falló ({e}) - usando split aleatorio simple")
             x_train, x_test, y_train, y_test = train_test_split(
                 x,
                 y,
@@ -199,10 +299,12 @@ class ModelTrainer:
                 random_state=self.config.random_state,
                 stratify=None,
             )
+            Logger.print(f"Split aleatorio: Train={len(x_train)}, Test={len(x_test)}")
             return x_train, x_test, y_train, y_test, "random_split"
 
     def _build_models(self) -> dict[str, Pipeline]:
-        return {
+        Logger.print("=== CONFIGURACIÓN DE MODELOS ===")
+        models = {
             "random_forest": Pipeline(
                 steps=[
                     ("model", RandomForestClassifier(n_estimators=200, random_state=self.config.random_state))
@@ -226,6 +328,19 @@ class ModelTrainer:
                 ]
             ),
         }
+
+        Logger.print("Modelos configurados:")
+        for name, pipeline in models.items():
+            Logger.print(f"  - {name}: {pipeline}")
+            # Log de hiperparámetros clave
+            if name == "random_forest":
+                Logger.print(f"    n_estimators=200, random_state={self.config.random_state}")
+            elif name == "logistic_regression":
+                Logger.print(f"    max_iter=1000, random_state={self.config.random_state}, con StandardScaler")
+            elif name == "gradient_boosting":
+                Logger.print(f"    random_state={self.config.random_state}")
+
+        return models
 
     def _save_artifacts(self, model: Pipeline, leaderboard: pd.DataFrame) -> None:
         self.config.model_path.parent.mkdir(parents=True, exist_ok=True)

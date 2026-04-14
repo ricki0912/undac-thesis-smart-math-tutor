@@ -2,6 +2,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import matplotlib
+try:
+    matplotlib.use("Agg", force=True)
+except Exception:
+    # Si ya hay un backend cargado (ej. notebooks), no lo forzamos.
+    pass
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
