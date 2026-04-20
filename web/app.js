@@ -43,8 +43,8 @@ async function api(path, payload = null, method = "POST") {
 }
 
 function predictionText(prediction) {
-  if (!prediction) return "La IA aun no evaluo este ejercicio.";
-  const map = { baja: "facil", media: "intermedio", alta: "retador" };
+  if (!prediction) return "La IA aún no evaluó este ejercicio.";
+  const map = { baja: "fácil", media: "intermedio", alta: "retador" };
   const label = map[prediction.difficulty_label] || prediction.difficulty_label;
   const prob = Math.round((prediction.probability || 0) * 100);
   return `La IA estima que este ejercicio es ${label} (confianza: ${prob}%).`;
@@ -212,13 +212,45 @@ function figureModelTag(fileName) {
   return tail.join("_") || "modelo";
 }
 
+function figureModelLabel(tag) {
+  if (!tag) return "General";
+  if (tag === "all") return "Todos";
+  if (tag === "general") return "General";
+  return String(tag).replace(/_/g, " ");
+}
+
+function figureDisplayName(fileName) {
+  const name = String(fileName || "");
+  const lower = name.toLowerCase();
+
+  const named = {
+    "error_distribution.png": "Distribución de errores",
+    "avg_time_by_step.png": "Tiempo promedio por ejercicio",
+    "correlation_matrix.png": "Matriz de correlación",
+    "feature_importance.png": "Importancia de features",
+    "training_evolution.png": "Evolución del entrenamiento",
+    "model_metric_comparison.png": "Comparación de métricas por modelo",
+  };
+  if (named[lower]) return named[lower];
+
+  if (lower.startsWith("model_") && lower.endsWith(".png")) {
+    const parts = lower.replace(".png", "").split("_");
+    if (parts.length >= 4) {
+      const suffix = parts.slice(-2).join("_");
+      const modelName = parts.slice(1, -2).join("_") || "modelo";
+      if (suffix === "confusion_matrix") return `Matriz de confusión (${modelName})`;
+      if (suffix === "roc_ovr") return `Curva ROC (OvR) (${modelName})`;
+    }
+  }
+
+  return name.replace(/\.png$/i, "");
+}
+
 function setupFigureFilter() {
   const select = qs("figureModelFilter");
   if (!select) return;
   const models = Array.from(new Set(state.adminFigures.map((f) => figureModelTag(f.name)))).sort();
-  const options = ["all", ...models].map((m) =>
-    `<option value="${m}">${m === "all" ? "Todos" : m}</option>`
-  );
+  const options = ["all", ...models].map((m) => `<option value="${m}">${figureModelLabel(m)}</option>`);
   select.innerHTML = options.join("");
 }
 
@@ -232,21 +264,21 @@ function renderAdminFigures() {
   const figCards = filtered.map((fig, idx) => `
     <div class="col-md-6">
       <div class="border rounded p-2 h-100">
-        <div class="small text-muted mb-1">${fig.name}</div>
-        <img src="${fig.url}" alt="${fig.name}" class="img-fluid rounded admin-figure" loading="lazy" data-index="${idx}">
+        <div class="small fw-semibold mb-1" title="${fig.name}">${figureDisplayName(fig.name)}</div>
+        <img src="${fig.url}" alt="${figureDisplayName(fig.name)}" class="img-fluid rounded admin-figure" loading="lazy" data-index="${idx}">
       </div>
     </div>
   `).join("");
 
-  setHtml("adminFigures", figCards || "<div class='col-12 text-muted small'>No hay graficas para este filtro.</div>");
+  setHtml("adminFigures", figCards || "<div class='col-12 text-muted small'>No hay gráficas para este filtro.</div>");
   qs("adminFigures")?.querySelectorAll(".admin-figure").forEach((img) => {
     img.addEventListener("click", () => {
       const idx = Number(img.dataset.index);
       const item = filtered[idx];
       if (!item) return;
-      setText("figureModalTitle", item.name);
+      setText("figureModalTitle", figureDisplayName(item.name));
       qs("figureModalImage").src = item.url;
-      qs("figureModalImage").alt = item.name;
+      qs("figureModalImage").alt = figureDisplayName(item.name);
       state.figureModal.show();
     });
   });
@@ -354,13 +386,13 @@ async function login() {
   const username = qs("loginUser").value.trim();
   const password = qs("loginPass").value;
   if (!username || !password) {
-    setText("authMsg", "Completa usuario y contrasena.");
+    setText("authMsg", "Completa usuario y contraseña.");
     return;
   }
 
   const data = await api("/api/auth/login", { username, password });
   if (!data.ok) {
-    setText("authMsg", data.message || "No se pudo iniciar sesion.");
+    setText("authMsg", data.message || "No se pudo iniciar sesión.");
     return;
   }
 
@@ -387,7 +419,7 @@ async function register() {
   const password = qs("regPass").value;
   const role = qs("regRole").value;
   if (!username || !password) {
-    setText("authMsg", "Completa usuario y contrasena para registrar.");
+    setText("authMsg", "Completa usuario y contraseña para registrar.");
     return;
   }
   const data = await api("/api/auth/register", { username, password, role });
