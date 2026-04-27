@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from typing import Any
 
@@ -27,6 +27,11 @@ class DifficultyModel:
             raise FileNotFoundError(
                 f"No se encontro {self.config.model_path}. Ejecuta primero main_train.py"
             )
+        try:
+            artifact_size_mb = self.config.model_path.stat().st_size / (1024 * 1024)
+            Logger.print(f"Tamano del modelo en disco: {artifact_size_mb:.2f} MB")
+        except OSError:
+            Logger.print("No se pudo medir el tamano del modelo en disco.", level="WARNING")
         Logger.print(f"Cargando modelo desde: {self.config.model_path}")
         self.model = joblib.load(self.config.model_path)
 

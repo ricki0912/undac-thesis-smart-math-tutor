@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import os
 from pathlib import Path
 
 
@@ -42,3 +43,14 @@ class ProjectConfig:
 
     random_state: int = 42
     test_size: float = 0.2
+    model_profile: str = os.getenv("MODEL_PROFILE", "server_safe").strip().lower()
+    random_forest_enabled: bool = os.getenv("RANDOM_FOREST_ENABLED", "0").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }
+    random_forest_n_estimators: int = int(os.getenv("RANDOM_FOREST_N_ESTIMATORS", "60"))
+    random_forest_max_depth: int = int(os.getenv("RANDOM_FOREST_MAX_DEPTH", "12"))
+    random_forest_min_samples_leaf: int = int(os.getenv("RANDOM_FOREST_MIN_SAMPLES_LEAF", "8"))
+    random_forest_n_jobs: int = int(os.getenv("RANDOM_FOREST_N_JOBS", "1"))
+    model_artifact_compress: int = int(os.getenv("MODEL_ARTIFACT_COMPRESS", "3"))
