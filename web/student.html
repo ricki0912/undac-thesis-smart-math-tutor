@@ -580,8 +580,8 @@
       streakValue.textContent = state.game?.streak ?? 0;
       correctValue.textContent = correctCount;
       attemptValue.textContent = state.game?.question_attempts ?? 0;
-      progressLabel.textContent = `${progressCount} / 100`;
-      progressBar.style.width = `${(progressCount / 100) * 100}%`;
+      //progressLabel.textContent = `${progressCount} / 100`;
+      //progressBar.style.width = `${(progressCount / 100) * 100}%`;
       renderQuestion();
     }
 
