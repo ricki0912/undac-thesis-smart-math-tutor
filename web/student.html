@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pitágoras Aprende - Estudiantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #3478f6;
+      --blue-dark: #2366e0;
+      --green: #20c997;
+      --green-dark: #0f9d6f;
+      --yellow: #ffd54a;
+      --bg-start: #75c8ff;
+      --bg-end: #d7f4ff;
+      --text: #234;
+      --muted: #6b7a90;
+      --danger: #ff4d67;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+      color: var(--text);
+    }
+
+    .app-shell {
+      width: min(100%, 480px);
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      animation: rise 0.6s ease;
+    }
+
+    .auth-card {
+      background: white;
+      border: 1px solid #dcecff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .auth-title {
+      font-size: 1.4rem;
+      color: var(--blue);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .auth-subtitle {
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #345;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 2px solid #cfe1ff;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(52, 120, 246, 0.16);
+    }
+
+    .auth-message {
+      min-height: 20px;
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--danger);
+      text-align: center;
+    }
+
+    .btn-ghost {
+      background: #eef5ff;
+      color: #24507f;
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: var(--yellow);
+      color: #6a4e00;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .owl {
+      font-size: 3.5rem;
+      margin-bottom: 8px;
+      animation: float 2.2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-size: clamp(1.35rem, 4vw, 1.8rem);
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .question-card {
+      background: #f4f9ff;
+      border-radius: 18px;
+      padding: 16px;
+      margin: 16px 0;
+      text-align: center;
+    }
+
+    .question-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .question {
+      font-size: clamp(1.8rem, 5.5vw, 2.7rem);
+      font-weight: 700;
+      color: #243242;
+      line-height: 1.2;
+    }
+
+    .answer-input {
+      width: 100%;
+      padding: 14px 16px;
+      margin-top: 12px;
+      font-size: 1.2rem;
+      border-radius: 14px;
+      border: 2px solid #cfe1ff;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .answer-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(52, 120, 246, 0.16);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 12px 14px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-secondary {
+      background: #eaf4ff;
+      color: #24507f;
+    }
+
+    .btn-disabled {
+      opacity: 0.65;
+      cursor: wait;
+      pointer-events: none;
+    }
+
+    .feedback {
+      min-height: 44px;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 600;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .hint-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #f9fbff;
+      color: #44607c;
+      border: 1px solid #dcecff;
+      font-size: 0.95rem;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .feedback.success {
+      background: #e9fff6;
+      color: var(--green-dark);
+    }
+
+    .feedback.error {
+      background: #fff0f3;
+      color: var(--danger);
+    }
+
+    .feedback.info {
+      background: #eef5ff;
+      color: #2f5fa8;
+    }
+
+    .progress-wrap {
+      margin-top: 16px;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e5ecf4;
+      overflow: hidden;
+    }
+
+    .progress-bar > div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green), var(--green-dark));
+      transition: width 0.3s ease;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+      text-align: center;
+    }
+
+    .stat-box {
+      background: #f8fbff;
+      border-radius: 12px;
+      padding: 10px 8px;
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #234;
+    }
+
+    .shortcut-link {
+      display: block;
+      margin-top: 14px;
+      text-align: center;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .shortcut-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .app-shell {
+        padding: 16px;
+        border-radius: 18px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section id="authScreen" class="auth-card">
+      <h2 class="auth-title">Acceso al juego</h2>
+      <p class="auth-subtitle">Ingresa tus datos para entrar. La próxima vez se recordará tu sesión.</p>
+      <div class="form-group">
+        <label for="usernameInput">Usuario</label>
+        <input id="usernameInput" type="text" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label for="passwordInput">Contraseña</label>
+        <input id="passwordInput" type="password" placeholder="Tu contraseña">
+      </div>
+      <button id="loginBtn" class="btn-primary" style="width:100%; margin-top:6px;">Entrar al juego</button>
+      <div id="authMessage" class="auth-message"></div>
+    </section>
+
+    <section id="gameScreen" class="hidden">
+      <div class="top-bar">
+        <div class="chip" id="levelValue">⭐ Nivel 1</div>
+        <div class="score" id="scoreValue">🏆 0</div>
+      </div>
+
+      <div class="top-bar" style="margin-top: 8px; margin-bottom: 10px; justify-content: flex-end;">
+        <div id="userBadge" class="chip" style="background:#eaf4ff; color:#24507f;">👤 Invitado</div>
+        <button id="logoutBtn" class="btn-ghost">Salir</button>
+      </div>
+
+      <section class="hero">
+        <div class="owl">
+            <img src="https://pitagoras.cubicol.pe/img/escudo.png?b97a67c0270258af2b81ff3165f74d3b" style="width: 60px; height: 60px; margin-bottom: 8px;">
+        </div>
+        <h1>Pitágoras Aprende</h1>
+        <p class="subtitle">Resuelve cada reto y sigue subiendo de nivel.</p>
+      </section>
+
+      <section class="question-card">
+        <div class="question-label">Ejercicio actual</div>
+        <div class="question" id="questionText">3 × 4 + 2 = ?</div>
+      </section>
+
+      <input id="answerInput" class="answer-input" type="number" inputmode="numeric" placeholder="Tu respuesta">
+
+      <div class="actions">
+        <button id="submitBtn" class="btn-primary">🚀 Responder</button>
+        <button id="hintBtn" class="btn-secondary">💡 Pista</button>
+        <button id="nextBtn" class="btn-secondary">➡️ Siguiente</button>
+      </div>
+
+      <div id="feedback" class="feedback info">¡Vamos! Ingresa una respuesta y comprueba tu resultado.</div>
+      <div id="hintBox" class="hint-box">Aquí aparecerá una pista cuando la necesites.</div>
+
+      <!--
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>Progreso</span>
+          <span id="progressLabel">0 / 10</span>
+        </div>
+        <div class="progress-bar">
+          <div id="progressBar"></div>
+        </div>
+      </div> -->
+
+      <div class="stats">
+        <div class="stat-box">
+          <span class="stat-label">Racha</span>
+          <span class="stat-value" id="streakValue">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Aciertos</span>
+          <span class="stat-value" id="correctValue">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Intentos</span>
+          <span class="stat-value" id="attemptValue">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Tiempo</span>
+          <span class="stat-value" id="timeValue">Por pregunta</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      user: null,
+      game: null,
+      currentQuestion: null,
+      isSubmitting: false,
+      questionStartedAt: null,
+    };
+
+    const authScreen = document.getElementById('authScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const authMessage = document.getElementById('authMessage');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userBadge = document.getElementById('userBadge');
+    const levelValue = document.getElementById('levelValue');
+    const questionText = document.getElementById('questionText');
+    const answerInput = document.getElementById('answerInput');
+    const feedback = document.getElementById('feedback');
+    const hintBox = document.getElementById('hintBox');
+    const scoreValue = document.getElementById('scoreValue');
+    const streakValue = document.getElementById('streakValue');
+    const correctValue = document.getElementById('correctValue');
+    const attemptValue = document.getElementById('attemptValue');
+    const timeValue = document.getElementById('timeValue');
+    const progressBar = document.getElementById('progressBar');
+    const progressLabel = document.getElementById('progressLabel');
+    const submitBtn = document.getElementById('submitBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function showGameScreen(value) {
+      authScreen.classList.toggle('hidden', value);
+      gameScreen.classList.toggle('hidden', !value);
+    }
+
+    function saveSession(username) {
+      sessionStorage.setItem('studentSession', JSON.stringify({ username }));
+    }
+
+    function clearSession() {
+      sessionStorage.removeItem('studentSession');
+    }
+
+    function loadSession() {
+      try {
+        const raw = sessionStorage.getItem('studentSession');
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed.username ? parsed : null;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function api(path, payload = null, method = 'POST') {
+      const options = {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+      };
+      if (payload) {
+        options.body = JSON.stringify(payload);
+      }
+      const response = await fetch(path, options);
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(text || 'Error del servidor');
+      }
+      return response.json();
+    }
+
+    function renderQuestion() {
+      if (!state.currentQuestion) {
+        questionText.textContent = 'Esperando nueva pregunta...';
+        return;
+      }
+      questionText.textContent = state.currentQuestion.text;
+    }
+
+    function setBusy(isBusy) {
+      state.isSubmitting = isBusy;
+      const buttons = [submitBtn, hintBtn, nextBtn];
+      buttons.forEach((button) => {
+        if (!button) return;
+        button.disabled = isBusy;
+        button.classList.toggle('btn-disabled', isBusy);
+      });
+      answerInput.disabled = isBusy;
+      if (isBusy) {
+        feedback.className = 'feedback info';
+        feedback.textContent = 'Esperando respuesta del servidor...';
+      }
+    }
+
+    function updateStats() {
+      const history = state.game?.history || [];
+      const correctCount = history.filter((item) => Number(item.es_correcta) === 1).length;
+      const progressCount = Math.min(100, history.length);
+
+      levelValue.textContent = `⭐ Nivel ${state.game?.level ?? 1}`;
+      scoreValue.textContent = `🏆 ${state.game?.score ?? 0}`;
+      streakValue.textContent = state.game?.streak ?? 0;
+      correctValue.textContent = correctCount;
+      attemptValue.textContent = state.game?.question_attempts ?? 0;
+      progressLabel.textContent = `${progressCount} / 100`;
+      progressBar.style.width = `${(progressCount / 100) * 100}%`;
+      renderQuestion();
+    }
+
+    async function loadPlayerProgress() {
+      if (!state.user) return;
+      try {
+        const data = await api('/api/player/load-progress', { username: state.user });
+        state.game = data.state;
+        state.currentQuestion = data.state?.current_question || null;
+        updateStats();
+        if (!state.currentQuestion) {
+          await requestNextQuestion();
+        }
+      } catch (error) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'No se pudo cargar el progreso.';
+      }
+    }
+
+    async function requestNextQuestion() {
+      if (!state.user) return;
+      try {
+        const data = await api('/api/game/next-question', { username: state.user });
+        state.game = data.state;
+        state.currentQuestion = data.question;
+        hintBox.textContent = 'Aquí aparecerá una pista cuando la necesites.';
+        feedback.className = 'feedback info';
+        feedback.textContent = 'Nueva pregunta cargada. Resuelve y presiona responder.';
+        answerInput.value = '';
+        state.questionStartedAt = Date.now();
+        timeValue.textContent = 'Por pregunta';
+        updateStats();
+      } catch (error) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'No se pudo cargar una nueva pregunta.';
+      }
+    }
+
+    async function requestHint() {
+      if (!state.user) return;
+      try {
+        const data = await api('/api/game/hint', { username: state.user });
+        if (!data.ok) {
+          feedback.className = 'feedback error';
+          feedback.textContent = data.message || 'No hay pregunta activa.';
+          return;
+        }
+        state.game = data.state;
+        hintBox.textContent = `💡 ${data.hint || 'No hay pista disponible.'}`;
+        feedback.className = 'feedback info';
+        feedback.textContent = 'Pista mostrada. Intenta resolverlo otra vez.';
+      } catch (error) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'No se pudo pedir la pista.';
+      }
+    }
+
+    async function submitCurrentAnswer() {
+      if (!state.user) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'Primero entra al juego.';
+        return;
+      }
+
+      const value = answerInput.value.trim();
+      if (!value) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'Escribe una respuesta para continuar.';
+        return;
+      }
+
+      const parsed = Number(value);
+      if (Number.isNaN(parsed)) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'Solo puedes ingresar números.';
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const data = await api('/api/game/submit', {
+          username: state.user,
+          student_id: state.user,
+          answer: value,
+        });
+        state.game = data.state;
+        if (data.is_correct) {
+          state.currentQuestion = null;
+          feedback.className = 'feedback success';
+          feedback.textContent = `${data.message || 'Correcto.'}`;
+          answerInput.value = '';
+          setTimeout(() => {
+            if (state.user) {
+              requestNextQuestion();
+            }
+          }, 900);
+        } else {
+          state.currentQuestion = state.game?.current_question || null;
+          feedback.className = 'feedback error';
+          feedback.textContent = `${data.message || 'Inténtalo de nuevo.'}`;
+        }
+        updateStats();
+      } catch (error) {
+        feedback.className = 'feedback error';
+        feedback.textContent = 'No se pudo enviar la respuesta.';
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    async function startGame() {
+      userBadge.textContent = `👤 ${state.user}`;
+      showGameScreen(true);
+      updateStats();
+      await loadPlayerProgress();
+    }
+
+    async function handleLogin() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      if (!username || !password) {
+        authMessage.textContent = 'Ingresa usuario y contraseña para continuar.';
+        return;
+      }
+      try {
+        const data = await api('/api/auth/login', { username, password });
+        if (!data.ok) {
+          authMessage.textContent = data.message || 'No se pudo iniciar sesión.';
+          return;
+        }
+        state.user = username;
+        saveSession(username);
+        authMessage.textContent = '';
+        await startGame();
+      } catch (error) {
+        authMessage.textContent = 'No se pudo conectar con el servidor.';
+      }
+    }
+
+    async function handleLogout() {
+      if (state.user) {
+        try {
+          await api('/api/auth/logout', { username: state.user });
+        } catch (error) {
+          // Ignorar error de cierre de sesión y continuar con la interfaz local.
+        }
+      }
+      clearSession();
+      state.user = null;
+      state.game = null;
+      state.currentQuestion = null;
+      authMessage.textContent = '';
+      usernameInput.value = '';
+      passwordInput.value = '';
+      answerInput.value = '';
+      hintBox.textContent = 'Aquí aparecerá una pista cuando la necesites.';
+      feedback.className = 'feedback info';
+      feedback.textContent = 'Sesión cerrada. Vuelve a entrar cuando quieras.';
+      updateStats();
+      showGameScreen(false);
+    }
+
+    loginBtn.addEventListener('click', () => {
+      handleLogin();
+    });
+
+    passwordInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleLogin();
+      }
+    });
+
+    logoutBtn.addEventListener('click', handleLogout);
+
+    submitBtn.addEventListener('click', () => {
+      submitCurrentAnswer();
+      answerInput.focus();
+    });
+
+    hintBtn.addEventListener('click', () => {
+      if (state.isSubmitting) return;
+      requestHint();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (state.isSubmitting) return;
+      requestNextQuestion();
+    });
+
+    answerInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        submitCurrentAnswer();
+      }
+    });
+
+    const cachedUser = loadSession();
+    if (cachedUser) {
+      state.user = cachedUser.username;
+      startGame();
+    } else {
+      showGameScreen(false);
+      updateStats();
+    }
+  </script>
+</body>
+</html>

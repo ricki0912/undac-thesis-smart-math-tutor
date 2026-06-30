@@ -148,14 +148,25 @@ class AdminProbePayload(BaseModel):
 
 @app.get("/", response_model=None)
 def root():
-    index_path = WEB_DIR / "index.html"
-    if index_path.exists():
-        return FileResponse(index_path)
-    return {"message": "Frontend no encontrado. Crea /web/index.html"}
+    Logger.print("Redirigiendo a /student...")
+    student_path = WEB_DIR / "student.html"
+    if student_path.exists():
+        return FileResponse(student_path)
+    return {"message": "Frontend de estudiantes no encontrado. Crea /web/student.html"}
+
+
+@app.get("/admin", response_model=None)
+def admin_view():
+    Logger.print("Redirigiendo a /admin...")
+    admin_path = WEB_DIR / "index.html"
+    if admin_path.exists():
+        return FileResponse(admin_path)
+    return {"message": "Frontend de administración no encontrado. Crea /web/index.html"}
 
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
+    Logger.print("Verificando salud de la API...")
     return {"status": "ok", "mode": "local"}
 
 
@@ -178,6 +189,7 @@ def login(payload: LoginPayload) -> dict[str, Any]:
 
 @app.post("/api/player/save-progress")
 def save_progress(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Guardando progreso del usuario: {payload.username}")
     session = ensure_session(payload.username)
     auth_store.save_progress(payload.username, session)
     return {"ok": True, "message": "Progreso guardado."}
@@ -185,12 +197,14 @@ def save_progress(payload: UserPayload) -> dict[str, Any]:
 
 @app.post("/api/player/load-progress")
 def load_progress(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Cargando progreso del usuario: {payload.username} ")
     session = ensure_session(payload.username)
     return {"ok": True, "state": session}
 
 
 @app.post("/api/player/reset-progress")
 def reset_progress(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Reiniciando progreso del usuario: {payload.username}")
     key = payload.username.strip().lower()
     SESSIONS[key] = init_player_state()
     auth_store.save_progress(payload.username, SESSIONS[key])
@@ -199,6 +213,7 @@ def reset_progress(payload: UserPayload) -> dict[str, Any]:
 
 @app.post("/api/auth/logout")
 def logout(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Cerrando sesión del usuario: {payload.username}")
     key = payload.username.strip().lower()
     if key in SESSIONS:
         auth_store.save_progress(payload.username, SESSIONS[key])
@@ -208,6 +223,7 @@ def logout(payload: UserPayload) -> dict[str, Any]:
 
 @app.post("/api/game/next-question")
 def next_question(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Solicitando siguiente pregunta para el usuario: {payload.username}")
     session = ensure_session(payload.username)
     q = simulator.get_question_for_level(int(session["current_level"]))
     session["current_question"] = {
@@ -221,11 +237,16 @@ def next_question(payload: UserPayload) -> dict[str, Any]:
     session["question_hints_used"] = 0
     session["show_hint"] = False
     auth_store.save_progress(payload.username, session)
-    return {"ok": True, "question": session["current_question"], "state": session}
+    
+    response_to_front=  {"ok": True, "question": session["current_question"], "state": session} 
+    #convertir esto a json texto
+    #Logger.print(f"Respuesta a frontend: {response_to_front}")
+    return response_to_front
 
 
 @app.post("/api/game/hint")
 def hint(payload: UserPayload) -> dict[str, Any]:
+    Logger.print(f"Solicitando pista para el usuario: {payload.username}  ")
     session = ensure_session(payload.username)
     if session["current_question"] is None:
         return {"ok": False, "message": "No hay pregunta activa."}
@@ -375,7 +396,7 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
         f"prob={float(prediction['probability']):.3f}"
     )
 
-    return {
+    response_to_front = {
         "ok": True,
         "message": build_prediction_message(prediction),
         "is_correct": is_correct,
@@ -383,6 +404,8 @@ def submit_answer(payload: SubmitPayload) -> dict[str, Any]:
         "recommendation": recommendation,
         "state": session,
     }
+    Logger.print(f"Respuesta a frontend para usuario : {payload.username}, Response : {response_to_front}")
+    return response_to_front
 
 
 @app.get("/api/admin/summary")
